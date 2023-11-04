@@ -5,11 +5,9 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return(
-      const Scaffold(
-        body: SafeArea(
-          child: Text("Search Page")
-        )
+    return const Scaffold(
+      body: SafeArea(
+        child: Text("Search Page")
       )
     );
   }
