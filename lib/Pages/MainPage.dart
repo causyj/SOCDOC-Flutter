@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomePage.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/SettingPage.dart';
+import 'package:socdoc_flutter/Pages/SearchPage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -37,7 +38,11 @@ class _MainPageState extends State<MainPage> {
         ],
         onTap: (int idx) {
           setState(() {
-            _pageIdx = idx;
+            if(idx == 2){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+            }else{
+              _pageIdx = idx;
+            }
           });
         },
       ),
