@@ -14,25 +14,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final socdocApp = context.findAncestorStateOfType<SocdocAppState>();
 
-    return(
-      Scaffold(
-        body: (
-          SafeArea(
-            child: (
-              Column(
-                children: [
-                  const Text("Login Page"),
-                  ElevatedButton(
-                    onPressed: (){
-                      socdocApp!.setState(() {
-                        socdocApp.isLoggedIn = true;
-                      });
-                    },
-                    child: const Text("Login")
-                  )
-                ],
+    return Scaffold(
+      body: SafeArea(
+        child: (
+          Column(
+            children: [
+              const Text("Login Page"),
+              ElevatedButton(
+                onPressed: (){
+                  socdocApp!.setState(() {
+                    socdocApp.isLoggedIn = true;
+                  });
+                },
+                child: const Text("Login")
               )
-            )
+            ],
           )
         )
       )
