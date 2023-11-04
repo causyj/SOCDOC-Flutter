@@ -11,10 +11,10 @@ class SocdocApp extends StatefulWidget {
   const SocdocApp({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SocdocAppState();
+  State<StatefulWidget> createState() => SocdocAppState();
 }
 
-class _SocdocAppState extends State<SocdocApp> {
+class SocdocAppState extends State<SocdocApp> {
   bool isLoggedIn = false;
 
   @override
