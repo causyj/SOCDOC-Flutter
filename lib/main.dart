@@ -25,7 +25,7 @@ class SocdocAppState extends State<SocdocApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true
       ),
-      home: isLoggedIn ? LoginPage() : MainPage(),
+      home: isLoggedIn ? MainPage() : LoginPage(),
     );
   }
 }
