@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'Pages/LoginPage.dart';
-import 'Pages/MainPage.dart';
+import 'package:socdoc_flutter/Pages/LoginPage.dart';
+import 'package:socdoc_flutter/Pages/MainPage.dart';
 
 void main() {
   runApp(const SocdocApp());
