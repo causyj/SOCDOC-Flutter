@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:socdoc_flutter/Pages/MainPage.dart';
+
+import 'Pages/LoginPage.dart';
+import 'Pages/MainPage.dart';
 
 void main() {
   runApp(const SocdocApp());
@@ -13,6 +15,8 @@ class SocdocApp extends StatefulWidget {
 }
 
 class _SocdocAppState extends State<SocdocApp> {
+  bool isLoggedIn = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +25,7 @@ class _SocdocAppState extends State<SocdocApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true
       ),
-      home: MainPage(),
+      home: isLoggedIn ? LoginPage() : MainPage(),
     );
   }
 }
