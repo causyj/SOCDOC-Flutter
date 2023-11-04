@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socdoc_flutter/main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +11,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final socdocApp = context.findAncestorStateOfType<SocdocAppState>();
+
     return(
       Scaffold(
         body: (
@@ -19,7 +22,11 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Text("Login Page"),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      socdocApp!.setState(() {
+                        socdocApp.isLoggedIn = true;
+                      });
+                    },
                     child: const Text("Login")
                   )
                 ],
