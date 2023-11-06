@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+import 'package:socdoc_flutter/firebase_options.dart';
 import 'package:socdoc_flutter/main.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,9 +13,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  SocdocAppState? socdocApp;
   @override
   Widget build(BuildContext context) {
-    final socdocApp = context.findAncestorStateOfType<SocdocAppState>();
+    socdocApp = context.findAncestorStateOfType<SocdocAppState>();
 
     return Scaffold(
       body: SafeArea(
@@ -23,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: (){
                   socdocApp!.setState(() {
-                    socdocApp.isLoggedIn = true;
+                    socdocApp!.isLoggedIn = true;
                   });
                 },
                 child: const Text("Login")
@@ -33,5 +37,20 @@ class _LoginPageState extends State<LoginPage> {
         )
       )
     );
+  }
+
+  void checkLastLogin() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FirebaseAuth.instance
+      .authStateChanges()
+      .listen((User? user) async {
+        if(user != null && socdocApp != null){
+          socdocApp!.setState(() {
+            socdocApp!.isLoggedIn = true;
+          });
+        }
+      });
   }
 }
