@@ -83,7 +83,7 @@ class _LoginButtons extends StatelessWidget {
         ElevatedButton(
             child: const Text("Sign in with Apple"),
             onPressed: (){
-              tryGoogleLogin();
+              tryAppleLogin();
             }
         )
       ]
