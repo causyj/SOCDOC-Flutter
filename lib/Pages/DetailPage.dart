@@ -5,6 +5,19 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
+    final textStyle = TextStyle(fontSize: 16);
+
+    Widget buildRowWithIcon(IconData icon, String text) {
+      return Row(
+        children: [
+          Padding(padding: edgeInsets, child: Icon(icon)),
+          Padding(padding: EdgeInsets.only(left: 10.0, top: 5.0)),
+          Text(text, style: textStyle),
+        ],
+      );
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -23,7 +36,7 @@ class DetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         "서울성모안과의원",
@@ -32,50 +45,20 @@ class DetailPage extends StatelessWidget {
                           fontSize: 22,
                         ),
                       ),
-                      Icon(Icons.favorite_rounded, color: Colors.pink),
-                    ],
-                  ),
-                  SizedBox(height: 15.0),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.0), // 왼쪽에 간격 추가
-                        child: Icon(Icons.call),
+                      SizedBox(width: 70.0),
+                      Column(
+                        children: [
+                          Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0),
+                          Text('3'),
+                        ],
                       ),
-                      Padding(padding: EdgeInsets.only(left: 10.0)),
-                      Text("02-1234-5678"),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.0),
-                        child: Icon(Icons.location_on),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 10.0)),
-                      Text("동작구 상도동 4길 36"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.0),
-                        child: Icon(Icons.subway),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 10.0)),
-                      Text("상도역 5번 출구"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.0),
-                        child: Icon(Icons.alarm),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 10.0)),
-                      Text("진료 시간"),
-                    ],
-                  ),
+                  SizedBox(height: 10.0),
+                  buildRowWithIcon(Icons.call, "02-1234-5678"),
+                  buildRowWithIcon(Icons.location_on, "동작구 상도동 4길 36"),
+                  buildRowWithIcon(Icons.subway, "상도역 5번 출구"),
+                  buildRowWithIcon(Icons.alarm, "진료 시간"),
                 ],
               ),
             ),
