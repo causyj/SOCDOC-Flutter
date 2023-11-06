@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -80,14 +82,13 @@ class _LoginButtons extends StatelessWidget {
             tryGoogleLogin();
           }
         ),
-        ElevatedButton(
-            child: const Text("Sign in with Apple"),
-            onPressed: (){
-              tryAppleLogin();
-            }
-        )
+        Platform.isIOS ? ElevatedButton(
+          child: const Text("Sign in with Apple"),
+          onPressed: (){
+            tryAppleLogin();
+          }
+        ):const SizedBox.shrink()
       ]
     );
   }
-
 }
