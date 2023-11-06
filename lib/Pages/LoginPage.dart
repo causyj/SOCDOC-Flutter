@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
+
 import 'package:socdoc_flutter/firebase_options.dart';
 import 'package:socdoc_flutter/main.dart';
 
