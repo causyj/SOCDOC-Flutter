@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                     socdocApp!.isLoggedIn = true;
                   });
                 },
-                child: _isLoginNeeded ? const Text("Login Needed") : const Text("Already Logged in")
+                child: _isLoginNeeded ? _LoginButtons() : const Text("Already Logged in")
               )
             ],
           )
