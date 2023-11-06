@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 
 import 'package:socdoc_flutter/firebase_options.dart';
 import 'package:socdoc_flutter/main.dart';
@@ -65,4 +66,27 @@ class _LoginPageState extends State<LoginPage> {
         }
       });
   }
+}
+
+class _LoginButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          child: const Text("Sign in with Google"),
+          onPressed: (){
+            tryGoogleLogin();
+          }
+        ),
+        ElevatedButton(
+            child: const Text("Sign in with Apple"),
+            onPressed: (){
+              tryGoogleLogin();
+            }
+        )
+      ]
+    );
+  }
+
 }
