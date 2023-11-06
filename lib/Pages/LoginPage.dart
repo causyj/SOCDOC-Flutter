@@ -13,7 +13,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoginNeeded = false;
   SocdocAppState? socdocApp;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLastLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     socdocApp = context.findAncestorStateOfType<SocdocAppState>();
@@ -30,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     socdocApp!.isLoggedIn = true;
                   });
                 },
-                child: const Text("Login")
+                child: _isLoginNeeded ? const Text("Login Needed") : const Text("Already Logged in")
               )
             ],
           )
@@ -49,6 +57,10 @@ class _LoginPageState extends State<LoginPage> {
         if(user != null && socdocApp != null){
           socdocApp!.setState(() {
             socdocApp!.isLoggedIn = true;
+          });
+        }else{
+          setState(() {
+            _isLoginNeeded = true;
           });
         }
       });
