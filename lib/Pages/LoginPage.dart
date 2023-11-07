@@ -72,22 +72,28 @@ class _LoginButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            child: const Text("Sign in with Google"),
-            onPressed: (){
-              tryGoogleLogin();
-            }
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              child: const Text("Sign in with Google"),
+              onPressed: (){
+                tryGoogleLogin();
+              }
+            ),
           ),
         ),
-        Platform.isIOS ? SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            child: const Text("Sign in with Apple"),
-            onPressed: (){
-              tryAppleLogin();
-            }
+        Platform.isIOS ? Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              child: const Text("Sign in with Apple"),
+              onPressed: (){
+                tryAppleLogin();
+              }
+            ),
           ),
         ):const SizedBox.shrink()
       ]
