@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
           child: (
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _LoginLogo(),
                 _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
@@ -72,6 +73,9 @@ class _LoginButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(
+          height: 200.0,
+        ),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: SizedBox(
@@ -105,7 +109,7 @@ class _LoginLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      width: 200.0,
+      width: 250.0,
       child: Image(
         fit: BoxFit.fill,
         image: AssetImage('assets/socdoc_title_logo.png')
