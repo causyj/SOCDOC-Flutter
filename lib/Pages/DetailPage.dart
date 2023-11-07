@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socdoc_flutter/Utils/Color.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key});
@@ -8,7 +9,7 @@ class DetailPage extends StatelessWidget {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
     final detailTextStyle = TextStyle(fontSize: 16);
     final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
-    final titlePharmacy = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+    final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
 
     Widget detailHospital(IconData icon, String text) {
       return Row(
@@ -30,6 +31,7 @@ class DetailPage extends StatelessWidget {
       );
     }
 
+    //주변 약국 tabview
     Widget nearbyPharmacy(String text) {
       return SizedBox(
         height: 110, width: 350,
@@ -37,7 +39,7 @@ class DetailPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          elevation: 4.0,
+          elevation: 10.0,
           surfaceTintColor: Colors.transparent,
           color: Colors.white,
           child: Column(
@@ -54,7 +56,64 @@ class DetailPage extends StatelessWidget {
       );
     }
 
-
+    //리뷰 tabview
+    Widget reviewTab(){
+      return Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text("전체 평점", style: detailTextStyle),
+                SizedBox(width: 10.0),
+                Icon(Icons.star_rounded, color: Colors.amberAccent),
+                Text("4.3", style: detailTextStyle),
+              ],
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 20,
+                    child: Image(
+                      image: AssetImage('assets/images/hospital1.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: 10.0,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("DEV.LR", style: TextStyle(fontSize: 18)),
+                      Text("2023.09.23"),
+                    ],
+                  ),
+                  SizedBox(width: 200.0),
+                  Column(
+                    children: [
+                      Icon(Icons.star_rounded, color: Colors.amberAccent),
+                      Text("5.0"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.0),
+            SizedBox(
+              height: 100, width: 320,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                color: AppColor.SocdocBlue,
+              ),
+            ),
+      ],
+      )
+      );
+    }
 
     return DefaultTabController(
       length: 2,
@@ -104,19 +163,19 @@ class DetailPage extends StatelessWidget {
               ),
               const TabBar(tabs: [
                 Tab(child: Text("리뷰", style: TextStyle(
-                    fontSize: 18),
+                    fontSize: 18, color: AppColor.SocdocBlue),
                 ),),
                 Tab(child: Text("주변 약국", style: TextStyle(
-                    fontSize: 18),
+                    fontSize: 18, color: AppColor.SocdocBlue),
                 ),),
               ]),
               Expanded(
                 child: TabBarView(
                   children: [
                     // 첫 번째 탭의 내용
-                    Center(child: Text("리뷰")),
+                    Tab(child: reviewTab()),
                     // 두 번째 탭의 내용
-                    Center(child: nearbyPharmacy("상도 온누리 약국")),
+                    Tab(child: nearbyPharmacy("상도 온누리 약국")),
                   ],
                 ),
               ),
