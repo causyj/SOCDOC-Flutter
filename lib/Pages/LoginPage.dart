@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _LoginLogo(),
                 _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
               ],
             )
@@ -92,4 +93,17 @@ class _LoginButtons extends StatelessWidget {
       ]
     );
   }
+}
+
+class _LoginLogo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: double.infinity,
+      child: Image(
+        image: AssetImage('assets/socdoc_title_logo.png')
+      ),
+    );
+  }
+
 }
