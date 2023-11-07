@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "396175626850",
+    "project_id": "socdoc-568e3",
+    "storage_bucket": "socdoc-568e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396175626850:android:883d6bc32fb7fb4999f73b",
+        "android_client_info": {
+          "package_name": "com.ming.socdoc.socdoc_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396175626850-h3igbqc6frrlo6umdq4cf6q7v4eo8f47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD422HoxJUb2NnwNl3y1bX9jXfaPG2DGEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396175626850-h3igbqc6frrlo6umdq4cf6q7v4eo8f47.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396175626850-7mta3tqro5ur5aio60prt0bd1kh1181k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ming.socdoc.socdocFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
