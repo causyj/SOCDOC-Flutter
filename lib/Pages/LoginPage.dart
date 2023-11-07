@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(30.0),
           child: (
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
               ],
