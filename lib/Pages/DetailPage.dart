@@ -126,7 +126,6 @@ class DetailPage extends StatelessWidget {
       );
     }
 
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -176,17 +175,19 @@ class DetailPage extends StatelessWidget {
               const TabBar(tabs: [
                 Tab(child: Text("리뷰", style: TextStyle(
                     fontSize: 18, color: AppColor.SocdocBlue),
-                ),),
+                  ),
+                ),
                 Tab(child: Text("주변 약국", style: TextStyle(
                     fontSize: 18, color: AppColor.SocdocBlue),
-                ),),
+                  ),
+                ),
               ]),
               Expanded(
                 child: TabBarView(
                   children: [
-                    // 첫 번째 탭의 내용
+                    // 첫 번째 탭(리뷰)
                     Tab(child: reviewTab()),
-                    // 두 번째 탭의 내용
+                    // 두 번째 탭(주변 약국)
                     Tab(child: nearbyPharmacy("상도 온누리 약국")),
                   ],
                 ),
