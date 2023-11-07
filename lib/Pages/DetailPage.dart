@@ -44,7 +44,7 @@ class DetailPage extends StatelessWidget {
                           "서울성모안과의원",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 23,
+                            fontSize: 24,
                           ),
                         ),
                         SizedBox(width: 65.0),
@@ -72,16 +72,16 @@ class DetailPage extends StatelessWidget {
                     fontSize: 18),
                 ),),
               ]),
-              /*
-              TabBarView(
-                children: [
-                  // 첫 번째 탭의 내용
-                  Center(child: Text("리뷰 내용")),
-                  // 두 번째 탭의 내용
-                  Center(child: Text("주변 약국 내용")),
-                ],
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    // 첫 번째 탭의 내용
+                    Center(child: Text("리뷰 내용")),
+                    // 두 번째 탭의 내용
+                    Center(child: Text("주변 약국 내용")),
+                  ],
+                ),
               ),
-              */
             ],
           ),
         ),
