@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 
 import 'package:socdoc_flutter/firebase_options.dart';
@@ -80,24 +81,26 @@ class _LoginButtons extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              child: const Text("Sign in with Google"),
-              onPressed: (){
+            child: SignInButton(
+              Buttons.google,
+              text: "Sign In with Google",
+              onPressed: () {
                 tryGoogleLogin();
               }
-            ),
+            )
           ),
         ),
         Platform.isIOS ? Padding(
           padding: const EdgeInsets.all(10.0),
           child: SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              child: const Text("Sign in with Apple"),
-              onPressed: (){
-                tryAppleLogin();
-              }
-            ),
+            child: SignInButton(
+                Buttons.apple,
+                text: "Sign In with Apple",
+                onPressed: () {
+                  tryAppleLogin();
+                }
+            )
           ),
         ):const SizedBox.shrink()
       ]
