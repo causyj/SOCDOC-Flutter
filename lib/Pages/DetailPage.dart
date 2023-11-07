@@ -76,13 +76,15 @@ class DetailPage extends StatelessWidget {
                 children: [
                   Container(
                     width: 40,
-                    height: 20,
-                    child: Image(
-                      image: AssetImage('assets/images/hospital1.png'),
-                      fit: BoxFit.cover,
+                    height: 40, // 가로와 세로 크기를 동일하게 설정하여 이미지를 동그랗으로 만듭니다.
+                    child: ClipOval(
+                      child: Image(
+                        image: AssetImage('assets/images/hospital1.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10.0,),
+                  SizedBox(width: 10.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
