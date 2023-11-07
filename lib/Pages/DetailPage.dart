@@ -55,9 +55,7 @@ class DetailPage extends StatelessWidget {
         ),
       );
     }
-
-    //리뷰 tabview
-    Widget reviewTab(){
+    Widget reviewTab() {
       return Container(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -71,51 +69,63 @@ class DetailPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10.0),
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40, // 가로와 세로 크기를 동일하게 설정하여 이미지를 동그랗으로 만듭니다.
-                    child: ClipOval(
-                      child: Image(
-                        image: AssetImage('assets/images/hospital1.png'),
-                        fit: BoxFit.cover,
-                      ),
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  child: ClipOval(
+                    child: Image(
+                      image: AssetImage('assets/images/hospital1.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("DEV.LR", style: TextStyle(fontSize: 18)),
-                      Text("2023.09.23"),
-                    ],
-                  ),
-                  SizedBox(width: 200.0),
-                  Column(
-                    children: [
-                      Icon(Icons.star_rounded, color: Colors.amberAccent),
-                      Text("5.0"),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(width: 10.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("DEV.LR", style: TextStyle(fontSize: 18)),
+                    Text("2023.09.23"),
+                  ],
+                ),
+                SizedBox(width: 200.0),
+                Column(
+                  children: [
+                    Icon(Icons.star_rounded, color: Colors.amberAccent),
+                    Text("5.0"),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 10.0),
-            SizedBox(
-              height: 100, width: 320,
+            Container(
+              alignment: Alignment.centerRight,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 color: AppColor.SocdocBlue,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // 왼쪽 정렬
+                  mainAxisAlignment: MainAxisAlignment.start, // 위쪽 정렬
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
+                      child: Text("줄이 너무 길어요", style: TextStyle(fontSize: 18, color: Colors.white)),
+                    ),
+                    SizedBox(
+                      height: 30, width: 320,
+                    ),
+                  ],
+                ),
               ),
             ),
-      ],
-      )
+          ],
+        ),
       );
     }
+
 
     return DefaultTabController(
       length: 2,
