@@ -74,27 +74,30 @@ class _LoginPageState extends State<LoginPage> {
 class _LoginButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            child: const Text("Sign in with Google"),
-            onPressed: (){
-              tryGoogleLogin();
-            }
+    return Padding(
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              child: const Text("Sign in with Google"),
+              onPressed: (){
+                tryGoogleLogin();
+              }
+            ),
           ),
-        ),
-        Platform.isIOS ? SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            child: const Text("Sign in with Apple"),
-            onPressed: (){
-              tryAppleLogin();
-            }
-          ),
-        ):const SizedBox.shrink()
-      ]
+          Platform.isIOS ? SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              child: const Text("Sign in with Apple"),
+              onPressed: (){
+                tryAppleLogin();
+              }
+            ),
+          ):const SizedBox.shrink()
+        ]
+      ),
     );
   }
 }
