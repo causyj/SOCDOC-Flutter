@@ -31,12 +31,15 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: (
-          Column(
-            children: [
-              _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
-            ],
-          )
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: (
+            Column(
+              children: [
+                _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
+              ],
+            )
+          ),
         )
       )
     );
@@ -65,30 +68,27 @@ class _LoginPageState extends State<LoginPage> {
 class _LoginButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              child: const Text("Sign in with Google"),
-              onPressed: (){
-                tryGoogleLogin();
-              }
-            ),
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            child: const Text("Sign in with Google"),
+            onPressed: (){
+              tryGoogleLogin();
+            }
           ),
-          Platform.isIOS ? SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              child: const Text("Sign in with Apple"),
-              onPressed: (){
-                tryAppleLogin();
-              }
-            ),
-          ):const SizedBox.shrink()
-        ]
-      ),
+        ),
+        Platform.isIOS ? SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            child: const Text("Sign in with Apple"),
+            onPressed: (){
+              tryAppleLogin();
+            }
+          ),
+        ):const SizedBox.shrink()
+      ]
     );
   }
 }
