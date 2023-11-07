@@ -34,16 +34,7 @@ class _LoginPageState extends State<LoginPage> {
         child: (
           Column(
             children: [
-              const Text("Login Page"),
-              ElevatedButton(
-                onPressed: (){
-                  socdocApp!.setState(() {
-                    socdocApp!.isLoggedIn = true;
-                  });
-                },
-                child: const Text("Goto Main")
-              ),
-              _isLoginNeeded ? _LoginButtons() : const Text("Already Logged in")
+              _isLoginNeeded ? _LoginButtons() : const SizedBox.shrink()
             ],
           )
         )
