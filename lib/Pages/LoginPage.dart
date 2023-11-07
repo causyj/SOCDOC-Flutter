@@ -105,8 +105,9 @@ class _LoginLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      width: double.infinity,
+      width: 200.0,
       child: Image(
+        fit: BoxFit.fill,
         image: AssetImage('assets/socdoc_title_logo.png')
       ),
     );
