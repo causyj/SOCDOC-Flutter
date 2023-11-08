@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
+import 'package:socdoc_flutter/Pages/ReviewPage.dart';
+
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key});
@@ -107,8 +109,8 @@ class DetailPage extends StatelessWidget {
                 ),
                 color: AppColor.SocdocBlue,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // 왼쪽 정렬
-                  mainAxisAlignment: MainAxisAlignment.start, // 위쪽 정렬
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
@@ -186,11 +188,25 @@ class DetailPage extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     // 첫 번째 탭(리뷰)
-                    Tab(child: reviewTab()),
+                    Scaffold(
+                      body: reviewTab(),
+                      floatingActionButton: FloatingActionButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage()));
+                        },
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.rate_review_outlined,
+                          color: AppColor.SocdocBlue,
+                        ),
+                      ),
+                    ),
+
                     // 두 번째 탭(주변 약국)
                     Tab(child: nearbyPharmacy("상도 온누리 약국")),
                   ],
                 ),
+
               ),
             ],
           ),
