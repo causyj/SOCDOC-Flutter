@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:socdoc_flutter/Pages/MainPage.dart';
+
 class SocdocBottomNav extends StatefulWidget {
   const SocdocBottomNav({super.key});
 
@@ -8,10 +10,9 @@ class SocdocBottomNav extends StatefulWidget {
 }
 
 class SocdocBottomNavState extends State<SocdocBottomNav> {
-  var pageIdx = 1;
-  
   @override
   Widget build(BuildContext context) {
+    var mainPage = context.findAncestorStateOfType<MainPageState>();
     return Text("SOCDOC Bottom Nav");
   }
 }
