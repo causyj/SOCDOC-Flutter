@@ -12,7 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _pageList = [SettingPage(), HomePage()];
+  final _pageList = [SizedBox.shrink(), HomePage(), SettingPage()];
   int _pageIdx = 1;
 
   @override
@@ -25,21 +25,21 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _pageIdx,
         items: const [
           BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: "Search"
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home"
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: "Settings"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home"
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search"
           )
         ],
         onTap: (int idx) {
           setState(() {
-            if(idx == 2){
+            if(idx == 0){
               Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
             }else{
               _pageIdx = idx;
