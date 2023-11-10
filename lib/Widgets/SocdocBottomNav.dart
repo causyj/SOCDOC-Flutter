@@ -25,7 +25,7 @@ class SocdocBottomNavState extends State<SocdocBottomNav> {
             icon: const Icon(Icons.search)),
           IconButton(
             onPressed: (){updateIdx(1);},
-            icon: const Icon(Icons.home)),
+            icon: const Image(image: AssetImage('assets/socdoc_logo.png'))),
           IconButton(
             onPressed: (){updateIdx(2);},
             icon: const Icon(Icons.person))
