@@ -33,8 +33,8 @@ class _MainPageState extends State<MainPage> {
               label: "Home"
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings"
+            icon: Icon(Icons.person),
+            label: "My Page"
           )
         ],
         onTap: (int idx) {
