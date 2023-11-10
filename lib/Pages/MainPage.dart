@@ -12,14 +12,14 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  final _pageList = [SizedBox.shrink(), HomePage(), SettingPage()];
+  final _pageList = [HomePage(), SettingPage()];
   int pageIdx = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _pageList[pageIdx],
+        child: _pageList[pageIdx - 1],
       ),
       bottomNavigationBar: SocdocBottomNav()
     );
