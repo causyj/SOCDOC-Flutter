@@ -9,7 +9,7 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  double rating = 0;
+  int rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +33,23 @@ class _ReviewPageState extends State<ReviewPage> {
                 Text('별점', style: TextStyle(fontSize: 20, color: AppColor.SocdocBlue)),
                 SizedBox(width: 20),
                 RatingBar.builder(
-                  initialRating: rating,
+                  initialRating: rating.toDouble(),
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
                   itemCount: 5,
                   itemSize: 30,
                   itemBuilder: (context, index) {
                     return Icon(
                       index < rating
-                          ? Icons.star_rounded // 체크된 별 아이콘
-                          : Icons.star_border_rounded, // 체크되지 않은 별 아이콘
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
                       color: Colors.amberAccent,
                     );
                   },
                   onRatingUpdate: (value) {
                     setState(() {
-                      rating = value;
+                      rating = value.toInt();
                     });
                   },
                 )
