@@ -11,7 +11,8 @@ class SocdocBottomNav extends StatefulWidget {
 }
 
 class SocdocBottomNavState extends State<SocdocBottomNav> {
-  var mainPage;
+  MainPageState? mainPage;
+
   @override
   Widget build(BuildContext context) {
     mainPage = context.findAncestorStateOfType<MainPageState>()!;
@@ -60,7 +61,7 @@ class SocdocBottomNavState extends State<SocdocBottomNav> {
 
   void updateIdx(idx){
     mainPage!.setState((){
-      mainPage.pageIdx = idx;
+      mainPage!.pageIdx = idx;
     });
   }
 }
