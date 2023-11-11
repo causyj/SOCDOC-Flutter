@@ -85,6 +85,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   decoration: InputDecoration(
                     hintText: "어떤 점이 좋았는지 혹은 아쉬웠는지\n솔직하게 적어주세요:)",
                     hintMaxLines: 2, // 힌트의 최대 줄 수
+                    border: InputBorder.none,
                   ),
                 ),
 
