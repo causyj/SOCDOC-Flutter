@@ -21,7 +21,7 @@ class MainPageState extends State<MainPage> {
       body: SafeArea(
         child: _pageList[pageIdx - 1],
       ),
-      bottomNavigationBar: SocdocBottomNav()
+      bottomNavigationBar: const SafeArea(child: SocdocBottomNav())
     );
   }
 }
