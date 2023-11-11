@@ -16,20 +16,37 @@ class SocdocBottomNavState extends State<SocdocBottomNav> {
   Widget build(BuildContext context) {
     mainPage = context.findAncestorStateOfType<MainPageState>()!;
     return SizedBox(
-      height: 60,
+      height: 80,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
-            onPressed: (){openSearch();},
-            icon: const Icon(Icons.search)),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){openSearch();},
+                icon: const Icon(Icons.search, size: 30.0)),
+              const Text('Search',
+                style: TextStyle(fontSize: 15.0),
+              )
+            ],
+          ),
           IconButton(
             onPressed: (){updateIdx(1);},
-            icon: const Image(image: AssetImage('assets/socdoc_logo.png'))),
-          IconButton(
-            onPressed: (){updateIdx(2);},
-            icon: const Icon(Icons.person))
-        ],
+            icon: const Image(
+                height: double.infinity,
+                fit: BoxFit.fill,
+                image: AssetImage('assets/socdoc_logo.png'))),
+          Column(
+            children: [
+              IconButton(
+                onPressed: (){updateIdx(2);},
+                icon: const Icon(Icons.person, size: 30.0)),
+              const Text('My Page',
+                style: TextStyle(fontSize: 15.0),
+              )
+            ],
+          ),
+        ]
       ),
     );
   }
