@@ -9,6 +9,7 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   int rating = 0;
+  TextEditingController reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class _ReviewPageState extends State<ReviewPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -37,7 +38,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           child: Text('병원 이름', style: TextStyle(fontSize: 22)),
                         ),
                       ),
-                      Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
+                      TextButton(onPressed: (){Navigator.pop(context, reviewController.text);}, child: Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),)
                     ],
                   ),
                 ),
@@ -80,6 +81,7 @@ class _ReviewPageState extends State<ReviewPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
+                  controller: reviewController,
                   decoration: InputDecoration(
                     hintText: "어떤 점이 좋았는지 혹은 아쉬웠는지\n솔직하게 적어주세요:)",
                     hintMaxLines: 2, // 힌트의 최대 줄 수
