@@ -74,51 +74,57 @@ class _ReviewPageState extends State<ReviewPage> {
             ),
           ),
 
-          SizedBox(height: 20),
-
-          // 리뷰 입력 필드 추가
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: "어떤 점이 좋았는지 혹은 아쉬웠는지 \n솔직하게 적어주세요:)",
-              ),
-            ),
-          ),
-
-          // 사진 첨부 버튼 추가
-          TextButton(
-            onPressed: () {
-              // 사진 첨부 버튼이 눌렸을 때의 동작 추가
-            },
-            child: Container(
-              width: 100, // 원하는 너비로 조절
-              height: 90, // 원하는 높이로 조절
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: AppColor.SocdocBlue,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.add_a_photo,
-                    color: AppColor.SocdocBlue,
-                    size: 30,
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "어떤 점이 좋았는지 혹은 아쉬웠는지\n솔직하게 적어주세요:)",
+                    hintMaxLines: 2, // 힌트의 최대 줄 수
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    "사진 추가",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColor.SocdocBlue,
+                ),
+
+
+                SizedBox(height: 20),
+
+                // 사진 첨부 버튼 추가
+                TextButton(
+                  onPressed: () {
+                    // 사진 첨부 버튼이 눌렸을 때의 동작 추가
+                  },
+                  child: Container(
+                    width: 100, // 원하는 너비로 조절
+                    height: 90, // 원하는 높이로 조절
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColor.SocdocBlue,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.add_a_photo,
+                          color: AppColor.SocdocBlue,
+                          size: 30,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "사진 추가",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColor.SocdocBlue,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
