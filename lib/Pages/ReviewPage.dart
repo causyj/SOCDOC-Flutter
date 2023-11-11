@@ -18,33 +18,28 @@ class _ReviewPageState extends State<ReviewPage> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.SocdocBlue),
-            ),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        // close 아이콘을 누르면 이전 페이지로 돌아감
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text('병원 이름', style: TextStyle(fontSize: 22)),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          // close 아이콘을 누르면 이전 페이지로 돌아감
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // 완료 버튼이 눌렸을 때의 동작 추가
-                      },
-                      child: Text("완료"),
-                    ),
-                  ],
+                      Expanded(
+                        child: Center(
+                          child: Text('병원 이름', style: TextStyle(fontSize: 22)),
+                        ),
+                      ),
+                      Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 10),
                 RatingBar.builder(
@@ -70,6 +65,11 @@ class _ReviewPageState extends State<ReviewPage> {
                 ),
                 SizedBox(height: 5),
                 Text("별점을 선택해주세요!", style: TextStyle(fontSize: 15)),
+                SizedBox(height: 20),
+                Divider(
+                  color: AppColor.SocdocBlue, // 선의 색상 설정
+                  thickness: 1.0, // 선의 두께 설정
+                ),
               ],
             ),
           ),
