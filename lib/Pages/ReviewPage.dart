@@ -12,6 +12,7 @@ class ReviewPage extends StatelessWidget {
             fit: BoxFit.contain,
             height: 180,
             width: 200,
+            color: Colors.white.withOpacity(0.3), colorBlendMode: BlendMode.modulate,
           ),
           // 별점 위젯 추가
           Padding(
