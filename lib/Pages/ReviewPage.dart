@@ -26,11 +26,18 @@ class _ReviewPageState extends State<ReviewPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 왼쪽에 close 아이콘
-                    Icon(Icons.close),
-                    // 가운데에 Text
-                    Text('병원 이름', style: TextStyle(fontSize: 20)),
-                    // 오른쪽에 완료 버튼
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        // close 아이콘을 누르면 이전 페이지로 돌아감
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text('병원 이름', style: TextStyle(fontSize: 22)),
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         // 완료 버튼이 눌렸을 때의 동작 추가
@@ -46,7 +53,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   direction: Axis.horizontal,
                   allowHalfRating: false,
                   itemCount: 5,
-                  itemSize: 35,
+                  itemSize: 40,
                   itemBuilder: (context, index) {
                     return Icon(
                       index < rating
@@ -74,7 +81,43 @@ class _ReviewPageState extends State<ReviewPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: "어떤 점이 좋았는지 혹은 아쉬웠는지 솔직하게 적어주세요:)",
+                labelText: "어떤 점이 좋았는지 혹은 아쉬웠는지 \n솔직하게 적어주세요:)",
+              ),
+            ),
+          ),
+
+          // 사진 첨부 버튼 추가
+          TextButton(
+            onPressed: () {
+              // 사진 첨부 버튼이 눌렸을 때의 동작 추가
+            },
+            child: Container(
+              width: 100, // 원하는 너비로 조절
+              height: 90, // 원하는 높이로 조절
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColor.SocdocBlue,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    color: AppColor.SocdocBlue,
+                    size: 30,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "사진 추가",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColor.SocdocBlue,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
