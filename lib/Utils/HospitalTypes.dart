@@ -5,7 +5,7 @@ class HospitalItem {
   final String ko;
 }
 
-const List<HospitalItem> hospitalList = [
+const List<HospitalItem> HospitalTypes = [
   HospitalItem(ko: "전체", en: "All"),
   HospitalItem(ko: "내과", en: "Internal Medicine"),
   HospitalItem(ko: "소아청소년과", en: "Pediatrics"),
