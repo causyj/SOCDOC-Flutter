@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 Future<void> tryAppleLogin() async {
   final appleProvider = AppleAuthProvider();
+  appleProvider.addScope('email');
   await FirebaseAuth.instance.signInWithProvider(appleProvider);
 }
 
