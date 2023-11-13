@@ -19,6 +19,12 @@ class SettingPage extends StatelessWidget {
               tryFirebaseLogout(socdocApp);
             },
             child: const Text("Logout User")
+          ),
+          ElevatedButton(
+              onPressed: (){
+                tryFirebaseDeleteUser(socdocApp);
+              },
+              child: const Text("Delete User")
           )
         ]
       )
@@ -27,6 +33,14 @@ class SettingPage extends StatelessWidget {
 
   void tryFirebaseLogout(SocdocAppState socdocApp) async {
     if(await tryLogout()){
+      socdocApp.setState(() {
+        socdocApp.isLoggedIn = false;
+      });
+    }
+  }
+
+  void tryFirebaseDeleteUser(SocdocAppState socdocApp) async {
+    if(await tryDeleteUser()){
       socdocApp.setState(() {
         socdocApp.isLoggedIn = false;
       });
