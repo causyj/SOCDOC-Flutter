@@ -21,3 +21,12 @@ Future<bool> tryLogout() async {
   await FirebaseAuth.instance.signOut();
   return (FirebaseAuth.instance.currentUser == null);
 }
+
+Future<bool> tryDeleteUser() async {
+  if(FirebaseAuth.instance.currentUser != null){
+    await FirebaseAuth.instance.currentUser!.delete();
+    return true;
+  }
+
+  return false;
+}
