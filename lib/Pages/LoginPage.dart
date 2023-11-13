@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
           socdocApp!.setState(() {
             socdocApp!.isLoggedIn = true;
           });
-        }else{
+        }else if(mounted){
           setState(() {
             _isLoginNeeded = true;
           });
