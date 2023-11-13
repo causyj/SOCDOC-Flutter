@@ -25,7 +25,7 @@ Future<bool> tryLogout() async {
 Future<bool> tryDeleteUser() async {
   if(FirebaseAuth.instance.currentUser != null){
     await FirebaseAuth.instance.currentUser!.delete();
-    return true;
+    return tryLogout();
   }
 
   return false;
