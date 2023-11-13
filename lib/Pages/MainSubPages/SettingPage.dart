@@ -6,7 +6,16 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return(
-      const Text("Setting Page")
+      Column(
+        children: [
+          const Text("Setting Page"),
+          ElevatedButton(
+            onPressed: (){},
+            child: const Text("Logout User")
+          )
+        ]
+      )
+
     );
   }
 }
