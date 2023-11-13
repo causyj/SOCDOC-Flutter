@@ -17,6 +17,7 @@ Future<void> tryGoogleLogin() async {
   await FirebaseAuth.instance.signInWithCredential(credential);
 }
 
-Future<void> tryLogout() async {
+Future<bool> tryLogout() async {
   await FirebaseAuth.instance.signOut();
+  return (FirebaseAuth.instance.currentUser == null);
 }
