@@ -28,7 +28,7 @@ class SettingPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage('/socdoc_logo.png'), // 이미지 경로 추가
+                      image: AssetImage('assets/user.png'), // 이미지 경로 추가
                       fit: BoxFit.cover,
                     ),
                   ),
