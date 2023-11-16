@@ -12,19 +12,20 @@ class SettingPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildUserInfoContainer(),
-          ElevatedButton(
+          TextButton(
             onPressed: () {
               tryFirebaseLogout(socdocApp);
             },
-            child: const Text("로그아웃"),
+            child: const Text("로그아웃", style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
           ),
-          ElevatedButton(
+          TextButton(
             onPressed: () {
               tryFirebaseDeleteUser(socdocApp);
             },
-            child: const Text("회원 탈퇴"),
+            child: const Text("회원 탈퇴", style: TextStyle(color: Colors.black, fontSize:16.0, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
