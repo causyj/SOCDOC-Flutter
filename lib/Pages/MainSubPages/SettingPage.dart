@@ -15,22 +15,13 @@ class SettingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 10.0),
             buildUserInfoContainer(),
             SizedBox(height: 40.0),
             ExpansionPanelListExample(),
             SizedBox(height: 20.0),
-            TextButton(
-              onPressed: () {
-                tryFirebaseLogout(socdocApp);
-              },
-              child: const Text("로그아웃", style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
-            ),
-            TextButton(
-              onPressed: () {
-                tryFirebaseDeleteUser(socdocApp);
-              },
-              child: const Text("회원 탈퇴", style: TextStyle(color: Colors.black, fontSize:16.0, fontWeight: FontWeight.bold)),
-            ),
+            buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
+            buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
         ),
       ),
@@ -95,6 +86,16 @@ class SettingPage extends StatelessWidget {
     );
   }
 
+  Widget buildTextButton(String text, VoidCallback onPressed) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   void tryFirebaseLogout(SocdocAppState socdocApp) async {
     if (await tryLogout()) {
       socdocApp.setState(() {
@@ -111,7 +112,6 @@ class SettingPage extends StatelessWidget {
     }
   }
 }
-
 
 class Item {
   Item({
@@ -140,12 +140,12 @@ List<Item> generateItems() {
       icon: Icon(Icons.people_alt_outlined),
     ),
     Item(
-      headerValue: '즐겨찾는 병원',
+      headerValue: '즐겨 찾기 한 병원',
       expandedValue: 'Details for 즐겨찾는 병원',
       icon: Icon(Icons.favorite_border),
     ),
     Item(
-      headerValue: '마이 리뷰 보기',
+      headerValue: '리뷰 보기',
       expandedValue: 'Details for 마이 리뷰 보기',
       icon: Icon(Icons.rate_review_outlined),
     ),
@@ -173,27 +173,41 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
   }
 
   Widget _buildPanel() {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _data[index].isExpanded = isExpanded;
-        });
-      },
-      children: _data.map<ExpansionPanel>((Item item) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              leading: item.icon,
-              title: Text(item.headerValue),
-            );
-          },
-          body: ListTile(
-            title: Text(item.expandedValue),
-          ),
-          isExpanded: item.isExpanded,
-        );
-      }).toList(),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.transparent),
+      ),
+      child: ExpansionPanelList(
+        expansionCallback: (int index, bool isExpanded) {
+          setState(() {
+            _data[index].isExpanded = isExpanded;
+          });
+        },
+        children: _data.map<ExpansionPanel>((Item item) {
+          return ExpansionPanel(
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return Container(
+                height: 70.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Center(
+                  child: ListTile(
+                    leading: item.icon,
+                    title: Text(item.headerValue, style: TextStyle(fontSize: 17.0),),
+                  ),
+                ),
+              );
+            },
+            body: Center(
+              child: ListTile(
+                title: Text(item.expandedValue),
+              ),
+            ),
+            isExpanded: item.isExpanded,
+          );
+        }).toList(),
+      ),
     );
   }
 }
-
