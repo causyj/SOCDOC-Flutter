@@ -117,11 +117,13 @@ class Item {
   Item({
     required this.expandedValue,
     required this.headerValue,
+    required this.icon,
     this.isExpanded = false,
   });
 
   String expandedValue;
   String headerValue;
+  Icon icon;
   bool isExpanded;
 }
 
@@ -130,18 +132,22 @@ List<Item> generateItems() {
     Item(
       headerValue: '우리 동네 수정',
       expandedValue: 'Details for 우리 동네 수정',
+      icon: Icon(Icons.home_work_outlined),
     ),
     Item(
       headerValue: '내 정보 수정',
       expandedValue: 'Details for 내 정보 수정',
+      icon: Icon(Icons.people_alt_outlined),
     ),
     Item(
       headerValue: '즐겨찾는 병원',
       expandedValue: 'Details for 즐겨찾는 병원',
+      icon: Icon(Icons.favorite_border),
     ),
     Item(
       headerValue: '마이 리뷰 보기',
       expandedValue: 'Details for 마이 리뷰 보기',
+      icon: Icon(Icons.rate_review_outlined),
     ),
   ];
 }
@@ -177,6 +183,7 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
+              leading: item.icon,
               title: Text(item.headerValue),
             );
           },
