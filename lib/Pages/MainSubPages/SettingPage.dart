@@ -9,25 +9,28 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SocdocAppState socdocApp = context.findAncestorStateOfType<SocdocAppState>()!;
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildUserInfoContainer(),
-          TextButton(
-            onPressed: () {
-              tryFirebaseLogout(socdocApp);
-            },
-            child: const Text("로그아웃", style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
-          ),
-          TextButton(
-            onPressed: () {
-              tryFirebaseDeleteUser(socdocApp);
-            },
-            child: const Text("회원 탈퇴", style: TextStyle(color: Colors.black, fontSize:16.0, fontWeight: FontWeight.bold)),
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildUserInfoContainer(),
+            ExpansionPanelListExample(),
+            TextButton(
+              onPressed: () {
+                tryFirebaseLogout(socdocApp);
+              },
+              child: const Text("로그아웃", style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold)),
+            ),
+            TextButton(
+              onPressed: () {
+                tryFirebaseDeleteUser(socdocApp);
+              },
+              child: const Text("회원 탈퇴", style: TextStyle(color: Colors.black, fontSize:16.0, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -104,5 +107,72 @@ class SettingPage extends StatelessWidget {
         //socdocApp.isLoggedIn = false;
       });
     }
+  }
+}
+
+// stores ExpansionPanel state information
+class Item {
+  Item({
+    required this.expandedValue,
+    required this.headerValue,
+    this.isExpanded = false,
+  });
+
+  String expandedValue;
+  String headerValue;
+  bool isExpanded;
+}
+
+List<Item> generateItems(int numberOfItems) {
+  return List<Item>.generate(numberOfItems, (int index) {
+    return Item(
+      headerValue: 'Panel $index',
+      expandedValue: 'This is item number $index',
+    );
+  });
+}
+
+class ExpansionPanelListExample extends StatefulWidget {
+  const ExpansionPanelListExample({super.key});
+
+  @override
+  State<ExpansionPanelListExample> createState() =>
+      _ExpansionPanelListExampleState();
+}
+
+class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
+  final List<Item> _data = generateItems(4);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        child: _buildPanel(),
+      ),
+    );
+  }
+
+  Widget _buildPanel() {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          _data[index].isExpanded = isExpanded;
+        });
+      },
+      children: _data.map<ExpansionPanel>((Item item) {
+        return ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text(item.headerValue),
+            );
+          },
+          body: ListTile(
+            title: Text(item.expandedValue),
+            // The delete-related code has been removed
+          ),
+          isExpanded: item.isExpanded,
+        );
+      }).toList(),
+    );
   }
 }
