@@ -11,12 +11,14 @@ class SettingPage extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildUserInfoContainer(),
+            SizedBox(height: 40.0),
             ExpansionPanelListExample(),
+            SizedBox(height: 20.0),
             TextButton(
               onPressed: () {
                 tryFirebaseLogout(socdocApp);
@@ -110,7 +112,7 @@ class SettingPage extends StatelessWidget {
   }
 }
 
-// stores ExpansionPanel state information
+
 class Item {
   Item({
     required this.expandedValue,
@@ -123,13 +125,25 @@ class Item {
   bool isExpanded;
 }
 
-List<Item> generateItems(int numberOfItems) {
-  return List<Item>.generate(numberOfItems, (int index) {
-    return Item(
-      headerValue: 'Panel $index',
-      expandedValue: 'This is item number $index',
-    );
-  });
+List<Item> generateItems() {
+  return [
+    Item(
+      headerValue: '우리 동네 수정',
+      expandedValue: 'Details for 우리 동네 수정',
+    ),
+    Item(
+      headerValue: '내 정보 수정',
+      expandedValue: 'Details for 내 정보 수정',
+    ),
+    Item(
+      headerValue: '즐겨찾는 병원',
+      expandedValue: 'Details for 즐겨찾는 병원',
+    ),
+    Item(
+      headerValue: '마이 리뷰 보기',
+      expandedValue: 'Details for 마이 리뷰 보기',
+    ),
+  ];
 }
 
 class ExpansionPanelListExample extends StatefulWidget {
@@ -141,7 +155,7 @@ class ExpansionPanelListExample extends StatefulWidget {
 }
 
 class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
-  final List<Item> _data = generateItems(4);
+  final List<Item> _data = generateItems();
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +182,6 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
           },
           body: ListTile(
             title: Text(item.expandedValue),
-            // The delete-related code has been removed
           ),
           isExpanded: item.isExpanded,
         );
@@ -176,3 +189,4 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
     );
   }
 }
+
