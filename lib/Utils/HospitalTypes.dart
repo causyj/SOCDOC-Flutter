@@ -25,7 +25,12 @@ const List<HospitalItem> HospitalTypes = [
   HospitalItem(ko: "재활의학과", en: "Rehabilitation Medicine"),
   HospitalItem(ko: "마취통증의학과", en: "Anesthesiology and Pain Medicine"),
   HospitalItem(ko: "영상의학과", en: "Radiology"),
+  HospitalItem(ko: "", en: ""),
+  HospitalItem(ko: "", en: ""),
+  HospitalItem(ko: "", en: ""),
   HospitalItem(ko: "가정의학과", en: "Family Medicine"),
+  HospitalItem(ko: "", en: ""),
+  HospitalItem(ko: "", en: ""),
   HospitalItem(ko: "치과", en: "Dental"),
   HospitalItem(ko: "구강악안면외과", en: "Oral Maxillofacial Surgery"),
 ];
