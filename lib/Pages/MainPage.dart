@@ -12,7 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  final _pageList = [HomePage(), SettingPage()];
+  final _pageList = [HomePage(selectedIndices: [1,5,8,12]), SettingPage()];
   int pageIdx = 1;
 
   @override

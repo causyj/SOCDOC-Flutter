@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomeShortcut.dart';
+import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
 import '../../Utils/Color.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final List<int> selectedIndices;
+
+  const HomePage({Key? key, required this.selectedIndices}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +81,19 @@ class HomePage extends StatelessWidget {
                   child: Container(
                     width: 40,
                     height: 40,
-                    child: Image(
-                      image: AssetImage('assets/images/eye.png'),
-                      fit: BoxFit.cover,
-                    ),
+                    child:
+                      Column(
+                        children: [
+                          Text('${HospitalTypes[widget.selectedIndices[0] + 1].num}'),
+                          // Text('${HospitalTypes[selectedIndices[1] + 1].num}'),
+                          // Text('${HospitalTypes[selectedIndices[2] + 1].num}'),
+                          // Text('${HospitalTypes[selectedIndices[3] + 1].num}'),
+                        ],
+                      ),
+                    // Image(
+                    //   image: AssetImage('assets/hospital/${selectedIndices[0]}.png'),
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
                 ),
               ),
@@ -109,13 +127,12 @@ class HomePage extends StatelessWidget {
                   settings,
                   color : Colors.black,
                   size : 30.0,
-
                 ),
               ),
-
             ],
           ),
           SizedBox(width: 10.0,),
+          Text("Selected Tile Indices: ${widget.selectedIndices}"),
           Row(
             children: [
               SpecialtyCard("소아과"),

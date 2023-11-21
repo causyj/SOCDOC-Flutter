@@ -10,6 +10,38 @@ class HomeShortcut extends StatefulWidget {
 class _HomeShortcut extends State<HomeShortcut> {
   // const _HomeShortcut({super.key});
   List<int> selectedTileIndices = [];
+  @override
+  void initState() {
+    super.initState();
+    loadSelectedIndices();
+  }
+
+  Future<void> saveSelectedIndices(List<int> indices) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('selectedIndices', indices.map((index) => index.toString()).toList());
+  }
+  void navigateToHomePage(List<int> selectedIndices) {
+    // SharedPreferences에 선택한 인덱스 저장
+    saveSelectedIndices(selectedIndices);
+
+    // HomePage로 이동할 때 새로운 selectedIndices를 전달
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(selectedIndices: selectedIndices),
+      ),
+    );
+  }
+  Future<void> loadSelectedIndices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? storedIndices = prefs.getStringList('selectedIndices');
+
+    if (storedIndices != null) {
+      setState(() {
+        selectedTileIndices = storedIndices.map((index) => int.parse(index)).toList();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +96,8 @@ class _HomeShortcut extends State<HomeShortcut> {
                         GestureDetector(
                           onTap: () {
                             // 선택한 타일의 인덱스를 저장
-
+                            saveSelectedIndices(selectedTileIndices);
+                            navigateToHomePage(selectedTileIndices);
                           },
                           child: Container(
 
@@ -132,7 +165,7 @@ class _HomeShortcut extends State<HomeShortcut> {
 
               ),
             ),
-
+            Expanded(child:  Text("Selected Tile Indices: ${selectedTileIndices}"),)
           ],
         ),
       ),
