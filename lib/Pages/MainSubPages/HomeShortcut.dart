@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
 class HomeShortcut extends StatefulWidget {
   @override
   _HomeShortcut createState() => _HomeShortcut();
@@ -35,7 +36,8 @@ class _HomeShortcut extends State<HomeShortcut> {
                   children: [
                     Text(
                       "자주 가는 병원 4개를 선택해주세요 !",
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
@@ -49,66 +51,81 @@ class _HomeShortcut extends State<HomeShortcut> {
               child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: GridView.builder(
-                    itemCount: 20,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        // 선택한 타일의 인덱스를 저장
-
-                      },
-                      child: Container(
-
-                        decoration:BoxDecoration(
-                          border: Border(
-
-                            bottom: BorderSide(
-                              color: Colors.grey,
-                              width: 2.0,
-                            ),
-                            left: BorderSide(
-                              color: index.isEven ? Colors.white:Colors.grey ,
-                              width: 2.0,
-                            ),
-                            right: BorderSide(
-                              color: index.isEven ? Colors.grey : Colors.white,
-                              width: 2.0,
-                            ),
-                          ),
-                          color: selectedTileIndices.contains(index) ? Colors.blue : Colors.white,
-                        ) ,
-                        child: ListTile(
-                          tileColor: Colors.white,
+                    itemCount: HospitalTypes
+                        .where((item) => item.ko.isNotEmpty)
+                        .length,
+                    itemBuilder: (context, index) {
+                      HospitalItem hospitalItem = HospitalTypes
+                          .where((item) => item.ko.isNotEmpty)
+                          .elementAt(index);
+                      return
+                        GestureDetector(
                           onTap: () {
-                            setState(() {
-                              if (selectedTileIndices.contains(index)) {
-                                selectedTileIndices.remove(index);
-                              } else {
-                                if (selectedTileIndices.length < 4) {
-                                  selectedTileIndices.add(index);
-                                }
-                              }
-                            });
+                            // 선택한 타일의 인덱스를 저장
+
                           },
-                          leading: Container(
-                            width: 50,
-                            height: 50,
+                          child: Container(
 
-                            child: Image.asset(
-                              'assets/hospital/${index+1}.png', // 파일 이름 소문자로 변경
-                              fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              border: Border(
 
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 2.0,
+                                ),
+                                left: BorderSide(
+                                  color: index.isEven ? Colors.white : Colors
+                                      .grey,
+                                  width: 2.0,
+                                ),
+                                right: BorderSide(
+                                  color: index.isEven ? Colors.grey : Colors
+                                      .white,
+                                  width: 2.0,
+                                ),
+                              ),
+                              color: selectedTileIndices.contains(index)
+                                  ? Colors
+                                  .blue
+                                  : Colors.white,
+                            ),
+                            child: ListTile(
+                              tileColor: Colors.white,
+                              onTap: () {
+                                setState(() {
+                                  if (selectedTileIndices.contains(index)) {
+                                    selectedTileIndices.remove(index);
+                                  } else {
+                                    if (selectedTileIndices.length < 4) {
+                                      selectedTileIndices.add(index);
+                                    }
+                                  }
+                                });
+                              },
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+
+                                child: Image.asset(
+                                  'assets/hospital/${index + 1}.png',
+                                  fit: BoxFit.cover,
+
+                                ),
+                              ),
+                              title: Text(
+                                hospitalItem.ko,
+                                key: Key('text_$index'),
+                              ),
                             ),
                           ),
-                          title: Text(
-                            '정형외과',
-                            key: Key('text_$index'),
-                          ),
-                        ),
-                      ),
-                    ),
+                        );
+                    },
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 3,
+
                     ),
+
                   )
 
               ),
