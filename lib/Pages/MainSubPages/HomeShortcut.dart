@@ -10,6 +10,7 @@ class HomeShortcut extends StatefulWidget {
 class _HomeShortcut extends State<HomeShortcut> {
   // const _HomeShortcut({super.key});
   List<int> selectedTileIndices = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,11 +54,12 @@ class _HomeShortcut extends State<HomeShortcut> {
                   child: GridView.builder(
                     itemCount: HospitalTypes
                         .where((item) => item.ko.isNotEmpty)
-                        .length,
+                        .length-1,
                     itemBuilder: (context, index) {
                       HospitalItem hospitalItem = HospitalTypes
                           .where((item) => item.ko.isNotEmpty)
-                          .elementAt(index);
+                          .elementAt(index+1);
+
                       return
                         GestureDetector(
                           onTap: () {
@@ -107,7 +109,7 @@ class _HomeShortcut extends State<HomeShortcut> {
                                 height: 50,
 
                                 child: Image.asset(
-                                  'assets/hospital/${index + 1}.png',
+                                  'assets/hospital/${hospitalItem.num}.png',
                                   fit: BoxFit.cover,
 
                                 ),
