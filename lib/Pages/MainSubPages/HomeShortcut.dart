@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
+import 'package:socdoc_flutter/style.dart';
 class HomeShortcut extends StatefulWidget {
   @override
   _HomeShortcut createState() => _HomeShortcut();
@@ -122,10 +123,12 @@ class _HomeShortcut extends State<HomeShortcut> {
                                 width: 2.0,
                               ),
                             ),
-                            color: selectedTileIndices.contains(index)
-                                ? Colors
-                                .blue
-                                : Colors.white,
+                            // color: selectedTileIndices.contains(index)
+                            //     ?
+                            // Colors
+                            //     .blue
+                            //     : Colors.white,
+
                           ),
                           child: ListTile(
                             tileColor: Colors.white,
@@ -153,6 +156,12 @@ class _HomeShortcut extends State<HomeShortcut> {
                             title: Text(
                               hospitalItem.ko,
                               key: Key('text_$index'),
+                              // style: TextStyle(color: AppColor.GridTextStyle),
+                              style: TextStyle(
+                                color: selectedTileIndices.contains(index) ? AppColor.GridTextStyleOnPressed :  AppColor.GridTextStyle,
+                                fontWeight: selectedTileIndices.contains(index) ? FontWeight.bold : FontWeight.normal  ,
+                                // 다른 필요한 폰트 스타일 속성들도 추가할 수 있습니다.
+                              ),
                             ),
                           ),
                         );
@@ -167,7 +176,6 @@ class _HomeShortcut extends State<HomeShortcut> {
 
               ),
             ),
-            Expanded(child:  Text("Selected Tile Indices: ${selectedTileIndices}"),),
 
           ],
         ),
