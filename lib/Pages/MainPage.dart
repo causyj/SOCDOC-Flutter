@@ -13,14 +13,7 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   final _pageList = [
-    HomePage(
-      selectedIndices: [1, 5, 8, 12],
-      onSelectedIndicesChanged: (List<int> updatedIndices) {
-        // You can add any logic here if needed
-         Text("Updated Indices: $updatedIndices");
-      },
-    ),
-    SettingPage(),
+    HomePage(), SettingPage(),
   ];
   int pageIdx = 1;
 

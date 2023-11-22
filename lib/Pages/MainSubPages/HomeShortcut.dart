@@ -18,26 +18,18 @@ class _HomeShortcut extends State<HomeShortcut> {
     });
   }
 
-  Future<void> saveSelectedIndices(List<int> indices) async {
+  Future<void> saveSelectedIndices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('selectedIndices', indices.map((index) => index.toString()).toList());
+    prefs.setStringList('selectedIndices', selectedTileIndices.map((index) => index.toString()).toList())
+        .then((value) => navigateToHomePage());
   }
   void updateSelectedIndices(List<int> updatedIndices) {
     setState(() {
       selectedTileIndices = updatedIndices;
     });
   }
-  void navigateToHomePage(List<int> selectedIndices) async {
-    await saveSelectedIndices(selectedIndices); // 데이터가 성공적으로 저장될 때까지 기다립니다
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(
-          selectedIndices: selectedIndices,
-          onSelectedIndicesChanged: updateSelectedIndices,
-        ),
-      ),
-    );
+  void navigateToHomePage() {
+    Navigator.pop(context);
   }
 
   Future<void> loadSelectedIndices() async {
@@ -88,15 +80,7 @@ class _HomeShortcut extends State<HomeShortcut> {
                       child:ElevatedButton(
                         onPressed: () {
                           // 버튼을 누르면 다음 페이지로 이동
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(
-                                selectedIndices: selectedTileIndices,
-                                onSelectedIndicesChanged: updateSelectedIndices,
-                              ),
-                            ),
-                          );
+                          saveSelectedIndices();
                         },
                         child: Text('다음 페이지로 이동'),
                       ),
@@ -120,9 +104,7 @@ class _HomeShortcut extends State<HomeShortcut> {
                       return
                         GestureDetector(
                           onTap: () {
-                            // 선택한 타일의 인덱스를 저장
-                            saveSelectedIndices(selectedTileIndices);
-                            navigateToHomePage(selectedTileIndices);
+                            saveSelectedIndices();
                           },
                           child: Container(
 

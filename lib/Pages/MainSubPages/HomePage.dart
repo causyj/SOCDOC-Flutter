@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomeShortcut.dart';
 import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
@@ -6,17 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
-  final List<int> selectedIndices;
-  final Function(List<int>) onSelectedIndicesChanged;
-
-  HomePage({
-    required this.selectedIndices,
-    required this.onSelectedIndicesChanged,
-  });
-
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -24,7 +18,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addObserver(
+      _LifecycleObserver(resumeCallback: () async => loadSelectedIndices())
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       loadSelectedIndices();
     });
   }
@@ -33,13 +30,17 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? storedIndices = prefs.getStringList('selectedIndices');
 
-    if (storedIndices != null) {
+    if (storedIndices != null && storedIndices.length == 4) {
       setState(() {
         selectedTileIndices = storedIndices.map((index) => int.parse(index)).toList();
       });
-      widget.onSelectedIndicesChanged?.call(selectedTileIndices);
+    }else{
+      setState(() {
+        selectedTileIndices = [1,5,8,12];
+      });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(width: 5.0),
               GestureDetector(
                 onTap:((){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeShortcut()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeShortcut())).then((value) => loadSelectedIndices());
                 }),
 
                 child:Icon(
@@ -278,5 +279,31 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+  }
+}
+
+class _LifecycleObserver extends WidgetsBindingObserver {
+  final AsyncCallback? resumeCallback;
+
+  _LifecycleObserver({
+    this.resumeCallback
+  });
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    switch(state) {
+      case AppLifecycleState.resumed:
+        if(resumeCallback != null){
+          await resumeCallback!();
+        }
+        break;
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+        break;
+    }
   }
 }
