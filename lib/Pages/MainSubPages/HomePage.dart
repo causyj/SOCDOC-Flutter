@@ -150,8 +150,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(width: 10.0,),
-          Text("Selected Tile Indices: ${selectedTileIndices}"),
-
           Row(
             children: [
               SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0),
