@@ -17,10 +17,10 @@ class SearchPage extends StatelessWidget {
             ElevatedButton(
               child: const Text("Detail Page"),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
               }
             ),
-            Expanded(child: MapView())
+            const Expanded(child: MapView())
           ]
         )
       )
@@ -29,6 +29,8 @@ class SearchPage extends StatelessWidget {
 }
 
 class MapView extends StatefulWidget {
+  const MapView({super.key});
+
   @override
   State<StatefulWidget> createState() => _MapViewState();
 }
@@ -37,22 +39,16 @@ class _MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _controller =
   Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+  static const CameraPosition tmpCoord = CameraPosition(
+    target: LatLng(37.4905987, 126.9441426),
+    zoom: 17,
   );
-
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
 
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
-      mapType: MapType.hybrid,
-      initialCameraPosition: _kGooglePlex,
+      mapType: MapType.normal,
+      initialCameraPosition: tmpCoord,
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       }
