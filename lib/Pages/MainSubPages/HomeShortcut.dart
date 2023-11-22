@@ -144,22 +144,16 @@ class _HomeShortcut extends State<HomeShortcut> {
                                   ),
 
                                 ),
-                                // color: selectedTileIndices.contains(index)
-                                //     ?
-                                // Colors
-                                //     .blue
-                                //     : Colors.white,
-
                               ),
                               child: ListTile(
                                 tileColor: Colors.white,
                                 onTap: () {
                                   setState(() {
-                                    if (selectedTileIndices.contains(index)) {
-                                      selectedTileIndices.remove(index);
+                                    if (selectedTileIndices.contains(hospitalItem.num)) {
+                                      selectedTileIndices.remove(hospitalItem.num);
                                     } else {
                                       if (selectedTileIndices.length < 4) {
-                                        selectedTileIndices.add(index);
+                                        selectedTileIndices.add(hospitalItem.num);
                                       }
                                     }
                                   });
@@ -179,8 +173,8 @@ class _HomeShortcut extends State<HomeShortcut> {
                                   key: Key('text_$index'),
                                   // style: TextStyle(color: AppColor.GridTextStyle),
                                   style: TextStyle(
-                                    color: selectedTileIndices.contains(index) ? AppColor.GridTextStyleOnPressed :  AppColor.GridTextStyle,
-                                    fontWeight: selectedTileIndices.contains(index) ? FontWeight.bold : FontWeight.normal  ,
+                                    color: selectedTileIndices.contains(hospitalItem.num) ? AppColor.GridTextStyleOnPressed :  AppColor.GridTextStyle,
+                                    fontWeight: selectedTileIndices.contains(hospitalItem.num) ? FontWeight.bold : FontWeight.normal  ,
                                     // 다른 필요한 폰트 스타일 속성들도 추가할 수 있습니다.
                                   ),
                                 ),
@@ -199,7 +193,6 @@ class _HomeShortcut extends State<HomeShortcut> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

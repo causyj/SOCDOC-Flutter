@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     height: 40,
                     child:
                     Image(
-                      image: AssetImage('assets/hospital/${HospitalTypes[selectedTileIndices[n]].num}.png'),
+                      image: AssetImage('assets/hospital/${selectedTileIndices[n]}.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -151,6 +151,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(width: 10.0,),
           Text("Selected Tile Indices: ${selectedTileIndices}"),
+
           Row(
             children: [
               SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0),
