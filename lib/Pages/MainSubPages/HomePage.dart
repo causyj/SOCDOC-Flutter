@@ -2,18 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Pages/MainSubPages/HomeShortcut.dart';
 import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
 import '../../Utils/Color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget {
   final List<int> selectedIndices;
+  final Function(List<int>) onSelectedIndicesChanged;
 
-  const HomePage({Key? key, required this.selectedIndices}) : super(key: key);
+  HomePage({
+    required this.selectedIndices,
+    required this.onSelectedIndicesChanged,
+  });
+
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  List<int> selectedTileIndices = [];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      loadSelectedIndices();
+    });
+  }
 
+  Future<void> loadSelectedIndices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? storedIndices = prefs.getStringList('selectedIndices');
+
+    if (storedIndices != null) {
+      setState(() {
+        selectedTileIndices = storedIndices.map((index) => int.parse(index)).toList();
+      });
+      widget.onSelectedIndicesChanged?.call(selectedTileIndices);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
@@ -64,7 +90,7 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-    Widget SpecialtyCard(String specialty){
+    Widget SpecialtyCard(String specialty, int n){
       return Padding(
         padding: const EdgeInsets.only(top:10.0),
         child:
@@ -82,18 +108,10 @@ class _HomePageState extends State<HomePage> {
                     width: 40,
                     height: 40,
                     child:
-                      Column(
-                        children: [
-                          Text('${HospitalTypes[widget.selectedIndices[0] + 1].num}'),
-                          // Text('${HospitalTypes[selectedIndices[1] + 1].num}'),
-                          // Text('${HospitalTypes[selectedIndices[2] + 1].num}'),
-                          // Text('${HospitalTypes[selectedIndices[3] + 1].num}'),
-                        ],
-                      ),
-                    // Image(
-                    //   image: AssetImage('assets/hospital/${selectedIndices[0]}.png'),
-                    //   fit: BoxFit.cover,
-                    // ),
+                    Image(
+                      image: AssetImage('assets/hospital/${HospitalTypes[selectedTileIndices[n]].num}.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -109,7 +127,6 @@ class _HomePageState extends State<HomePage> {
 
       );
     }
-
     Widget NearbyHospital(){
       return Column(
         children: [
@@ -132,21 +149,21 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(width: 10.0,),
-          Text("Selected Tile Indices: ${widget.selectedIndices}"),
+          Text("Selected Tile Indices: ${selectedTileIndices}"),
           Row(
             children: [
-              SpecialtyCard("소아과"),
+              SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0),
               Padding(
                 padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard("치과"),
+                child: SpecialtyCard(HospitalTypes[selectedTileIndices[1]].ko ,1),
               ),
               Padding(
                 padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard("안과"),
+                child: SpecialtyCard(HospitalTypes[selectedTileIndices[2]].ko,2),
               ),
               Padding(
                 padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard("정형외과"),
+                child: SpecialtyCard(HospitalTypes[selectedTileIndices[3]].ko,3),
               ),
             ],
           ),
@@ -240,22 +257,25 @@ class _HomePageState extends State<HomePage> {
 
 
     return
-      SingleChildScrollView(
-        child:
-        Column(
-          children: [
-            Location(),
-            Padding(
-                padding: EdgeInsets.only(top: 25.0, left:20.0,right:20.0),
-                child: Column(
-                  children: [
-                    NearbyHospital(),
-                    FamousHospital(),
-                  ],
-                )
-            ),
+      Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child:
+          Column(
+            children: [
+              Location(),
+              Padding(
+                  padding: EdgeInsets.only(top: 25.0, left:20.0,right:20.0),
+                  child: Column(
+                    children: [
+                      NearbyHospital(),
+                      FamousHospital(),
+                    ],
+                  )
+              ),
 
-          ],
+            ],
+          ),
         ),
       );
   }

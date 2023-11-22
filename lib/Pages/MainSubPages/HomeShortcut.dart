@@ -13,25 +13,33 @@ class _HomeShortcut extends State<HomeShortcut> {
   @override
   void initState() {
     super.initState();
-    loadSelectedIndices();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      loadSelectedIndices();
+    });
   }
 
   Future<void> saveSelectedIndices(List<int> indices) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('selectedIndices', indices.map((index) => index.toString()).toList());
   }
-  void navigateToHomePage(List<int> selectedIndices) {
-    // SharedPreferences에 선택한 인덱스 저장
-    saveSelectedIndices(selectedIndices);
-
-    // HomePage로 이동할 때 새로운 selectedIndices를 전달
-    Navigator.push(
+  void updateSelectedIndices(List<int> updatedIndices) {
+    setState(() {
+      selectedTileIndices = updatedIndices;
+    });
+  }
+  void navigateToHomePage(List<int> selectedIndices) async {
+    await saveSelectedIndices(selectedIndices); // 데이터가 성공적으로 저장될 때까지 기다립니다
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(selectedIndices: selectedIndices),
+        builder: (context) => HomePage(
+          selectedIndices: selectedIndices,
+          onSelectedIndicesChanged: updateSelectedIndices,
+        ),
       ),
     );
   }
+
   Future<void> loadSelectedIndices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? storedIndices = prefs.getStringList('selectedIndices');
@@ -75,6 +83,23 @@ class _HomeShortcut extends State<HomeShortcut> {
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Text("선택하신 병원은 메인화면에 즐겨찾는 병원으로 등록됩니다"),
+                    ),
+                    Center(
+                      child:ElevatedButton(
+                        onPressed: () {
+                          // 버튼을 누르면 다음 페이지로 이동
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                selectedIndices: selectedTileIndices,
+                                onSelectedIndicesChanged: updateSelectedIndices,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text('다음 페이지로 이동'),
+                      ),
                     ),
                   ],
                 ),
@@ -165,7 +190,8 @@ class _HomeShortcut extends State<HomeShortcut> {
 
               ),
             ),
-            Expanded(child:  Text("Selected Tile Indices: ${selectedTileIndices}"),)
+            Expanded(child:  Text("Selected Tile Indices: ${selectedTileIndices}"),),
+
           ],
         ),
       ),
