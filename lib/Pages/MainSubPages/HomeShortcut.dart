@@ -102,62 +102,57 @@ class _HomeShortcut extends State<HomeShortcut> {
                           .elementAt(index+1);
 
                       return
-                        GestureDetector(
-                          onTap: () {
-                            saveSelectedIndices();
-                          },
-                          child: Container(
+                        Container(
 
-                            decoration: BoxDecoration(
-                              border: Border(
+                          decoration: BoxDecoration(
+                            border: Border(
 
-                                bottom: BorderSide(
-                                  color: Colors.grey,
-                                  width: 2.0,
-                                ),
-                                left: BorderSide(
-                                  color: index.isEven ? Colors.white : Colors
-                                      .grey,
-                                  width: 2.0,
-                                ),
-                                right: BorderSide(
-                                  color: index.isEven ? Colors.grey : Colors
-                                      .white,
-                                  width: 2.0,
-                                ),
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 2.0,
                               ),
-                              color: selectedTileIndices.contains(index)
-                                  ? Colors
-                                  .blue
-                                  : Colors.white,
+                              left: BorderSide(
+                                color: index.isEven ? Colors.white : Colors
+                                    .grey,
+                                width: 2.0,
+                              ),
+                              right: BorderSide(
+                                color: index.isEven ? Colors.grey : Colors
+                                    .white,
+                                width: 2.0,
+                              ),
                             ),
-                            child: ListTile(
-                              tileColor: Colors.white,
-                              onTap: () {
-                                setState(() {
-                                  if (selectedTileIndices.contains(index)) {
-                                    selectedTileIndices.remove(index);
-                                  } else {
-                                    if (selectedTileIndices.length < 4) {
-                                      selectedTileIndices.add(index);
-                                    }
+                            color: selectedTileIndices.contains(index)
+                                ? Colors
+                                .blue
+                                : Colors.white,
+                          ),
+                          child: ListTile(
+                            tileColor: Colors.white,
+                            onTap: () {
+                              setState(() {
+                                if (selectedTileIndices.contains(index)) {
+                                  selectedTileIndices.remove(index);
+                                } else {
+                                  if (selectedTileIndices.length < 4) {
+                                    selectedTileIndices.add(index);
                                   }
-                                });
-                              },
-                              leading: Container(
-                                width: 50,
-                                height: 50,
+                                }
+                              });
+                            },
+                            leading: Container(
+                              width: 50,
+                              height: 50,
 
-                                child: Image.asset(
-                                  'assets/hospital/${hospitalItem.num}.png',
-                                  fit: BoxFit.cover,
+                              child: Image.asset(
+                                'assets/hospital/${hospitalItem.num}.png',
+                                fit: BoxFit.cover,
 
-                                ),
                               ),
-                              title: Text(
-                                hospitalItem.ko,
-                                key: Key('text_$index'),
-                              ),
+                            ),
+                            title: Text(
+                              hospitalItem.ko,
+                              key: Key('text_$index'),
                             ),
                           ),
                         );
