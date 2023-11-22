@@ -50,7 +50,16 @@ class _HomeShortcut extends State<HomeShortcut> {
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          saveSelectedIndices();
+      if (selectedTileIndices.length == 4) {
+        saveSelectedIndices();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('병원을 4개 선택해주세요.'),
+          ),
+        );
+      }
+
         },
 
         backgroundColor: Colors.white,
