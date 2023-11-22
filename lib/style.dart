@@ -5,4 +5,5 @@ class AppColor extends Color {
 
   static const GridTextStyle = Color(0xFF727070);
   static const GridTextStyleOnPressed = Color(0xFF182277);
+  static const GridLineStyle = Color(0xFFC4C4C4);
 }

@@ -91,89 +91,112 @@ class _HomeShortcut extends State<HomeShortcut> {
               ),
             ),
             Expanded(
+
               child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GridView.builder(
-                    itemCount: HospitalTypes
-                        .where((item) => item.ko.isNotEmpty)
-                        .length-1,
-                    itemBuilder: (context, index) {
-                      HospitalItem hospitalItem = HospitalTypes
-                          .where((item) => item.ko.isNotEmpty)
-                          .elementAt(index+1);
-
-                      return
-                        Container(
-
-                          decoration: BoxDecoration(
-                            border: Border(
-
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 2.0,
-                              ),
-                              left: BorderSide(
-                                color: index.isEven ? Colors.white : Colors
-                                    .grey,
-                                width: 2.0,
-                              ),
-                              right: BorderSide(
-                                color: index.isEven ? Colors.grey : Colors
-                                    .white,
-                                width: 2.0,
-                              ),
-                            ),
-                            // color: selectedTileIndices.contains(index)
-                            //     ?
-                            // Colors
-                            //     .blue
-                            //     : Colors.white,
-
-                          ),
-                          child: ListTile(
-                            tileColor: Colors.white,
-                            onTap: () {
-                              setState(() {
-                                if (selectedTileIndices.contains(index)) {
-                                  selectedTileIndices.remove(index);
-                                } else {
-                                  if (selectedTileIndices.length < 4) {
-                                    selectedTileIndices.add(index);
-                                  }
-                                }
-                              });
-                            },
-                            leading: Container(
-                              width: 50,
-                              height: 50,
-
-                              child: Image.asset(
-                                'assets/hospital/${hospitalItem.num}.png',
-                                fit: BoxFit.cover,
-
-                              ),
-                            ),
-                            title: Text(
-                              hospitalItem.ko,
-                              key: Key('text_$index'),
-                              // style: TextStyle(color: AppColor.GridTextStyle),
-                              style: TextStyle(
-                                color: selectedTileIndices.contains(index) ? AppColor.GridTextStyleOnPressed :  AppColor.GridTextStyle,
-                                fontWeight: selectedTileIndices.contains(index) ? FontWeight.bold : FontWeight.normal  ,
-                                // 다른 필요한 폰트 스타일 속성들도 추가할 수 있습니다.
-                              ),
-                            ),
-                          ),
-                        );
-                    },
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 3,
-
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25), // 좌측 상단
+                      topRight: Radius.circular(25), // 우측 상단
+                      bottomLeft: Radius.circular(25), // 좌측 하단
+                      bottomRight: Radius.circular(25), // 우측 하단
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey, // 그림자의 색상 및 투명도
+                        spreadRadius: 2,  // 그림자의 확산 정도
+                        blurRadius: 5,    // 그림자의 흐림 정도
+                        offset: Offset(1, 1), // 그림자의 위치 (수평, 수직)
+                      ),
+                    ],
+                   ),
 
-                  )
+                  child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: GridView.builder(
+                        itemCount: HospitalTypes
+                            .where((item) => item.ko.isNotEmpty)
+                            .length-1,
+                        itemBuilder: (context, index) {
+                          HospitalItem hospitalItem = HospitalTypes
+                              .where((item) => item.ko.isNotEmpty)
+                              .elementAt(index+1);
 
+                          return
+                            Container(
+
+                              decoration: BoxDecoration(
+                                border: Border(
+
+                                  bottom: BorderSide(
+                                    color: index >=  HospitalTypes.where((item) => item.ko.isNotEmpty).length - 3 ?
+                                    Colors.transparent : AppColor.GridLineStyle,
+                                    width: 2.0,
+                                  ),
+
+                                  right: BorderSide(
+                                    color: index.isEven ?AppColor.GridLineStyle : Colors.transparent,
+                                    width: 2.0,
+                                  ),
+
+                                ),
+                                // color: selectedTileIndices.contains(index)
+                                //     ?
+                                // Colors
+                                //     .blue
+                                //     : Colors.white,
+
+                              ),
+                              child: ListTile(
+                                tileColor: Colors.white,
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedTileIndices.contains(index)) {
+                                      selectedTileIndices.remove(index);
+                                    } else {
+                                      if (selectedTileIndices.length < 4) {
+                                        selectedTileIndices.add(index);
+                                      }
+                                    }
+                                  });
+                                },
+                                leading: Container(
+                                  width: 45,
+                                  height:45,
+
+                                  child: Image.asset(
+                                    'assets/hospital/${hospitalItem.num}.png',
+                                    fit: BoxFit.cover,
+
+                                  ),
+                                ),
+                                title: Text(
+                                  hospitalItem.ko,
+                                  key: Key('text_$index'),
+                                  // style: TextStyle(color: AppColor.GridTextStyle),
+                                  style: TextStyle(
+                                    color: selectedTileIndices.contains(index) ? AppColor.GridTextStyleOnPressed :  AppColor.GridTextStyle,
+                                    fontWeight: selectedTileIndices.contains(index) ? FontWeight.bold : FontWeight.normal  ,
+                                    // 다른 필요한 폰트 스타일 속성들도 추가할 수 있습니다.
+                                  ),
+                                ),
+                              ),
+                            );
+                        },
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 3,
+
+                        ),
+
+                      )
+
+                  ),
+                ),
               ),
             ),
 
