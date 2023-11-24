@@ -20,9 +20,9 @@ class SettingPage extends StatelessWidget {
             SizedBox(height: 20.0),
             myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
             favoriteHospital(),
+            SizedBox(height: 20.0),
             myPageList("내 리뷰 보기", Icons.rate_review_outlined),
-            myReview("흑석성모안과의원", "2023.09.01", "다 좋은데 줄이 너무 길어요..", "4.0", 'assets/hospital2.png'),
-            myReview("연세이비인후과", "2023.10.23", "간호사가 별로에요.", "3.0", 'assets/hospital3.png'),
+            myReviewList(),
             buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
             buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
@@ -137,13 +137,25 @@ class SettingPage extends StatelessWidget {
     );
   }
 
+  Widget myReviewList(){
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          myReview("흑석성모안과의원", "2023.09.01", "다 좋은데 줄이 너무 길어요..", "4.0", 'assets/hospital2.png'),
+          SizedBox(height: 10.0),
+          myReview("연세이비인후과", "2023.10.23", "간호사가 별로에요.", "3.0", 'assets/hospital3.png'),
+        ],
+      ),
+    );
+  }
+
   Widget myReview(String name, String date, String comment, String rate, String img) {
     return Container(
       child: Column(
         children: [
           Row(
             children: [
-              SizedBox(width: 10.0),
               Container(
                 width: 45,
                 height: 45,
