@@ -21,6 +21,8 @@ class SettingPage extends StatelessWidget {
             myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
             favoriteHospital(),
             myPageList("내 리뷰 보기", Icons.rate_review_outlined),
+            myReview("흑석성모안과의원", "2023.09.01", "다 좋은데 줄이 너무 길어요..", "4.0", 'assets/hospital2.png'),
+            myReview("연세이비인후과", "2023.10.23", "간호사가 별로에요.", "3.0", 'assets/hospital3.png'),
             buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
             buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
@@ -53,12 +55,12 @@ class SettingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(name, style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold)),
+                  Text(name, style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
                   Icon(Icons.settings, color: AppColor.SocdocBlue),
                 ],
               ),
               SizedBox(height: 3.0),
-              Text(address, style: TextStyle(fontSize: 13.0, color: Colors.grey)),
+              Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
             ],
           ),
         ],
@@ -81,10 +83,10 @@ class SettingPage extends StatelessWidget {
 
   Widget HospitalInfo(String name, String address, String img) {
     return Container(
-      width: 160,
-      height: 135,
+      width: 200,
+      height: 160,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColor.SocdocBlue, width: 0.5),
+        border: Border.all(color: Colors.black26, width: 0.5),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ClipRRect(
@@ -95,17 +97,17 @@ class SettingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(image: AssetImage(img), width: 160, height: 85, fit: BoxFit.cover),
+            Image(image: AssetImage(img), width: 200, height: 100, fit: BoxFit.cover),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // 좌측 정렬을 위해 추가
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue)),
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 15),
-                      Text(address, style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+                      Text(address, style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Colors.black54)),
                     ],
                   ),
                 ],
@@ -116,7 +118,6 @@ class SettingPage extends StatelessWidget {
       ),
     );
   }
-
 
   Widget favoriteHospital(){
     return Container(
@@ -135,6 +136,68 @@ class SettingPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget myReview(String name, String date, String comment, String rate, String img) {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 10.0),
+              Container(
+                width: 45,
+                height: 45,
+                child: ClipOval(
+                  child: Image(
+                    image: AssetImage(img),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name, style: TextStyle(fontSize: 16)),
+                  Text(date, style: TextStyle(fontSize: 10, color: Colors.grey)),
+                ],
+              ),
+              Spacer(),
+              Column(
+                children: [
+                  Icon(Icons.star_rounded, color: Colors.amberAccent),
+                  Text(rate),
+                ],
+              ),
+              SizedBox(width: 10.0),
+            ],
+          ),
+          SizedBox(height: 10.0),
+          Container(
+            child: Container(
+              width: 300,
+              height: 70,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColor.SocdocBlue, width: 0.5),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
+                    child: Text(comment, style: TextStyle(fontSize: 15, color: AppColor.SocdocBlue)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget buildTextButton(String text, VoidCallback onPressed) {
     return TextButton(
