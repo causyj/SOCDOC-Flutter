@@ -97,7 +97,7 @@ class SettingPage extends StatelessWidget {
           children: [
             Image(image: AssetImage(img), width: 160, height: 85, fit: BoxFit.cover),
             Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 8.0, top: 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, // 좌측 정렬을 위해 추가
                 children: [
@@ -120,12 +120,18 @@ class SettingPage extends StatelessWidget {
 
   Widget favoriteHospital(){
     return Container(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          HospitalInfo("흑석성모안과의원", "동작구 상도로 36길", 'assets/hospital2.png'),
-          HospitalInfo("연세이비인후과", "동작구 상도로 17길", 'assets/hospital3.png')
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            HospitalInfo("흑석성모안과의원", "동작구 상도로 36길", 'assets/hospital2.png'),
+            SizedBox(width: 35.0),
+            HospitalInfo("연세이비인후과", "동작구 상도로 17길", 'assets/hospital3.png'),
+            SizedBox(width: 35.0),
+            HospitalInfo("서울성모안과의원", "동작구 상도로 36길", 'assets/hospital2.png'),
+          ],
+        ),
       ),
     );
   }
