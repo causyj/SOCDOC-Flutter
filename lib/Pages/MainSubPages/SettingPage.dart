@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/main.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
+import 'package:socdoc_flutter/Pages/MainSubPages/MyPage.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key});
@@ -16,7 +17,7 @@ class SettingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UserInfo("Dev.LR", "서울특별시 동작구"),
+            UserInfo("Dev.LR", "서울특별시 동작구", context),
             SizedBox(height: 20.0),
             myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
             favoriteHospital(),
@@ -31,7 +32,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget UserInfo(String name, String address) {
+  Widget UserInfo(String name, String address, BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(8.0),
@@ -48,25 +49,41 @@ class SettingPage extends StatelessWidget {
             ),
           ),
           SizedBox(width: 25.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(name, style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-                  Icon(Icons.settings, color: AppColor.SocdocBlue),
-                ],
-              ),
-              SizedBox(height: 3.0),
-              Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(name, style: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold)),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
+                      },
+                      icon: Container(
+                        width: 45,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColor.SocdocBlue, width: 1.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Icon(Icons.settings, color: AppColor.SocdocBlue, size: 26.0),
+                      ),
+                    )
+
+                  ],
+                ),
+                SizedBox(height: 3.0),
+                Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+
 
   Widget myPageList(String text, icon) {
     return Container(
