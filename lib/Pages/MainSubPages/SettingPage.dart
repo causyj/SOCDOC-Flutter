@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/main.dart';
+import 'package:socdoc_flutter/Utils/Color.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key});
@@ -15,11 +16,11 @@ class SettingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10.0),
-            buildUserInfoContainer(),
-            SizedBox(height: 40.0),
-            ExpansionPanelListExample(),
+            UserInfo("Dev.LR", "서울특별시 동작구"),
             SizedBox(height: 20.0),
+            myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
+            favoriteHospital(),
+            myPageList("내 리뷰 보기", Icons.rate_review_outlined),
             buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
             buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
@@ -28,61 +29,81 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget buildUserInfoContainer() {
+  Widget UserInfo(String name, String address) {
     return Container(
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 0,
-            blurRadius: 2,
-            offset: Offset(0, 5),
+      width: double.infinity,
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Container(
+            width: 75,
+            height: 75,
+            child: ClipOval(
+              child: Image(
+                image: AssetImage('assets/user.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(width: 25.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(name, style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold)),
+                  Icon(Icons.settings, color: AppColor.SocdocBlue),
+                ],
+              ),
+              SizedBox(height: 3.0),
+              Text(address, style: TextStyle(fontSize: 13.0, color: Colors.grey)),
+            ],
           ),
         ],
-        color: Colors.white,
       ),
-      child: buildUserInfoRow(),
     );
   }
 
-  Widget buildUserInfoRow() {
-    return Row(
-      children: [
-        SizedBox(width: 10.0),
-        buildUserAvatar(),
-        SizedBox(width: 20.0),
-        buildUserInfoColumn(),
-      ],
-    );
-  }
-
-  Widget buildUserAvatar() {
+  Widget myPageList(String text, icon) {
     return Container(
-      width: 60.0,
-      height: 60.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          image: AssetImage('assets/user.png'),
-          fit: BoxFit.cover,
-        ),
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Icon(icon),
+          SizedBox(width: 20.0),
+          Text(text, style: TextStyle(fontSize: 18.0)),
+        ],
       ),
     );
   }
 
-  Widget buildUserInfoColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '사용자 님',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-        ),
-        SizedBox(height: 2.0),
-        Text('서울특별시 동작구', style: TextStyle(color: Colors.grey)),
-      ],
+  Widget HospitalInfo(String name, String address, String img){
+    return Container(
+      child: Column(
+        children: [
+          Image(image: AssetImage(img), width: 110, height: 110),
+          Text(name, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue)),
+          Row(
+            children: [
+              Icon(Icons.location_on, size: 15),
+              Text(address, style: TextStyle(fontSize: 13.0, color: Colors.black54)),
+            ],
+          ),
+        ]
+      )
+    );
+  }
+
+  Widget favoriteHospital(){
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          HospitalInfo("흑석성모안과의원", "동작구 상도로 36길", 'assets/hospital2.png'),
+        ],
+      ),
     );
   }
 
@@ -110,104 +131,5 @@ class SettingPage extends StatelessWidget {
         //socdocApp.isLoggedIn = false;
       });
     }
-  }
-}
-
-class Item {
-  Item({
-    required this.expandedValue,
-    required this.headerValue,
-    required this.icon,
-    this.isExpanded = false,
-  });
-
-  String expandedValue;
-  String headerValue;
-  Icon icon;
-  bool isExpanded;
-}
-
-List<Item> generateItems() {
-  return [
-    Item(
-      headerValue: '우리 동네 수정',
-      expandedValue: 'Details for 우리 동네 수정',
-      icon: Icon(Icons.home_work_outlined),
-    ),
-    Item(
-      headerValue: '내 정보 수정',
-      expandedValue: 'Details for 내 정보 수정',
-      icon: Icon(Icons.people_alt_outlined),
-    ),
-    Item(
-      headerValue: '즐겨 찾기 한 병원',
-      expandedValue: 'Details for 즐겨찾는 병원',
-      icon: Icon(Icons.favorite_border),
-    ),
-    Item(
-      headerValue: '리뷰 보기',
-      expandedValue: 'Details for 마이 리뷰 보기',
-      icon: Icon(Icons.rate_review_outlined),
-    ),
-  ];
-}
-
-class ExpansionPanelListExample extends StatefulWidget {
-  const ExpansionPanelListExample({super.key});
-
-  @override
-  State<ExpansionPanelListExample> createState() =>
-      _ExpansionPanelListExampleState();
-}
-
-class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
-  final List<Item> _data = generateItems();
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: _buildPanel(),
-      ),
-    );
-  }
-
-  Widget _buildPanel() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.transparent),
-      ),
-      child: ExpansionPanelList(
-        expansionCallback: (int index, bool isExpanded) {
-          setState(() {
-            _data[index].isExpanded = isExpanded;
-          });
-        },
-        children: _data.map<ExpansionPanel>((Item item) {
-          return ExpansionPanel(
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return Container(
-                height: 70.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: ListTile(
-                    leading: item.icon,
-                    title: Text(item.headerValue, style: TextStyle(fontSize: 17.0),),
-                  ),
-                ),
-              );
-            },
-            body: Center(
-              child: ListTile(
-                title: Text(item.expandedValue),
-              ),
-            ),
-            isExpanded: item.isExpanded,
-          );
-        }).toList(),
-      ),
-    );
   }
 }
