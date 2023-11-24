@@ -78,7 +78,7 @@ class DetailPage extends StatelessWidget {
                   height: 40,
                   child: ClipOval(
                     child: Image(
-                      image: AssetImage('assets/images/hospital1.png'),
+                      image: AssetImage('assets/user.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -138,7 +138,7 @@ class DetailPage extends StatelessWidget {
                 width: 400,
                 height: 200,
                 child: Image(
-                  image: AssetImage('assets/images/hospital1.png'),
+                  image: AssetImage('assets/hospital3.png'),
                   fit: BoxFit.cover,
                 ),
               ),
