@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:socdoc_flutter/Pages/DetailPage.dart';
@@ -17,10 +18,10 @@ class SearchPage extends StatelessWidget {
             ElevatedButton(
               child: const Text("Detail Page"),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
               }
             ),
-            Expanded(child: MapView())
+            const Expanded(child: MapView())
           ]
         )
       )
@@ -29,33 +30,67 @@ class SearchPage extends StatelessWidget {
 }
 
 class MapView extends StatefulWidget {
+  const MapView({super.key});
+
   @override
   State<StatefulWidget> createState() => _MapViewState();
 }
 
 class _MapViewState extends State<MapView> {
-  final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+  static const CameraPosition initCoord = CameraPosition(
+    target: LatLng(37.4905987, 126.9441426),
+    zoom: 17,
   );
-
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
 
   @override
   Widget build(BuildContext context) {
+    _determinePosition();
+
     return GoogleMap(
-      mapType: MapType.hybrid,
-      initialCameraPosition: _kGooglePlex,
+      mapType: MapType.normal,
+      initialCameraPosition: initCoord,
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       }
     );
+  }
+
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    await Geolocator.getCurrentPosition().then((cur) => {
+      _moveCamera(cur.latitude, cur.longitude)
+    });
+  }
+
+  Future<void> _moveCamera(lat, lng) async {
+    CameraPosition newCoord = CameraPosition(
+      target: LatLng(lat, lng),
+      zoom: 17,
+    );
+
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(newCoord));
   }
 }
