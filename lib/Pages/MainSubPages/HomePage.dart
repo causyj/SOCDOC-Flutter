@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<int> selectedTileIndices = [];
+  List<int> selectedTileIndices = [1,5,8,12];
   @override
   void initState() {
     super.initState();

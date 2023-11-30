@@ -126,7 +126,8 @@ class _HomeShortcut extends State<HomeShortcut> {
                       ],
                      ),
 
-                    child: Padding(
+                    child:
+                    Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: GridView.builder(
                           itemCount: HospitalTypes
@@ -202,6 +203,7 @@ class _HomeShortcut extends State<HomeShortcut> {
               ),
             ],
           ),
+
         ),
       ),
     );
