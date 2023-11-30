@@ -32,6 +32,7 @@ const List<HospitalItem> HospitalTypes = [
   HospitalItem(ko: "가정의학과", en: "Family Medicine", num:22),
   HospitalItem(ko: "", en: "", num:-1),
   HospitalItem(ko: "", en: "", num:-1),
+  HospitalItem(ko: "", en: "", num:-1),
   HospitalItem(ko: "치과", en: "Dental", num:26),
   HospitalItem(ko: "", en: "", num:-1),
   HospitalItem(ko: "", en: "", num:-1),

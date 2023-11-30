@@ -10,7 +10,7 @@ class HomeShortcut extends StatefulWidget {
 
 class _HomeShortcut extends State<HomeShortcut> {
   // const _HomeShortcut({super.key});
-  List<int> selectedTileIndices = [];
+  List<int> selectedTileIndices = [1,5,8,12];
   @override
   void initState() {
     super.initState();
@@ -126,7 +126,8 @@ class _HomeShortcut extends State<HomeShortcut> {
                       ],
                      ),
 
-                    child: Padding(
+                    child:
+                    Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: GridView.builder(
                           itemCount: HospitalTypes
@@ -202,6 +203,7 @@ class _HomeShortcut extends State<HomeShortcut> {
               ),
             ],
           ),
+
         ),
       ),
     );
