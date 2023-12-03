@@ -293,7 +293,7 @@ class SettingPage extends StatelessWidget {
   void tryFirebaseLogout(SocdocAppState socdocApp) async {
     if (await tryLogout()) {
       socdocApp.setState(() {
-        //socdocApp.isLoggedIn = false;
+        socdocApp.isLoggedIn = false;
       });
     }
   }
@@ -301,7 +301,7 @@ class SettingPage extends StatelessWidget {
   void tryFirebaseDeleteUser(SocdocAppState socdocApp) async {
     if (await tryDeleteUser()) {
       socdocApp.setState(() {
-        //socdocApp.isLoggedIn = false;
+        socdocApp.isLoggedIn = false;
       });
     }
   }
