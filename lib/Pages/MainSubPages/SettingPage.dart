@@ -60,20 +60,24 @@ class SettingPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
                       },
-                      icon: Container(
-                        width: 45,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColor.SocdocBlue, width: 1.0),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Icon(Icons.settings, color: AppColor.SocdocBlue, size: 26.0),
-                      ),
-                    )
+                      icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.black, size: 20.0),
+                    ),
                   ],
                 ),
                 SizedBox(height: 3.0),
-                Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+                Row(
+                  children: [
+                    Icon(Icons.home_work_outlined, color: Colors.grey, size: 18.0),
+                    SizedBox(width: 5.0),
+                    Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
+                      },
+                      icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey, size: 15.0),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -120,6 +124,7 @@ class SettingPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue)),
+                  SizedBox(height: 5.0),
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 15),
@@ -186,7 +191,8 @@ class SettingPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: TextStyle(fontSize: 16)),
+                  Text(name, style: TextStyle(fontSize: 17)),
+                  SizedBox(height: 2.0),
                   Text(date, style: TextStyle(fontSize: 10, color: Colors.grey)),
                 ],
               ),
@@ -232,7 +238,7 @@ class SettingPage extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.bold),
       ),
     );
   }
