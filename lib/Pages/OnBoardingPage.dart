@@ -34,76 +34,64 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: animations.length,
-                itemBuilder: (context, index) {
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: pageController,
+              itemCount: animations.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _LogoPage();
+                } else {
                   return _PageLayout(
-                    animation: animations[index],
-                    title: description_title[index],
-                    info: description_info[index],
+                    animation: animations[index - 1],
+                    title: description_title[index - 1],
+                    info: description_info[index - 1],
                   );
-                },
-                onPageChanged: (value){
-                  selectedIndex.value = value;
-                },
-              ),
+                }
+              },
+              onPageChanged: (value) {
+                selectedIndex.value = value;
+              },
             ),
-            ValueListenableBuilder(
-                valueListenable: selectedIndex,
-                builder: (context,index,child) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 16, bottom: 32),
-                    child: Wrap(
+          ),
+          ValueListenableBuilder(
+            valueListenable: selectedIndex,
+            builder: (context, index, child) {
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Wrap(
                       spacing: 8,
-                      children: List.generate(animations.length, (index) {
+                      children: List.generate(animations.length + 1, (index) {
                         return AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           height: 8,
                           width: selectedIndex.value == index ? 24 : 8,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: selectedIndex.value == index ? AppColor.SocdocBlue : AppColor.SocdocBlue.withOpacity(0.5),
+                            color: selectedIndex.value == index
+                                ? AppColor.SocdocBlue
+                                : AppColor.SocdocBlue.withOpacity(0.5),
                           ),
                         );
                       }),
-                    )
-                  );
-              }
-            ),
-            ValueListenableBuilder(
-              valueListenable: selectedIndex,
-              builder: (context, index, child) {
-                if (index == animations.length - 1) {
-                  return SizedBox(
-                    width: 150,
-                    height: 50,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Get Started",
-                        style: TextStyle(
-                          color: AppColor.SocdocBlue,
-                          fontSize: 18,
-                        ),
-                      ),
                     ),
-                  );
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
-            ),
-          ],
-        )
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _PageLayout extends StatelessWidget{
+class _PageLayout extends StatelessWidget {
   const _PageLayout({
     required this.animation,
     required this.title,
@@ -115,27 +103,52 @@ class _PageLayout extends StatelessWidget{
   final String info;
 
   @override
-  Widget build(BuildContext context){
-    return Padding(padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height*0.7,
-              width: MediaQuery.of(context).size.width,
-              child: Lottie.asset(
-                animation,
-              ),
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: MediaQuery.of(context).size.width,
+            child: Lottie.asset(
+              animation,
             ),
-            Text(title, style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineLarge,
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            info,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LogoPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.7,
+            width: MediaQuery.of(context).size.width,
+            child: const Image(
+              image: AssetImage('assets/socdoc_title_logo.png'),
             ),
-            const SizedBox(height: 16),
-            Text(info, style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-            ),
-          ],
-        )
+          ),
+        ],
+      ),
     );
   }
 }
