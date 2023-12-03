@@ -72,7 +72,31 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       }),
                     )
                   );
-            }),
+              }
+            ),
+            ValueListenableBuilder(
+              valueListenable: selectedIndex,
+              builder: (context, index, child) {
+                if (index == animations.length - 1) {
+                  return SizedBox(
+                    width: 150,
+                    height: 50,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Get Started",
+                        style: TextStyle(
+                          color: AppColor.SocdocBlue,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+            ),
           ],
         )
     );
