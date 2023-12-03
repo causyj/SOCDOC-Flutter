@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:socdoc_flutter/Utils/Color.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -37,6 +38,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           children: [
             Expanded(
               child: PageView.builder(
+                controller: pageController,
+                itemCount: animations.length,
                 itemBuilder: (context, index) {
                   return _PageLayout(
                     animation: animations[index],
@@ -44,8 +47,32 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     info: description_info[index],
                   );
                 },
+                onPageChanged: (value){
+                  selectedIndex.value = value;
+                },
               ),
             ),
+            ValueListenableBuilder(
+                valueListenable: selectedIndex,
+                builder: (context,index,child) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 32),
+                    child: Wrap(
+                      spacing: 8,
+                      children: List.generate(animations.length, (index) {
+                        return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                          height: 8,
+                          width: selectedIndex.value == index ? 24 : 8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: selectedIndex.value == index ? AppColor.SocdocBlue : AppColor.SocdocBlue.withOpacity(0.5),
+                          ),
+                        );
+                      }),
+                    )
+                  );
+            }),
           ],
         )
     );
