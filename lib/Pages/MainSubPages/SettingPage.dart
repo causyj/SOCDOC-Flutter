@@ -55,8 +55,7 @@ class SettingPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(name, style: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold)),
-                    Spacer(),
+                    Text(name, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
                     IconButton(
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
@@ -71,7 +70,6 @@ class SettingPage extends StatelessWidget {
                         child: Icon(Icons.settings, color: AppColor.SocdocBlue, size: 26.0),
                       ),
                     )
-
                   ],
                 ),
                 SizedBox(height: 3.0),
@@ -92,7 +90,7 @@ class SettingPage extends StatelessWidget {
         children: [
           Icon(icon),
           SizedBox(width: 20.0),
-          Text(text, style: TextStyle(fontSize: 18.0)),
+          Text(text, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -118,6 +116,7 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue)),
@@ -241,7 +240,7 @@ class SettingPage extends StatelessWidget {
   void tryFirebaseLogout(SocdocAppState socdocApp) async {
     if (await tryLogout()) {
       socdocApp.setState(() {
-        socdocApp.isLoggedIn = false;
+        //socdocApp.isLoggedIn = false;
       });
     }
   }
@@ -249,7 +248,7 @@ class SettingPage extends StatelessWidget {
   void tryFirebaseDeleteUser(SocdocAppState socdocApp) async {
     if (await tryDeleteUser()) {
       socdocApp.setState(() {
-        socdocApp.isLoggedIn = false;
+        //socdocApp.isLoggedIn = false;
       });
     }
   }
