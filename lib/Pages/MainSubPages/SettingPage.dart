@@ -87,30 +87,37 @@ class SettingPage extends StatelessWidget {
   }
 
   Future<void> _nickNameDialog(BuildContext context) async {
-
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('닉네임을 입력해주세요!'),
+          title: Text('닉네임을 입력해주세요!', style : TextStyle(fontSize: 21.0, color: AppColor.SocdocBlue)),
           content: TextField(
             onChanged: (value) {
               context = value as BuildContext;
             },
-            decoration: InputDecoration(hintText: '새로운 닉네임 입력'),
+            decoration: InputDecoration(
+              hintText: '새로운 닉네임 입력',
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: AppColor.SocdocBlue),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.of(context).pop();
               },
-              child: Text('Cancle'),
+              child: Text('Cancle', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: Text('OK', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
             ),
           ],
         );
