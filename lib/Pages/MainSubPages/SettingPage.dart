@@ -115,7 +115,7 @@ class SettingPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancle', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
+              child: Text('Cancel', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
             ),
             TextButton(
               onPressed: () {
