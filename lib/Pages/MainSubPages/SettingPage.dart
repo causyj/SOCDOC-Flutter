@@ -19,13 +19,13 @@ class SettingPage extends StatelessWidget {
           children: [
             UserInfo("Dev.LR", "서울특별시 동작구", context),
             SizedBox(height: 20.0),
-            myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
-            favoriteHospital(),
+            MyPageList("즐겨찾기 병원 목록", Icons.favorite_border),
+            FavoriteHospital(),
             SizedBox(height: 20.0),
-            myPageList("내 리뷰 보기", Icons.rate_review_outlined),
-            myReviewList(),
-            buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
-            buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
+            MyPageList("내 리뷰 보기", Icons.rate_review_outlined),
+            MyReviewList(),
+            BuildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
+            BuildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
         ),
       ),
@@ -58,7 +58,7 @@ class SettingPage extends StatelessWidget {
                     Text(name, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
                     IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
+                        _nickNameDialog(context);
                       },
                       icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.black, size: 20.0),
                     ),
@@ -86,8 +86,39 @@ class SettingPage extends StatelessWidget {
     );
   }
 
+  Future<void> _nickNameDialog(BuildContext context) async {
 
-  Widget myPageList(String text, icon) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('닉네임을 입력해주세요!'),
+          content: TextField(
+            onChanged: (value) {
+              context = value as BuildContext;
+            },
+            decoration: InputDecoration(hintText: '새로운 닉네임 입력'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+              },
+              child: Text('Cancle'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget MyPageList(String text, icon) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -140,7 +171,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget favoriteHospital(){
+  Widget FavoriteHospital(){
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -158,7 +189,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget myReviewList(){
+  Widget MyReviewList(){
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -233,7 +264,7 @@ class SettingPage extends StatelessWidget {
   }
 
 
-  Widget buildTextButton(String text, VoidCallback onPressed) {
+  Widget BuildTextButton(String text, VoidCallback onPressed) {
     return TextButton(
       onPressed: onPressed,
       child: Text(
