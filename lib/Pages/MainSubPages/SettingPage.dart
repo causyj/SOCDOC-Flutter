@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/main.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
-import 'package:socdoc_flutter/Pages/MainSubPages/MyPage.dart';
+import 'package:socdoc_flutter/Pages/MainSubPages/MyAddress.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key});
@@ -19,13 +19,13 @@ class SettingPage extends StatelessWidget {
           children: [
             UserInfo("Dev.LR", "서울특별시 동작구", context),
             SizedBox(height: 20.0),
-            myPageList("즐겨찾기 병원 목록", Icons.favorite_border),
-            favoriteHospital(),
+            MyPageList("즐겨찾기 병원 목록", Icons.favorite_border),
+            FavoriteHospital(),
             SizedBox(height: 20.0),
-            myPageList("내 리뷰 보기", Icons.rate_review_outlined),
-            myReviewList(),
-            buildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
-            buildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
+            MyPageList("내 리뷰 보기", Icons.rate_review_outlined),
+            MyReviewList(),
+            BuildTextButton("로그아웃", () => tryFirebaseLogout(socdocApp)),
+            BuildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
           ],
         ),
       ),
@@ -55,27 +55,34 @@ class SettingPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(name, style: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold)),
-                    Spacer(),
+                    Text(name, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
                     IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
+                        _nickNameDialog(context);
                       },
-                      icon: Container(
-                        width: 45,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColor.SocdocBlue, width: 1.0),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Icon(Icons.settings, color: AppColor.SocdocBlue, size: 26.0),
-                      ),
-                    )
-
+                      icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.black, size: 20.0),
+                    ),
                   ],
                 ),
                 SizedBox(height: 3.0),
-                Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+                Row(
+                  children: [
+                    Icon(Icons.home_work_outlined, color: Colors.grey, size: 18.0),
+                    SizedBox(width: 5.0),
+                    Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyAddress(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey, size: 15.0),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -84,15 +91,57 @@ class SettingPage extends StatelessWidget {
     );
   }
 
+  Future<void> _nickNameDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('닉네임을 입력해주세요!', style : TextStyle(fontSize: 21.0, color: AppColor.SocdocBlue)),
+          content: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: TextField(
+              onChanged: (value) {
+                context = value as BuildContext;
+              },
+              decoration: InputDecoration(
+                hintText: '새로운 닉네임 입력',
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.SocdocBlue),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK', style : TextStyle(fontSize: 17.0, color: AppColor.SocdocBlue)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-  Widget myPageList(String text, icon) {
+  Widget MyPageList(String text, icon) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           Icon(icon),
           SizedBox(width: 20.0),
-          Text(text, style: TextStyle(fontSize: 18.0)),
+          Text(text, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -118,9 +167,11 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(name, style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue)),
+                  SizedBox(height: 5.0),
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 15),
@@ -136,7 +187,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget favoriteHospital(){
+  Widget FavoriteHospital(){
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -154,7 +205,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget myReviewList(){
+  Widget MyReviewList(){
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -187,7 +238,8 @@ class SettingPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: TextStyle(fontSize: 16)),
+                  Text(name, style: TextStyle(fontSize: 17)),
+                  SizedBox(height: 2.0),
                   Text(date, style: TextStyle(fontSize: 10, color: Colors.grey)),
                 ],
               ),
@@ -228,12 +280,12 @@ class SettingPage extends StatelessWidget {
   }
 
 
-  Widget buildTextButton(String text, VoidCallback onPressed) {
+  Widget BuildTextButton(String text, VoidCallback onPressed) {
     return TextButton(
       onPressed: onPressed,
       child: Text(
         text,
-        style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatelessWidget {
-  const MyPage({Key? key}) : super(key: key);
+class MyAddress extends StatelessWidget {
+  const MyAddress({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Page'),
+        title: const Text('My Address'),
       ),
       body: const Center(
-        child: Text('My Page Content'),
+        child: Text('우리 동네 수정 페이지'),
       ),
     );
   }
@@ -19,7 +19,7 @@ class MyPage extends StatelessWidget {
 void main() {
   runApp(
     MaterialApp(
-      home: MyPage(),
+      home: MyAddress(),
     ),
   );
 }
