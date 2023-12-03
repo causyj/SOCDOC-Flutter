@@ -27,8 +27,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   final description_info = [
     "hospitals near me by distinct",
-    "from real users",
-    "surrounding pharmacies",
+    "accurate and detailed insights from users",
+    "nearby pharmacies at a glance",
   ];
 
   @override
