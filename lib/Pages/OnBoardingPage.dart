@@ -108,22 +108,29 @@ class _PageLayout extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.65,
             width: MediaQuery.of(context).size.width,
             child: Lottie.asset(
               animation,
+              fit: BoxFit.contain,
             ),
           ),
+          const SizedBox(height: 30),
           Text(
             title,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
           Text(
             info,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: const TextStyle(
+              fontSize: 25,
+            ),
             textAlign: TextAlign.center,
             maxLines: 2,
           ),
