@@ -92,17 +92,21 @@ class SettingPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('닉네임을 입력해주세요!', style : TextStyle(fontSize: 21.0, color: AppColor.SocdocBlue)),
-          content: TextField(
-            onChanged: (value) {
-              context = value as BuildContext;
-            },
-            decoration: InputDecoration(
-              hintText: '새로운 닉네임 입력',
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: AppColor.SocdocBlue),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
+          content: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: TextField(
+              onChanged: (value) {
+                context = value as BuildContext;
+              },
+              decoration: InputDecoration(
+                hintText: '새로운 닉네임 입력',
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.SocdocBlue),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
               ),
             ),
           ),
