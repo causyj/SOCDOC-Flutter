@@ -9,6 +9,8 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
+  final pageController = PageController();
+  final selectedIndex = ValueNotifier(0);
 
   final animations = [
     "assets/lottie/animation_1.json",
