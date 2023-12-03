@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/main.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
-import 'package:socdoc_flutter/Pages/MainSubPages/MyPage.dart';
+import 'package:socdoc_flutter/Pages/MainSubPages/MyAddress.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key});
@@ -72,7 +72,12 @@ class SettingPage extends StatelessWidget {
                     Text(address, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
                     IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPage()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyAddress(),
+                          ),
+                        );
                       },
                       icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey, size: 15.0),
                     ),
