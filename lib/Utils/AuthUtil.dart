@@ -17,6 +17,10 @@ Future<void> tryGoogleLogin() async {
   await FirebaseAuth.instance.signInWithCredential(credential);
 }
 
+Future<void> tryLogin(var type) async {
+  type == 0 ? tryAppleLogin() : tryGoogleLogin();
+}
+
 Future<bool> tryLogout() async {
   await FirebaseAuth.instance.signOut();
   return (FirebaseAuth.instance.currentUser == null);
