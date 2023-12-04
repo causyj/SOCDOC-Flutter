@@ -25,7 +25,7 @@ class SettingPage extends StatelessWidget {
             MyPageList("내 리뷰 보기", Icons.rate_review_outlined),
             MyReviewList(),
             BuildTextButton("로그아웃", () => _showLogoutDialog(socdocApp, context)),
-            BuildTextButton("회원 탈퇴", () => tryFirebaseDeleteUser(socdocApp)),
+            BuildTextButton("회원 탈퇴", () => _showDeleteUserDialog(socdocApp, context)),
           ],
         ),
       ),
@@ -324,6 +324,40 @@ class SettingPage extends StatelessWidget {
     );
   }
 
+  Future<void> _showDeleteUserDialog(SocdocAppState socdocApp, BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('회원 탈퇴'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text('정말 탈퇴 하시겠습니까?'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                _tryFirebaseDeleteUser(socdocApp);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _tryFirebaseLogout(SocdocAppState socdocApp) async {
     if (await tryLogout()) {
       socdocApp.setState(() {
@@ -332,7 +366,7 @@ class SettingPage extends StatelessWidget {
     }
   }
 
-  void tryFirebaseDeleteUser(SocdocAppState socdocApp) async {
+  void _tryFirebaseDeleteUser(SocdocAppState socdocApp) async {
     if (await tryDeleteUser()) {
       socdocApp.setState(() {
         socdocApp.isLoggedIn = false;
