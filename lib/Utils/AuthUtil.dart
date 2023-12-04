@@ -18,7 +18,7 @@ Future<void> tryGoogleLogin() async {
 }
 
 Future<void> tryLogin(var type) async {
-  type == 0 ? tryAppleLogin() : tryGoogleLogin();
+  type == 0 ? tryGoogleLogin() : tryAppleLogin();
 }
 
 Future<bool> tryLogout() async {
