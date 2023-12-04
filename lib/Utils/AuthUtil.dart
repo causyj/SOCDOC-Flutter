@@ -1,13 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 
-Future<void> tryAppleLogin() async {
+Future<String?> tryAppleLogin() async {
   final appleProvider = AppleAuthProvider();
   appleProvider.addScope('email');
   await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+  return await FirebaseAuth.instance.currentUser!.getIdToken();
 }
 
-Future<void> tryGoogleLogin() async {
+Future<String?> tryGoogleLogin() async {
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
   final credential = GoogleAuthProvider.credential(
@@ -15,10 +18,17 @@ Future<void> tryGoogleLogin() async {
     idToken: googleAuth?.idToken,
   );
   await FirebaseAuth.instance.signInWithCredential(credential);
+
+  return await FirebaseAuth.instance.currentUser!.getIdToken();
 }
 
 Future<void> tryLogin(var type) async {
-  type == 0 ? tryGoogleLogin() : tryAppleLogin();
+  (type == 0 ? tryGoogleLogin() : tryAppleLogin()).then((userToken) => {
+    http.post(Uri.parse("https://socdoc.dev-lr.com/api/user/login"),
+      headers: {
+        "authToken": userToken!
+      })
+  });
 }
 
 Future<bool> tryLogout() async {
