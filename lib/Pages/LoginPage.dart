@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         if(user != null && socdocApp != null){
           socdocApp!.setState(() {
             socdocApp!.isLoggedIn = true;
+            Navigator.pop(context);
           });
         }else if(mounted){
           setState(() {
