@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         if(user != null && socdocApp != null){
           socdocApp!.setState(() {
             socdocApp!.isLoggedIn = true;
+            Navigator.pop(context);
           });
         }else if(mounted){
           setState(() {
@@ -86,7 +87,7 @@ class _LoginButtons extends StatelessWidget {
               Buttons.google,
               text: "Sign In with Google",
               onPressed: () {
-                tryGoogleLogin();
+                tryLogin(0);
               }
             )
           ),
@@ -99,7 +100,7 @@ class _LoginButtons extends StatelessWidget {
               Buttons.apple,
               text: "Sign In with Apple",
               onPressed: () {
-                tryAppleLogin();
+                tryLogin(1);
               }
             )
           ),
