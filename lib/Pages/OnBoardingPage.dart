@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
+import 'package:socdoc_flutter/Pages/LoginPage.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -26,9 +27,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   ];
 
   final description_info = [
-    "hospitals near me by distinct",
-    "accurate and detailed insights from users",
-    "nearby pharmacies at a glance",
+    "Hospitals Near Me By Distinct",
+    "Accurate And Detailed Insights",
+    "Nearby Pharmacies at a Glance",
   ];
 
   @override
@@ -56,15 +57,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               },
             ),
           ),
-          ValueListenableBuilder(
-            valueListenable: selectedIndex,
-            builder: (context, index, child) {
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Wrap(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(width: 150.0), //text의 간격
+              Expanded(
+                child: ValueListenableBuilder(
+                  valueListenable: selectedIndex,
+                  builder: (context, index, child) {
+                    return Wrap(
                       spacing: 8,
                       children: List.generate(animations.length + 1, (index) {
                         return AnimatedContainer(
@@ -79,11 +80,30 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           ),
                         );
                       }),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: const Text(
+                    "Start",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.SocdocBlue,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
