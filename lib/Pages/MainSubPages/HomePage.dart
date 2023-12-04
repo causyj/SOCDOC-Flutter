@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? storedIndices = prefs.getStringList('selectedIndices');
 
-    if (storedIndices != null && storedIndices.length == 4) {
+    if (storedIndices != null && storedIndices.length == 4 && mounted) {
       setState(() {
         selectedTileIndices = storedIndices.map((index) => int.parse(index)).toList();
       });
