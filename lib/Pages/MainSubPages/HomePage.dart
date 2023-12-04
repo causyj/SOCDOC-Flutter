@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         selectedTileIndices = storedIndices.map((index) => int.parse(index)).toList();
       });
-    }else{
+    }else if(mounted){
       setState(() {
         selectedTileIndices = [1,5,8,12];
       });
