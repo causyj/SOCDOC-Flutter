@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  lottie: ^2.2.0
+  dots_indicator: ^2.0.0
   flutter_rating_bar: ^4.0.0
 
 
@@ -72,6 +74,7 @@ flutter:
    - assets/hospital/
    - assets/images/
    - assets/images/hospital1.png
+   - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
