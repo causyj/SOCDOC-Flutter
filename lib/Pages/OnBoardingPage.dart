@@ -13,6 +13,7 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final pageController = PageController();
   final selectedIndex = ValueNotifier(0);
+  bool isLastPage = false;
 
   final animations = [
     "assets/lottie/animation_1.json",
@@ -49,10 +50,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     animation: animations[index - 1],
                     title: description_title[index - 1],
                     info: description_info[index - 1],
+                    isLastPage: index == animations.length,
                   );
                 }
               },
               onPageChanged: (value) {
+                setState(() {
+                  isLastPage = value == animations.length;
+                });
                 selectedIndex.value = value;
               },
             ),
@@ -93,9 +98,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
-                  child: const Text(
-                    "Start",
-                    style: TextStyle(
+                  child: Text(
+                    (isLastPage == true)
+                        ? "Start!"
+                        : "Skip",
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColor.SocdocBlue,
@@ -116,11 +123,13 @@ class _PageLayout extends StatelessWidget {
     required this.animation,
     required this.title,
     required this.info,
+    required this.isLastPage,
   });
 
   final String animation;
   final String title;
   final String info;
+  final bool isLastPage;
 
   @override
   Widget build(BuildContext context) {
