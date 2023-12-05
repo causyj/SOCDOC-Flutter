@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 
 class SettingAddressPage extends StatefulWidget {
   const SettingAddressPage({Key? key}) : super(key: key);
@@ -27,6 +28,12 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SettingAddressPage'),
+        actions: [
+          IconButton(
+            onPressed: (){
+              _uploadData().then((value) => Navigator.pop(context));
+            }, icon: const Icon(Icons.check))
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -63,6 +70,18 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
         ),
       )
     );
+  }
+
+  Future<void> _uploadData() async {
+    http.put(Uri.parse("https://socdoc.dev-lr.com/api/user/update/address"),
+      headers: {
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
+        "address1": curAddress1,
+        "address2": curAddress2,
+        "userId": getUserID()
+      }));
   }
 
   Future<void> _determinePosition() async {
