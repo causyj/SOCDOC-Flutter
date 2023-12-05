@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class SettingAddressPage extends StatefulWidget {
   const SettingAddressPage({Key? key}) : super(key: key);
@@ -14,10 +17,8 @@ class SettingAddressPage extends StatefulWidget {
 class _SettingAddressPageState extends State<SettingAddressPage> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
-  static const CameraPosition initCoord = CameraPosition(
-    target: LatLng(37.4905987, 126.9441426),
-    zoom: 17,
-  );
+  var curAddress1 = "서울특별시";
+  var curAddress2 = "동작구";
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +35,28 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
             Expanded(
               child: GoogleMap(
                 mapType: MapType.normal,
-                initialCameraPosition: initCoord,
+                initialCameraPosition: const CameraPosition(
+                  target: LatLng(37.4905987, 126.9441426),
+                  zoom: 17,
+                ),
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
-                }
+                },
+                onCameraIdle: () async {
+                  GoogleMapController controller = await _controller.future;
+                  var latlng = await controller.getVisibleRegion();
+                  var lat = (latlng.northeast.latitude + latlng.southwest.latitude) / 2;
+                  var lng = (latlng.northeast.longitude + latlng.southwest.longitude) / 2;
+
+                  http.get(Uri.parse("https://dapi.kakao.com/v2/local/geo/coord2regioncode.JSON?x=${lng}&y=${lat}"),
+                    headers: {
+                      "Authorization": "KakaoAK ${dotenv.env['KAKAO_API_KEY']}"
+                  }).then((res) {
+                    var resJson = jsonDecode(res.body);
+                    curAddress1 = resJson["documents"][0]["region_1depth_name"];
+                    curAddress2 = resJson["documents"][0]["region_2depth_name"];
+                  });
+                },
               )
             )
           ],
