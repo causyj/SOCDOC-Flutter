@@ -22,9 +22,14 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
   var curAddress2 = "동작구";
 
   @override
-  Widget build(BuildContext context) {
-    _determinePosition();
+  void initState() {
+    super.initState();
 
+    _determinePosition();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SettingAddressPage'),
@@ -38,7 +43,13 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Text("지도를 움직여 위치를 선택해주세요."),
+            const Text(
+              "지도를 움직여 위치를 선택해주세요.",
+              style: TextStyle(fontSize: 20.0),
+            ),
+            const SizedBox(height: 5.0),
+            CurrentAddress(curAddress1: curAddress1, curAddress2: curAddress2),
+            const SizedBox(height: 10.0),
             Expanded(
               child: GoogleMap(
                 mapType: MapType.normal,
@@ -60,8 +71,11 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
                       "Authorization": "KakaoAK ${dotenv.env['KAKAO_API_KEY']}"
                   }).then((res) {
                     var resJson = jsonDecode(res.body);
-                    curAddress1 = resJson["documents"][0]["region_1depth_name"];
-                    curAddress2 = resJson["documents"][0]["region_2depth_name"];
+
+                    setState(() {
+                      curAddress1 = resJson["documents"][0]["region_1depth_name"];
+                      curAddress2 = resJson["documents"][0]["region_2depth_name"];
+                    });
                   });
                 },
               )
@@ -119,5 +133,25 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
 
     final GoogleMapController controller = await _controller.future;
     await controller.animateCamera(CameraUpdate.newCameraPosition(newCoord));
+  }
+}
+
+class CurrentAddress extends StatefulWidget {
+  const CurrentAddress({super.key, required this.curAddress1, required this.curAddress2});
+
+  final curAddress1;
+  final curAddress2;
+
+  @override
+  State<StatefulWidget> createState() => _CurrentAddressState();
+}
+
+class _CurrentAddressState extends State<CurrentAddress> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "${widget.curAddress1} ${widget.curAddress2}",
+      style: const TextStyle(fontSize: 20.0),
+    );
   }
 }
