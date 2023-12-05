@@ -2,6 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
+Future<String?> getUserToken() async {
+  return await FirebaseAuth.instance.currentUser!.getIdToken();
+}
+
 Future<String?> tryAppleLogin() async {
   final appleProvider = AppleAuthProvider();
   appleProvider.addScope('email');
