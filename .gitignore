@@ -50,3 +50,5 @@ lib/firebase_options.dart
 *.lock
 
 ApiKey.swift
+
+.env
