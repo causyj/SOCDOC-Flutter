@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
-Future<String?> getUserID() async {
-  return await FirebaseAuth.instance.currentUser!.uid;
+String getUserID() {
+  return FirebaseAuth.instance.currentUser!.uid;
 }
 
 Future<String?> getUserToken() async {
