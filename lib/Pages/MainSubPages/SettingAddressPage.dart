@@ -139,8 +139,8 @@ class _SettingAddressPageState extends State<SettingAddressPage> {
 class CurrentAddress extends StatefulWidget {
   const CurrentAddress({super.key, required this.curAddress1, required this.curAddress2});
 
-  final curAddress1;
-  final curAddress2;
+  final String curAddress1;
+  final String curAddress2;
 
   @override
   State<StatefulWidget> createState() => _CurrentAddressState();
