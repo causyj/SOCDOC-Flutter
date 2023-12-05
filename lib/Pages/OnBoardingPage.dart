@@ -93,10 +93,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                    Navigator.pop(context);
                   },
                   child: Text(
                     (isLastPage == true)
