@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:socdoc_flutter/Pages/LoginPage.dart';
 import 'package:socdoc_flutter/Pages/MainPage.dart';
-import 'package:socdoc_flutter/Pages/OnBoardingPage.dart';
 
 void main() {
   runApp(const SocdocApp());
@@ -25,7 +25,7 @@ class SocdocAppState extends State<SocdocApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true
       ),
-      home: isLoggedIn ? MainPage() : OnBoardingPage(),
+      home: isLoggedIn ? MainPage() : LoginPage(),
     );
   }
 }
