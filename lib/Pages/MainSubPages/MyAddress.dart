@@ -15,11 +15,3 @@ class MyAddress extends StatelessWidget {
     );
   }
 }
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: MyAddress(),
-    ),
-  );
-}
