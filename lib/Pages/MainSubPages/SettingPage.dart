@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/main.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
-import 'package:socdoc_flutter/Pages/MainSubPages/MyAddress.dart';
+import 'package:socdoc_flutter/Pages/MainSubPages/SettingAddressPage.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key});
@@ -75,7 +75,7 @@ class SettingPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyAddress(),
+                            builder: (context) => SettingAddressPage(),
                           ),
                         );
                       },
