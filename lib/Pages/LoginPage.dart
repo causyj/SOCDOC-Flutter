@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sign_in_button/sign_in_button.dart';
+import 'package:socdoc_flutter/Pages/OnBoardingPage.dart';
 
 import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 
@@ -60,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
         if(user != null && socdocApp != null){
           socdocApp!.setState(() {
             socdocApp!.isLoggedIn = true;
-            Navigator.pop(context);
           });
         }else if(mounted){
           setState(() {
             _isLoginNeeded = true;
+            Navigator.push(context, MaterialPageRoute(builder: (context) => OnBoardingPage()));
           });
         }
       });
