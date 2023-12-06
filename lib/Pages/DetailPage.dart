@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   const DetailPage({Key? key});
 
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
