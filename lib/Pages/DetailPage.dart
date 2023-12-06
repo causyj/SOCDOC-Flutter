@@ -5,6 +5,7 @@ import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'SocDocApi.dart';
 
 
 class DetailPage extends StatefulWidget {
@@ -169,22 +170,16 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> fetchHospitalDetail() async {
-    var url = Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=A1100001&userId=${FirebaseAuth.instance.currentUser!.uid}");
-    var response = await http.get(url);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    if (response.statusCode == 200) {
-      isLoading = true;
-      final Map<String, dynamic> res = jsonDecode(utf8.decode(response.bodyBytes));
+    try {
+      final Map<String, dynamic> response = await SocDocApi.fetchHospitalDetail();
       setState(() {
-        hospitalDetail = Data.fromJson(res['data']);
+        hospitalDetail = Data.fromJson(response['data']);
         print(hospitalDetail);
+        isLoading = true;
       });
-    } else {
+    } catch (e) {
       isLoading = false;
-      print("에러 발생: ${response.statusCode}");
-      print("에러 내용: ${response.body}");
+      print("에러 발생: $e");
     }
   }
 
