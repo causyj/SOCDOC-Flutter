@@ -13,6 +13,30 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  Map<String, dynamic>? hospitalDetail;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHospitalDetail();
+  }
+
+  Future<void> fetchHospitalDetail() async {
+    final response = await http.get(
+      Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail"),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      setState(() {
+        hospitalDetail = data;
+      });
+    } else {
+      print("에러 발생: ${response.statusCode}");
+      print("에러 내용: ${response.body}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
