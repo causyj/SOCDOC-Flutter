@@ -13,12 +13,28 @@ class DetailPage extends StatelessWidget {
     final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
     final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
 
-    Widget detailHospital(IconData icon, String text) {
+    Widget detailHospital(IconData icon, String text, {List<String>? dropdownItems}) {
       return Row(
         children: [
           Padding(padding: edgeInsets, child: Icon(icon)),
           Padding(padding: EdgeInsets.only(left: 10.0, top: 5.0)),
           Text(text, style: detailTextStyle),
+          if (dropdownItems != null)
+            DropdownButton<String>(
+              value: dropdownItems[0],
+              icon: const Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.black, fontSize: 16),
+              onChanged: (String? newValue) {
+              },
+              items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
         ],
       );
     }
@@ -170,7 +186,11 @@ class DetailPage extends StatelessWidget {
                     detailHospital(Icons.call, "02-1234-5678"),
                     detailHospital(Icons.location_on, "동작구 상도동 4길 36"),
                     detailHospital(Icons.subway, "상도역 5번 출구"),
-                    detailHospital(Icons.alarm, "진료 시간"),
+                    detailHospital(
+                      Icons.alarm,
+                      "진료 시간   ",
+                      dropdownItems: ["(월) 09:00 ~ 19:00", "(화) 09:00 ~ 19:00", "(수) 09:00 ~ 19:00", "(목) 09:00 ~ 19:00", "(금) 09:00 ~ 19:00", "(토) 09:00 ~ 19:00", "(일) 09:00 ~ 19:00"],
+                    ),
                   ],
                 ),
               ),
