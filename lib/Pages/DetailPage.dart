@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:socdoc_flutter/Pages/DetailHospitalDto.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'SocDocApi.dart';
 
 
