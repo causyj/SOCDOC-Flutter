@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:socdoc_flutter/Pages/DetailHospitalDto.dart';
+//import 'package:socdoc_flutter/Pages/DetailHospitalDto.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
 import 'SocDocApi.dart';
@@ -17,10 +17,10 @@ class _DetailPageState extends State<DetailPage> {
   final detailTextStyle = TextStyle(fontSize: 16);
   final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
   final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
-  late final Data? hospitalDetail;
+  var hospitalDetail;
   bool isLoading = true;
 
-  Widget detailHospital(IconData icon, String text, {List<String>? dropdownItems}) {
+  Widget detailHospital(IconData icon, String text, {List<dynamic>? dropdownItems}) {
     return Row(
       children: [
         Padding(padding: edgeInsets, child: Icon(icon, size: 23,)),
@@ -38,9 +38,9 @@ class _DetailPageState extends State<DetailPage> {
                 dropdownItems[0] = newValue!;
               });
             },
-            items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
+            items: dropdownItems.map<DropdownMenuItem<String>>((dynamic value) {
               return DropdownMenuItem<String>(
-                value: value,
+                value: value.toString(),
                 child: Text(value),
               );
             }).toList(),
@@ -155,7 +155,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildFavoriteIcon() {
-    return hospitalDetail!.userLiked == false
+    return hospitalDetail["userLiked"] == false
         ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
         : Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0);
   }
@@ -168,9 +168,8 @@ class _DetailPageState extends State<DetailPage> {
 
   Future<void> fetchHospitalDetail() async {
     try {
-      final Map<String, dynamic> response = await SocDocApi.fetchHospitalDetail();
-      setState(() {
-        hospitalDetail = Data.fromJson(response['data']);
+      setState(() async {
+        hospitalDetail = await SocDocApi.fetchHospitalDetail();
         print(hospitalDetail);
         isLoading = true;
       });
@@ -208,7 +207,7 @@ class _DetailPageState extends State<DetailPage> {
                         children: [
                           SizedBox(width: 10.0),
                           Text(
-                            hospitalDetail!.name!,
+                            hospitalDetail["name"],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 24,
@@ -217,19 +216,19 @@ class _DetailPageState extends State<DetailPage> {
                           Column(
                             children: [
                               buildFavoriteIcon(),
-                              Text(hospitalDetail!.likeCount!.toString()),
+                              Text(hospitalDetail["likeCount"].toString()),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(height: 10.0),
-                      detailHospital(Icons.call, hospitalDetail!.phone!),
-                      detailHospital(Icons.location_on, hospitalDetail!.address!),
-                      detailHospital(Icons.subway, hospitalDetail?.description == null ? "정보가 없습니다." : hospitalDetail!.description!),
+                      detailHospital(Icons.call, hospitalDetail["phone"]),
+                      detailHospital(Icons.location_on, hospitalDetail["address"]),
+                      detailHospital(Icons.subway, hospitalDetail["description"] == null ? "정보가 없습니다." : hospitalDetail["description"]),
                       detailHospital(
                         Icons.alarm,
                         "진료 시간   ",
-                        dropdownItems: hospitalDetail!.time!.map((e) => e.toString()).toList(),
+                        dropdownItems: hospitalDetail["time"].map((e) => e.toString()).toList(),
                       ),
                     ],
                   ),
