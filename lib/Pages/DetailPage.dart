@@ -24,8 +24,10 @@ class _DetailPageState extends State<DetailPage> {
   final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
   var hospitalDetail = null;
   var pharmacyDetail = null;
+  var hospitalReview = null;
   bool isLoading_hospital = true;
   bool isLoading_pharmacy = true;
+  bool isLoading_review = true;
 
   Widget circularProgress(){
     return Center(
@@ -145,6 +147,23 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
+  Future<void> reviewInfo() async {
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/review/hospital?hospitalId=${widget.hpid}"))
+        .then((value){
+      print(hospitalReview);
+      setState(() {
+        var tmp = utf8.decode(value.bodyBytes);
+        hospitalReview = jsonDecode(tmp)["data"];
+        print(value.body);
+        print(hospitalReview);
+        isLoading_review = false;
+      });
+    }).onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
+  }
+
   Widget reviewTab() {
     return Container(
       padding: EdgeInsets.all(20.0),
@@ -175,15 +194,15 @@ class _DetailPageState extends State<DetailPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("DEV.LR", style: TextStyle(fontSize: 18)),
-                  Text("2023.09.23"),
+                  Text(hospitalReview["username"], style: TextStyle(fontSize: 18)),
+                  Text(hospitalReview["createdAt"], style: TextStyle(fontSize: 12)),
                 ],
               ),
               SizedBox(width: 200.0),
               Column(
                 children: [
                   Icon(Icons.star_rounded, color: Colors.amberAccent),
-                  Text("5.0"),
+                  Text(hospitalReview["rating"]),
                 ],
               ),
             ],
@@ -202,7 +221,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
-                    child: Text("줄이 너무 길어요", style: TextStyle(fontSize: 18, color: Colors.white)),
+                    child: Text(hospitalReview["content"], style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                   SizedBox(
                     height: 30, width: 320,
@@ -272,6 +291,7 @@ class _DetailPageState extends State<DetailPage> {
     super.initState();
     hospitalDetailInfo();
     pharmacyInfo();
+    reviewInfo();
   }
 
   Future<void> hospitalDetailInfo() async {
