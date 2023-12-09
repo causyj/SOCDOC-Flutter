@@ -214,7 +214,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         );
     }
     //병원 미리보기 카드 끝
-
     Widget DropDownButton1() {
       return DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
