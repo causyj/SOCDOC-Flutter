@@ -15,7 +15,7 @@ class ReviewPage extends StatefulWidget {
 class _ReviewPageState extends State<ReviewPage> {
   var inputRating = 0;
   var inputReviewText = "";
-  TextEditingController reviewController = TextEditingController();
+  TextEditingController reviewTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +69,10 @@ class _ReviewPageState extends State<ReviewPage> {
               TextButton(
                 child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
                 onPressed: () {
+                  inputReviewText = reviewTextController.text;
                   if(inputRating > 0 && inputReviewText.isNotEmpty){
                     _uploadReview().then((value){
-                      Navigator.pop(context, reviewController.text);
+                      Navigator.pop(context);
                     });
                   }
                 }
@@ -131,7 +132,7 @@ class _ReviewPageState extends State<ReviewPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            controller: reviewController,
+            controller: reviewTextController,
             decoration: const InputDecoration(
               hintText: "어떤 점이 좋았는지 혹은 아쉬웠는지\n솔직하게 적어주세요:)",
               hintMaxLines: 2,
