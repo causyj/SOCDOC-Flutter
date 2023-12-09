@@ -39,44 +39,39 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  // 리뷰 페이지 상단의 앱 바 부분
   Widget _buildAppBar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              const Expanded(
+                child: Center(
+                  child: Text('병원 이름', style: TextStyle(fontSize: 22)),
                 ),
-                const Expanded(
-                  child: Center(
-                    child: Text('병원 이름', style: TextStyle(fontSize: 22)),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, reviewController.text);
-                  },
-                  child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
-                ),
-              ],
-            ),
+              ),
+              TextButton(
+                child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
+                onPressed: () {
+                  Navigator.pop(context, reviewController.text);
+                }
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-        ],
-      ),
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 
-  // 별점 선택 부분
   Widget _buildRatingSection() {
     return Center(
       child: Column(
@@ -110,7 +105,6 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  // 구분선
   Widget _buildDivider() {
     return const Divider(
       color: AppColor.SocdocBlue,
@@ -118,7 +112,6 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  // 리뷰 입력 부분
   Widget _buildReviewInput() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -138,7 +131,6 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  // 사진 추가 버튼
   Widget _buildPhotoButton() {
     return TextButton(
       onPressed: () {},
