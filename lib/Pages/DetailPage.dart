@@ -170,6 +170,17 @@ class _DetailPageState extends State<DetailPage> {
       }));
   }
 
+  Future<void> unlikeHospital(String hospitalId, String userId) async{
+    http.delete(Uri.parse("https://socdoc.dev-lr.com/api/hospital/like"),
+        headers: {
+          "content-type": "application/json"
+        },
+        body: jsonEncode({
+          "hospitalId": widget.hpid,
+          "userId": getUserID()
+        }));
+  }
+
   Widget buildFavoriteIcon() {
     return hospitalDetail["userLiked"] == false
         ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
