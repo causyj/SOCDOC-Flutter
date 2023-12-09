@@ -71,17 +71,26 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
-  Widget detailPharmacy(String text) {
-    return Row(
-      children: [
-        Padding(padding: edgeInsets, child: Icon(Icons.location_on)),
-        Padding(padding: EdgeInsets.only(left: 10.0)),
-        Text(text, style: detailPharmacyStyle),
+  Widget detailPharmacy(String name, String address) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
+          child: Text(name, style: titlePharmacy),
+        ),
+        Row(
+          children: [
+            Padding(padding: edgeInsets, child: Icon(Icons.location_on)),
+            Padding(padding: EdgeInsets.only(left: 10.0)),
+            Text(address, style: detailPharmacyStyle),
+          ],
+        ),
       ],
     );
   }
 
-  Widget nearbyPharmacy(String text) {
+  Widget nearbyPharmacy() {
     return SizedBox(
       height: 110, width: 350,
       child: Card(
@@ -91,16 +100,7 @@ class _DetailPageState extends State<DetailPage> {
         elevation: 10.0,
         surfaceTintColor: Colors.transparent,
         color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
-              child: Text(text, style: titlePharmacy),
-            ),
-            detailPharmacy("동작구 상도동 4길 36"),
-          ],
-        ),
+        child: detailPharmacy("상도 온누리 약국", "동작구 상도동 4길 36"),
       ),
     );
   }
@@ -345,7 +345,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
 
                       // 두 번째 탭(주변 약국)
-                      Tab(child: nearbyPharmacy("상도 온누리 약국")),
+                      Tab(child: nearbyPharmacy()),
                     ],
                   ),
                 ),
