@@ -9,7 +9,9 @@ import "package:http/http.dart" as http;
 
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key});
+  const DetailPage({required this.hpid, Key? key}) : super(key: key);
+
+  final String hpid;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -170,7 +172,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> fetchHospitalDetail() async {
-      http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=A1100001&userId=${getUserID()}"))
+      http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
         .then((value){
           setState(() {
             var tmp = utf8.decode(value.bodyBytes);
