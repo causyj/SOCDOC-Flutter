@@ -159,19 +159,31 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  Future<void> likeHospital(String hospitalId, String userId) async{
+    http.post(Uri.parse("https://socdoc.dev-lr.com/api/hospital/like"),
+      headers: {
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
+        "hospitalId": widget.hpid,
+        "userId": getUserID()
+      }));
+  }
+
   Widget buildFavoriteIcon() {
     return hospitalDetail["userLiked"] == false
         ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
         : Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0);
   }
 
+
   @override
   void initState() {
     super.initState();
-    fetchHospitalDetail();
+    HospitalDetailInfo();
   }
 
-  Future<void> fetchHospitalDetail() async {
+  Future<void> HospitalDetailInfo() async {
       http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
         .then((value){
           setState(() {
