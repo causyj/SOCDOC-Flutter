@@ -18,7 +18,7 @@ class SearchPage extends StatelessWidget {
             ElevatedButton(
               child: const Text("Detail Page"),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage(hpid: "A1100001")));
               }
             ),
             const Expanded(child: MapView())
