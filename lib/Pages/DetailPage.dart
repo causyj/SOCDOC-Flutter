@@ -107,17 +107,22 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget nearbyPharmacy(String name, String address) {
-    return SizedBox(
-      height: 110, width: 350,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+    return Column(
+      children: [
+        const SizedBox(height: 15.0),
+        SizedBox(
+          height: 100, width: 350,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: 10.0,
+            surfaceTintColor: Colors.transparent,
+            color: Colors.white,
+            child: detailPharmacy(name, address),
+          ),
         ),
-        elevation: 10.0,
-        surfaceTintColor: Colors.transparent,
-        color: Colors.white,
-        child: detailPharmacy(name, address),
-      ),
+      ],
     );
   }
 
