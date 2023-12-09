@@ -23,6 +23,7 @@ class _DetailPageState extends State<DetailPage> {
   final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
   final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
   var hospitalDetail = null;
+  var pharmacyDetail = null;
   bool isLoading = true;
 
   Widget detailHospital(IconData icon, String text, {List<dynamic>? dropdownItems}) {
@@ -52,6 +53,22 @@ class _DetailPageState extends State<DetailPage> {
           ),
       ],
     );
+  }
+
+  Future<void> pharmacyInfo() async {
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/pharmacy?hospitalId=${widget.hpid}"))
+        .then((value){
+      setState(() {
+        var tmp = utf8.decode(value.bodyBytes);
+        pharmacyDetail = jsonDecode(tmp)["data"];
+        print(value.body);
+        print(pharmacyDetail);
+        isLoading = false;
+      });
+    }).onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
   }
 
   Widget detailPharmacy(String text) {
