@@ -115,7 +115,9 @@ class _MapViewState extends State<MapView> {
 }
 
 
-
+class SharedData {
+  static String selectedHospitalKO = '';
+}
 class MapBottomSheet extends StatefulWidget {
   const MapBottomSheet({super.key});
 
@@ -129,20 +131,13 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     '이름순',
   ];
   String? selectedValue1;
-  final List<String> HospitalSpecialty = [
-    '안과',
-    '비뇨기과',
-    '성형외과',
-    '흉부외과',
-    '정신건강과',
-  ];
-  String? selectedValue2;
-  bool _longAnimation = true;
+  bool _longAnimation = false;
   IconData arrowIcon = Icons.expand_more;
   bool isDropdownOpened = false;
   bool isSelected =  false;
   String? selectedHospitalName; //여기다가 병원 진료과목 저장해두었습니다
   bool isHospitalSpecialtyPressed = false;
+  String selectedHospitalKO = SharedData.selectedHospitalKO;
   @override
   void initState() {
     super.initState();
@@ -156,6 +151,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     final titleHospital = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.logo);
 
     //병원 미리보기 카드
+    //-> 카드에서 주소
     Widget HospitalAddress(String text) {
       return Row(
         children: [
@@ -217,6 +213,8 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
           ),
         );
     }
+    //병원 미리보기 카드 끝
+
     Widget DropDownButton1() {
       return DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
@@ -324,6 +322,10 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
           onVerticalDragUpdate: (details) {
             double? delta = details.primaryDelta;
             if (delta != null) {
+              // if(isButtonPressed){
+              //   _height = _highLimit;
+              //   isButtonPressed= !isButtonPressed;
+              // }
               if (_longAnimation ||
                   (_height <= _lowLimit && delta > 0) ||
                   (_height >= _highLimit && delta < 0)) return;
@@ -400,19 +402,21 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
 
                         ],
                       ),
-                      if(isHospitalSpecialtyPressed = true)
-                        if (selectedValue1 == '별점순' && selectedValue2 == '비뇨기과')
-                          Column(
-                            children: [
-                              HospitalCard('서울연세이비인후과'),
-
-                            ],
-                          ),
-                      if (selectedValue1 == '이름순' && selectedValue2 == '비뇨기과')
-                        Text('Content for 이름순 and 비뇨기과'),
-                      if (selectedValue2 == '안과')
-                      // HospitalSelect(),
-                        Text('dfs')
+                      // if(isHospitalSpecialtyPressed = true){
+                      //
+                      // }
+                      //   if (selectedValue1 == '별점순' && selectedValue2 == '비뇨기과')
+                      //     Column(
+                      //       children: [
+                      //         HospitalCard('서울연세이비인후과'),
+                      //
+                      //       ],
+                      //     ),
+                      // if (selectedValue1 == '이름순' && selectedValue2 == '비뇨기과')
+                      //   Text('Content for 이름순 and 비뇨기과'),
+                      // if (selectedValue2 == '안과')
+                      // // HospitalSelect(),
+                      //   Text('dfs')
                     ],
                   ),
                 ),
@@ -436,10 +440,12 @@ class CustomDropDownState extends State<CustomDropDown> {
 
   final _link = LayerLink();
   double? _buttonWidth;
-  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
+  // String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
   final OverlayPortalController _tooltipController = OverlayPortalController();
+  String selectedHospitalKO = SharedData.selectedHospitalKO;
   @override
   Widget build(BuildContext context) {
+
     return CompositedTransformTarget(
       link: _link,
       child: OverlayPortal(
@@ -543,7 +549,7 @@ class MenuWidget extends StatefulWidget {
 
 class _MenuWidgetState extends State<MenuWidget> {
 
-  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
+  String selectedHospitalKO = SharedData.selectedHospitalKO;
 
   @override
   Widget build(BuildContext context) {
