@@ -142,6 +142,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     super.initState();
     _height = _lowLimit;
     isButtonPressed = true;
+    selectedValue1 = SortingCriteria[0];
   }
 
   @override
@@ -218,16 +219,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       return DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
           isExpanded: true,
-          hint:
-          Text(
-            '정렬기준',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: AppColor.logo,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
           items: SortingCriteria
               .map((String item) => DropdownMenuItem<String>(
             value: item,
