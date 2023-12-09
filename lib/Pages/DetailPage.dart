@@ -182,9 +182,31 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildFavoriteIcon() {
-    return hospitalDetail["userLiked"] == false
-        ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
-        : Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0);
+    return GestureDetector(
+      onTap: () async {
+        if (hospitalDetail["userLiked"] == true) {
+          print("unlike");
+          await unlikeHospital(
+            widget.hpid,
+            getUserID(),
+          );
+        } else {
+          print("like");
+          await likeHospital(
+            widget.hpid,
+            getUserID(),
+          );
+        }
+
+        setState(() {
+          hospitalDetail["userLiked"] = !hospitalDetail["userLiked"];
+          hospitalDetail["likeCount"] += (hospitalDetail["userLiked"] == true ? 1 : -1);
+        });
+      },
+      child: hospitalDetail["userLiked"] == false
+          ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
+          : Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0),
+    );
   }
 
 
@@ -195,20 +217,20 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> HospitalDetailInfo() async {
-      http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
-        .then((value){
-          setState(() {
-            var tmp = utf8.decode(value.bodyBytes);
-            hospitalDetail = jsonDecode(tmp)["data"];
-            print(value.body);
-            print(hospitalDetail);
-            isLoading = false;
-          });
-      })
-      .onError((error, stackTrace){
-        print(error);
-        print(stackTrace);
-      });
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
+      .then((value){
+        setState(() {
+          var tmp = utf8.decode(value.bodyBytes);
+          hospitalDetail = jsonDecode(tmp)["data"];
+          print(value.body);
+          print(hospitalDetail);
+          isLoading = false;
+        });
+    })
+    .onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
   }
 
   Widget displayHospitalDetail(){
