@@ -24,7 +24,22 @@ class _DetailPageState extends State<DetailPage> {
   final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
   var hospitalDetail = null;
   var pharmacyDetail = null;
-  bool isLoading = true;
+  bool isLoading_hospital = true;
+  bool isLoading_pharmacy = true;
+
+  Widget circularProgress(){
+    return Center(
+      child: Container(
+          alignment: Alignment.center,
+          color: Colors.white,
+          child: Container(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator()
+          )
+      ),
+    );
+  }
 
   Widget detailHospital(IconData icon, String text, {List<dynamic>? dropdownItems}) {
     return Row(
@@ -58,12 +73,13 @@ class _DetailPageState extends State<DetailPage> {
   Future<void> pharmacyInfo() async {
     http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/pharmacy?hospitalId=${widget.hpid}"))
         .then((value){
+          print(pharmacyDetail);
       setState(() {
         var tmp = utf8.decode(value.bodyBytes);
         pharmacyDetail = jsonDecode(tmp)["data"];
         print(value.body);
         print(pharmacyDetail);
-        isLoading = false;
+        isLoading_pharmacy = false;
       });
     }).onError((error, stackTrace){
       print(error);
@@ -78,7 +94,7 @@ class _DetailPageState extends State<DetailPage> {
         Padding(
           padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
           child: Text(name, style: titlePharmacy),
-        ),
+          ),
         Row(
           children: [
             Padding(padding: edgeInsets, child: Icon(Icons.location_on)),
@@ -90,7 +106,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget nearbyPharmacy() {
+  Widget nearbyPharmacy(String name, String address) {
     return SizedBox(
       height: 110, width: 350,
       child: Card(
@@ -100,9 +116,28 @@ class _DetailPageState extends State<DetailPage> {
         elevation: 10.0,
         surfaceTintColor: Colors.transparent,
         color: Colors.white,
-        child: detailPharmacy("상도 온누리 약국", "동작구 상도동 4길 36"),
+        child: detailPharmacy(name, address),
       ),
     );
+  }
+
+  Widget pharmacyList() {
+    if (isLoading_pharmacy) {
+      return circularProgress();
+    } else if (pharmacyDetail != null) {
+      return ListView.builder(
+        itemCount: pharmacyDetail.length,
+        itemBuilder: (context, index) {
+          var pharmacy = pharmacyDetail[index];
+          String pharmacyName = pharmacy["name"];
+          String pharmacyAddress = pharmacy["address"];
+
+          return nearbyPharmacy(pharmacyName, pharmacyAddress);
+        },
+      );
+    } else {
+      return Text("데이터를 불러오는 중에 오류가 발생했습니다.");
+    }
   }
 
   Widget reviewTab() {
@@ -231,6 +266,7 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
     hospitalDetailInfo();
+    pharmacyInfo();
   }
 
   Future<void> hospitalDetailInfo() async {
@@ -241,7 +277,7 @@ class _DetailPageState extends State<DetailPage> {
           hospitalDetail = jsonDecode(tmp)["data"];
           print(value.body);
           print(hospitalDetail);
-          isLoading = false;
+          isLoading_hospital = false;
         });
     })
     .onError((error, stackTrace){
@@ -250,22 +286,8 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
-  Widget circularProgress(){
-    return Center(
-      child: Container(
-        alignment: Alignment.center,
-          color: Colors.white,
-          child: Container(
-              width: 100,
-              height: 100,
-              child: CircularProgressIndicator()
-          )
-      ),
-    );
-  }
-
   Widget displayHospitalDetail(){
-    if(isLoading) return circularProgress();
+    if(isLoading_hospital) return circularProgress();
       return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -288,12 +310,15 @@ class _DetailPageState extends State<DetailPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(width: 10.0),
-                          Text(
-                            hospitalDetail["name"],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
+                          SizedBox(width: 15.0),
+                          Expanded(
+                            child: Text(
+                              hospitalDetail["name"],
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                           Column(
@@ -345,7 +370,9 @@ class _DetailPageState extends State<DetailPage> {
                       ),
 
                       // 두 번째 탭(주변 약국)
-                      Tab(child: nearbyPharmacy()),
+                      Tab(child:
+                      pharmacyList()
+                      ),
                     ],
                   ),
                 ),
