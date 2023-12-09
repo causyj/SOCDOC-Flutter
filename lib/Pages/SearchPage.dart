@@ -320,14 +320,13 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
           onVerticalDragUpdate: (details) {
             double? delta = details.primaryDelta;
             if (delta != null) {
-              // if(isButtonPressed){
-              //   _height = _highLimit;
-              //   isButtonPressed= !isButtonPressed;
-              // }
               if (_longAnimation ||
                   (_height <= _lowLimit && delta > 0) ||
                   (_height >= _highLimit && delta < 0)) return;
               setState(() {
+                if(selectedHospitalKO.isEmpty){
+                  _height = _highLimit;
+                }
                 if (_upThresh <= _height && _height <= _boundary) {
                   _height = _highLimit;
                   _longAnimation = true;
@@ -337,7 +336,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                 } else {
                   _height -= delta;
                 }
-                print("여기도 사람있음${_height}");
               });
             };
           },
@@ -400,21 +398,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
 
                         ],
                       ),
-                      // if(isHospitalSpecialtyPressed = true){
-                      //
-                      // }
-                      //   if (selectedValue1 == '별점순' && selectedValue2 == '비뇨기과')
-                      //     Column(
-                      //       children: [
-                      //         HospitalCard('서울연세이비인후과'),
-                      //
-                      //       ],
-                      //     ),
-                      // if (selectedValue1 == '이름순' && selectedValue2 == '비뇨기과')
-                      //   Text('Content for 이름순 and 비뇨기과'),
-                      // if (selectedValue2 == '안과')
-                      // // HospitalSelect(),
-                      //   Text('dfs')
+
                     ],
                   ),
                 ),
@@ -462,8 +446,6 @@ class CustomDropDownState extends State<CustomDropDown> {
                     selectedHospitalKO = selectedItem;
                     _tooltipController.toggle();
                     isButtonPressed = true;
-                    //isButtonPressed = !isButtonPressed;
-                    // isButtonPressed = false;
                   });
                 },
               ),
@@ -476,22 +458,6 @@ class CustomDropDownState extends State<CustomDropDown> {
               _height = _highLimit;
               _tooltipController.toggle();
               isButtonPressed = !isButtonPressed;
-              // if (!selectedHospitalKO.isEmpty) {
-              //   setState(() {
-              //     // _height = _lowLimit;
-              //     _tooltipController.toggle();
-              //   });
-              // }
-              // if (!selectedHospitalKO.isEmpty) {
-              //   // 선택된 병원이 있으면 메뉴를 닫습니다.
-              //   isButtonPressed = false;
-              //
-              // } else {
-              //   // 선택된 병원이 없으면 현재 상태를 토글합니다.
-              //   _height = _highLimit;
-              //   _tooltipController.toggle();
-              //   isButtonPressed = !isButtonPressed;
-              // }
             });
 
           },
