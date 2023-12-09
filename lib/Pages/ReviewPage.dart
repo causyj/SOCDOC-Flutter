@@ -183,9 +183,14 @@ class _ReviewPageState extends State<ReviewPage> {
         child: InkWell(
           onTap: () {
             setState(() {
-              picker.pickImage(source: ImageSource.gallery).then((value){
-                inputPhoto = value!;
-                isPhotoLoaded = true;
+              picker.pickImage(source: ImageSource.gallery).then((value) async {
+                if(await value!.length() < 10000000) {
+                  inputPhoto = value;
+                  isPhotoLoaded = true;
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("10MB 이하의 사진만 첨부 가능합니다.")));
+                }
               });
             });
           },
