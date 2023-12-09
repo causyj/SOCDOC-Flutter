@@ -4,6 +4,7 @@ import 'package:socdoc_flutter/Pages/MainSubPages/HomeShortcut.dart';
 import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
 import '../../Utils/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -48,6 +49,15 @@ class _HomePageState extends State<HomePage> {
     final detailHospitalStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     final titleHospital = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
     final pagetitle = TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.black, // 시간 및 배터리 표시줄의 배경색
+        statusBarIconBrightness: Brightness.light, // 시간 및 배터리 아이콘 색상
+        systemNavigationBarColor: Colors.black, // 하단 네비게이션 바 배경색 (Android)
+        systemNavigationBarIconBrightness: Brightness.light, // 하단 네비게이션 바 아이콘 색상 (Android)
+      ),
+    );
+
     Widget Location(){
       return Container(
         width: double.infinity,
