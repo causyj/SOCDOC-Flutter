@@ -164,7 +164,28 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
-  Widget reviewTab() {
+  Widget reviewList() {
+    if (isLoading_review) {
+      return circularProgress();
+    } else if (hospitalReview != null) {
+      return ListView.builder(
+        itemCount: hospitalReview.length,
+        itemBuilder: (context, index) {
+          var review = hospitalReview[index];
+          String userName = review["userName"];
+          String reviewCreatedAt = review["createdAt"];
+          String content = review["content"];
+          String rating = review["rating"].toString();
+
+          return reviewTab(userName, reviewCreatedAt, content, rating);
+        },
+      );
+    } else {
+      return Text("데이터를 불러오는 중에 오류가 발생했습니다.");
+    }
+  }
+
+  Widget reviewTab(userName, reviewCreatedAt, content, rating) {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Column(
@@ -194,15 +215,15 @@ class _DetailPageState extends State<DetailPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(hospitalReview["username"], style: TextStyle(fontSize: 18)),
-                  Text(hospitalReview["createdAt"], style: TextStyle(fontSize: 12)),
+                  Text(userName, style: TextStyle(fontSize: 18)),
+                  Text(reviewCreatedAt, style: TextStyle(fontSize: 12)),
                 ],
               ),
               SizedBox(width: 200.0),
               Column(
                 children: [
                   Icon(Icons.star_rounded, color: Colors.amberAccent),
-                  Text(hospitalReview["rating"]),
+                  Text(rating),
                 ],
               ),
             ],
@@ -220,8 +241,10 @@ class _DetailPageState extends State<DetailPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
-                    child: Text(hospitalReview["content"], style: TextStyle(fontSize: 18, color: Colors.white)),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 15.0, bottom: 5.0),
+                    child: Text(content,
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                   SizedBox(
                     height: 30, width: 320,
@@ -381,7 +404,7 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                       // 첫 번째 탭(리뷰)
                       Scaffold(
-                        body: reviewTab(),
+                        body: reviewList(),
                         floatingActionButton: FloatingActionButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage()));
