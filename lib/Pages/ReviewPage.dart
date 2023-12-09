@@ -13,7 +13,8 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  int rating = 0;
+  var inputRating = 0;
+  var inputReviewText = "";
   TextEditingController reviewController = TextEditingController();
 
   @override
@@ -58,7 +59,7 @@ class _ReviewPageState extends State<ReviewPage> {
               ),
               Expanded(
                 child: Center(
-                  child: Text(widget.hospitalName, style: TextStyle(fontSize: 22)),
+                  child: Text(widget.hospitalName, style: const TextStyle(fontSize: 22)),
                 ),
               ),
               TextButton(
@@ -80,7 +81,7 @@ class _ReviewPageState extends State<ReviewPage> {
       child: Column(
         children: [
           RatingBar.builder(
-            initialRating: rating.toDouble(),
+            initialRating: inputRating.toDouble(),
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: false,
@@ -88,7 +89,7 @@ class _ReviewPageState extends State<ReviewPage> {
             itemSize: 40,
             itemBuilder: (context, index) {
               return Icon(
-                index < rating
+                index < inputRating
                     ? Icons.star_rounded
                     : Icons.star_border_rounded,
                 color: Colors.amberAccent,
@@ -96,7 +97,7 @@ class _ReviewPageState extends State<ReviewPage> {
             },
             onRatingUpdate: (value) {
               setState(() {
-                rating = value.toInt();
+                inputRating = value.toInt();
               });
             },
           ),
