@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     final pagetitle = TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: AppColor.SocdocBlue, // 시간 및 배터리 표시줄의 배경색
+        statusBarColor: Colors.black, // 시간 및 배터리 표시줄의 배경색
         statusBarIconBrightness: Brightness.light, // 시간 및 배터리 아이콘 색상
         systemNavigationBarColor: Colors.black, // 하단 네비게이션 바 배경색 (Android)
         systemNavigationBarIconBrightness: Brightness.light, // 하단 네비게이션 바 아이콘 색상 (Android)
