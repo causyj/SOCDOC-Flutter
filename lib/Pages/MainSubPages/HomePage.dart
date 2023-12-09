@@ -45,7 +45,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
-    final detailTextStyle = TextStyle(fontSize: 16);
     final detailHospitalStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     final titleHospital = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
     final pagetitle = TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
@@ -112,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Container(
-                width: 80,
-                height: 80,
+                width: 70,
+                height: 70,
                 child: Center(
                   child: Container(
                     width: 40,
@@ -162,18 +161,29 @@ class _HomePageState extends State<HomePage> {
           SizedBox(width: 10.0,),
           Row(
             children: [
-              SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[1]].ko ,1),
+              Expanded(
+                flex:1,
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0)),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[1]].ko ,1),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[2]].ko,2),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[2]].ko,2),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[3]].ko,3),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[3]].ko,3),
+                ),
               ),
             ],
           ),
