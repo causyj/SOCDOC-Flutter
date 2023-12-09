@@ -43,6 +43,10 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
+  Future<void> _uploadReview() async {
+    //TODO: Upload to API
+  }
+
   Widget _buildAppBar(BuildContext context) {
     return Column(
       children: [
@@ -65,7 +69,11 @@ class _ReviewPageState extends State<ReviewPage> {
               TextButton(
                 child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
                 onPressed: () {
-                  Navigator.pop(context, reviewController.text);
+                  if(inputRating > 0 && inputReviewText.isNotEmpty){
+                    _uploadReview().then((value){
+                      Navigator.pop(context, reviewController.text);
+                    });
+                  }
                 }
               ),
             ],
