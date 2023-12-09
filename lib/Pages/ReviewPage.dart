@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -52,15 +50,16 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   Future<void> _uploadReview() async {
-    var photoByte = File(inputPhoto!.path).readAsBytesSync();
     var request = http.MultipartRequest("POST", Uri.parse("https://socdoc.dev-lr.com/api/review"));
     request.fields["content"] = inputReviewText;
     request.fields["hospitalId"] = widget.hospitalID;
     request.fields["rating"] = inputRating.toString();
     request.fields["userId"] = getUserID();
-    request.files.add(http.MultipartFile.fromBytes("image", photoByte));
-    request.send().then((value){
-      Navigator.pop(context);
+    request.files.add(await http.MultipartFile.fromPath("files", inputPhoto!.path));
+    request.send().then((res){
+      if(res.statusCode == 200) {
+        Navigator.pop(context);
+      }
     }).onError((error, stackTrace){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error: ${error.toString()}")));
@@ -91,9 +90,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 onPressed: () {
                   inputReviewText = reviewTextController.text;
                   if(inputPhoto != null && inputRating > 0 && inputReviewText.isNotEmpty){
-                    _uploadReview().then((value){
-                      Navigator.pop(context);
-                    });
+                    _uploadReview();
                   }else{
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("별점과 리뷰 내용, 사진을 모두 입력해주세요.")));
