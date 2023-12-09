@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -161,22 +162,29 @@ class _ReviewPageState extends State<ReviewPage> {
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: const Column(
-          children: [
-            Icon(
-              Icons.add_a_photo,
-              color: AppColor.SocdocBlue,
-              size: 30,
-            ),
-            SizedBox(height: 8),
-            Text(
-              "사진 추가",
-              style: TextStyle(
-                fontSize: 13,
+        child: InkWell(
+          onTap: () async {
+            final ImagePicker picker = ImagePicker();
+            final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+            print(image.toString());
+          },
+          child: const Column(
+            children: [
+              Icon(
+                Icons.add_a_photo,
                 color: AppColor.SocdocBlue,
+                size: 30,
               ),
-            ),
-          ],
+              SizedBox(height: 8),
+              Text(
+                "사진 추가",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColor.SocdocBlue,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
