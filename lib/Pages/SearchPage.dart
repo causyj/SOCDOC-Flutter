@@ -331,10 +331,13 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         child: Container(
            height: 1500,
            decoration: BoxDecoration(
-               borderRadius: BorderRadius.only(
+                borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
+
                 topRight: Radius.circular(20)),
-                color: Colors.white),
+                color: Colors.white,
+             
+           ),
                 child:  SingleChildScrollView(
                   child: Column(
                     children: [
