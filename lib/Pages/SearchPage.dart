@@ -434,9 +434,7 @@ class CustomDropDownState extends State<CustomDropDown> {
           style: ElevatedButton.styleFrom(
             minimumSize: Size(108, 45),
             padding: const EdgeInsets.only(left: 16, right: 6),
-            backgroundColor: selectedHospitalKO.isEmpty
-                ? Colors.white
-                : AppColor.logo,
+            backgroundColor: AppColor.logo,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
               side: BorderSide(
@@ -444,15 +442,13 @@ class CustomDropDownState extends State<CustomDropDown> {
                 width: 1.0,
               ),
             ),
-            foregroundColor: selectedHospitalKO.isEmpty
-                ? AppColor.logo
-                : Colors.white,
+            foregroundColor: Colors.white,
             elevation: 0,
           ),
           child: Row(
             children: [
               Text(
-                selectedHospitalKO.isEmpty ? '진료과목' : selectedHospitalKO,
+                selectedHospitalKO.isEmpty ? '전체' : selectedHospitalKO,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -45,7 +45,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
-    final detailTextStyle = TextStyle(fontSize: 16);
     final detailHospitalStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
     final titleHospital = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
     final pagetitle = TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
