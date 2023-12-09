@@ -313,7 +313,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         ),
       );
     }
-
     return
       Positioned(
         bottom: 0.0,
@@ -461,6 +460,7 @@ class CustomDropDownState extends State<CustomDropDown> {
                 onItemSelected: (selectedItem) {
                   setState(() {
                     selectedHospitalKO = selectedItem;
+                    _tooltipController.toggle();
                     isButtonPressed = false;
                   });
                 },
