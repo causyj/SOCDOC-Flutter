@@ -461,6 +461,8 @@ class CustomDropDownState extends State<CustomDropDown> {
                   setState(() {
                     selectedHospitalKO = selectedItem;
                     _tooltipController.toggle();
+                    isButtonPressed = true;
+                    //isButtonPressed = !isButtonPressed;
                     // isButtonPressed = false;
                   });
                 },
@@ -521,7 +523,7 @@ class CustomDropDownState extends State<CustomDropDown> {
                 ),
               ),
               Icon(
-                isButtonPressed ? Icons.expand_less : Icons.expand_more,
+                isButtonPressed ? Icons.expand_more : Icons.expand_less,
                 size: 26,
               ),
             ],
