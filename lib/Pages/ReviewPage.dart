@@ -60,9 +60,10 @@ class _ReviewPageState extends State<ReviewPage> {
     request.fields["userId"] = getUserID();
     request.files.add(http.MultipartFile.fromBytes("image", photoByte));
     request.send().then((value){
-      value.stream.bytesToString().then((value){
-        print(value);
-      });
+      Navigator.pop(context);
+    }).onError((error, stackTrace){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${error.toString()}")));
     });
   }
 
