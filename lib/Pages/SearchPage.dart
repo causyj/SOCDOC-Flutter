@@ -317,17 +317,26 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       Positioned(
         bottom: 0.0,
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+
+          onTap: () {
+            // onTap 이벤트에서 바텀 시트를 올리는 코드를 추가합니다.
+            if (_height == _lowLimit) {
+              setState(() {
+                _height = _highLimit;
+              });
+            }
+          },
           onVerticalDragUpdate: (details) {
             double? delta = details.primaryDelta;
             if (delta != null) {
+
               if (_longAnimation ||
                   (_height <= _lowLimit && delta > 0) ||
                   (_height >= _highLimit && delta < 0)) return;
               setState(() {
-                if(selectedHospitalKO.isEmpty){
-                  _height = _highLimit;
-                }
                 if (_upThresh <= _height && _height <= _boundary) {
+
                   _height = _highLimit;
                   _longAnimation = true;
                 } else if (_boundary <= _height && _height <= _downThresh) {
@@ -359,50 +368,55 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
             height: _height,
             child:
             //SingleChildScrollView
-            Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                //위에 회색
-                Container(
-                  width: 70,
-                  height: 4.5,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left:25.0, right:25.0, top:20.0 ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //DropDownButton
-                      Row(
-                        children: [
-                          //정렬조건
-                          Container(
-                            margin: EdgeInsets.only(right:20.0),
-                            child: DropDownButton1(),
-                          ),
-                          //진료과목
-                          CustomDropDown(),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Column(
-                        children: [
-                          HospitalCard('서울연세이비인후과'),
-                          HospitalCard('서울연세이비인후과'),
-
-                        ],
-                      ),
-
-                    ],
+                  //위에 회색
+                  Container(
+                    width: 70,
+                    height: 4.5,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(left:25.0, right:25.0, top:20.0 ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //DropDownButton
+                        Row(
+                          children: [
+                            //정렬조건
+                            Container(
+                              margin: EdgeInsets.only(right:20.0),
+                              child: DropDownButton1(),
+                            ),
+                            //진료과목
+                            CustomDropDown(),
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Column(
+                          children: [
+                            HospitalCard('서울연세이비인후과'),
+                            HospitalCard('서울연세이비인후과'),
+                            HospitalCard('서울연세이비인후과'),
+                            HospitalCard('서울연세이비인후과'),
+
+
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
