@@ -233,8 +233,16 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  Widget circularProgress(){
+    return Center(
+      widthFactor: 100,
+      heightFactor: 100,
+      child: CircularProgressIndicator(),
+    );
+  }
+
   Widget displayHospitalDetail(){
-    if(isLoading) return CircularProgressIndicator();
+    if(isLoading) return circularProgress();
       return DefaultTabController(
         length: 2,
         child: Scaffold(
