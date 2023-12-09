@@ -461,7 +461,7 @@ class CustomDropDownState extends State<CustomDropDown> {
                   setState(() {
                     selectedHospitalKO = selectedItem;
                     _tooltipController.toggle();
-                    isButtonPressed = false;
+                    // isButtonPressed = false;
                   });
                 },
               ),
@@ -473,13 +473,13 @@ class CustomDropDownState extends State<CustomDropDown> {
             setState(() {
               _height = _highLimit;
               _tooltipController.toggle();
-              // isButtonPressed = !isButtonPressed;
-              if (!selectedHospitalKO.isEmpty) {
-                setState(() {
-                  // _height = _lowLimit;
-                  _tooltipController.toggle();
-                });
-              }
+              isButtonPressed = !isButtonPressed;
+              // if (!selectedHospitalKO.isEmpty) {
+              //   setState(() {
+              //     // _height = _lowLimit;
+              //     _tooltipController.toggle();
+              //   });
+              // }
               // if (!selectedHospitalKO.isEmpty) {
               //   // 선택된 병원이 있으면 메뉴를 닫습니다.
               //   isButtonPressed = false;
