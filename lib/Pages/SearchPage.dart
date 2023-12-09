@@ -10,7 +10,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:socdoc_flutter/Utils/HospitalTypes.dart';
 
 late double _height=105;
-
 final double _lowLimit = 105;
 final double _highLimit = 710;
 final double _upThresh = 100;
@@ -18,6 +17,7 @@ final double _boundary = 500;
 final double _downThresh = 550;
 bool isButtonPressed = false;
 bool isHospitalSelected = false;
+
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
@@ -33,9 +33,15 @@ class SearchPage extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailPage()));
               }
             ),
-            const Expanded(child: MapView()),
-            MapBottomSheet(),
-          ]
+            Expanded(
+              child: Stack(
+                children:[
+                  MapView(),
+                 MapBottomSheet(),
+                ]
+
+              ),
+            )],
         )
       )
     );
@@ -108,221 +114,7 @@ class _MapViewState extends State<MapView> {
   }
 }
 
-class MenuWidget extends StatefulWidget {
-  const MenuWidget({
-    Key? key,
-    this.width,
-    this.onItemSelected,
-  }) : super(key: key);
 
-  final double? width;
-  final ValueChanged<String>? onItemSelected;
-
-  @override
-  State<MenuWidget> createState() => _MenuWidgetState();
-}
-
-class _MenuWidgetState extends State<MenuWidget> {
-
-  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 610.0,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(25),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(1, 1),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: GridView.builder(
-              itemCount: HospitalTypes
-                  .where((item) => item.ko.isNotEmpty)
-                  .length,
-              itemBuilder: (context, index) {
-                HospitalItem hospitalItem = HospitalTypes
-                    .where((item) => item.ko.isNotEmpty)
-                    .elementAt(index);
-
-                return Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: index >=
-                            HospitalTypes.where((item) => item.ko.isNotEmpty)
-                                .length -
-                                1
-                            ? Colors.transparent
-                            : AppColor.GridLineStyle,
-                        width: 2.0,
-                      ),
-                      right: BorderSide(
-                        color: index.isEven
-                            ? AppColor.GridLineStyle
-                            : Colors.transparent,
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: ListTile(
-                      tileColor: Colors.white,
-                      onTap: () {
-                        setState(() {
-                          selectedHospitalKO = hospitalItem.ko;
-                          widget.onItemSelected?.call(selectedHospitalKO); // 추가: 선택된 아이템 전달
-                          isHospitalSelected = true;
-                          print(selectedHospitalKO);
-                        });
-                      },
-                      leading: Container(
-                        width: 45,
-                        height: 45,
-                        child: Image.asset(
-                          'assets/hospital/${hospitalItem.num}.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      title: Text(
-                        hospitalItem.ko,
-                        key: Key('text_$index'),
-                        style: TextStyle(
-                          color: selectedHospitalKO == hospitalItem.ko
-                              ? AppColor.GridTextStyleOnPressed
-                              : AppColor.GridTextStyle,
-                          fontWeight: selectedHospitalKO == hospitalItem.ko
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 3,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomDropDown extends StatefulWidget {
-  const CustomDropDown({
-    super.key,
-  });
-
-  @override
-  State<StatefulWidget> createState() => CustomDropDownState();
-}
-class CustomDropDownState extends State<CustomDropDown> {
-
-  final _link = LayerLink();
-  double? _buttonWidth;
-  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
-  final OverlayPortalController _tooltipController = OverlayPortalController();
-  @override
-  Widget build(BuildContext context) {
-    return CompositedTransformTarget(
-      link: _link,
-      child: OverlayPortal(
-        controller: _tooltipController,
-        overlayChildBuilder: (BuildContext context) {
-          return CompositedTransformFollower(
-            link: _link,
-            targetAnchor: Alignment.bottomLeft,
-            offset: Offset(-145.0, 0),
-            child: Align(
-              alignment: AlignmentDirectional.topCenter,
-              child: MenuWidget(
-                width: _buttonWidth,
-                onItemSelected: (selectedItem) {
-                  setState(() {
-                    selectedHospitalKO = selectedItem;
-                    isButtonPressed = false;
-                  });
-                },
-              ),
-            ),
-          );
-        },
-        child: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _height = _highLimit;
-              _tooltipController.toggle();
-              isButtonPressed = !isButtonPressed;
-              // if (!selectedHospitalKO.isEmpty) {
-              //   // 선택된 병원이 있으면 메뉴를 닫습니다.
-              //   isButtonPressed = false;
-              //
-              // } else {
-              //   // 선택된 병원이 없으면 현재 상태를 토글합니다.
-              //   _height = _highLimit;
-              //   _tooltipController.toggle();
-              //   isButtonPressed = !isButtonPressed;
-              // }
-            });
-
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size(108, 45),
-            padding: const EdgeInsets.only(left: 16, right: 6),
-            backgroundColor: selectedHospitalKO.isEmpty
-                ? Colors.white
-                : AppColor.logo,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: BorderSide(
-                color: AppColor.logo,
-                width: 1.0,
-              ),
-            ),
-            foregroundColor: selectedHospitalKO.isEmpty
-                ? AppColor.logo
-                : Colors.white,
-            elevation: 0,
-          ),
-          child: Row(
-            children: [
-              Text(
-                selectedHospitalKO.isEmpty ? '진료과목' : selectedHospitalKO,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Icon(
-                isButtonPressed ? Icons.expand_less : Icons.expand_more,
-                size: 26,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class MapBottomSheet extends StatefulWidget {
   const MapBottomSheet({super.key});
@@ -632,4 +424,224 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
 
   }
 }
+class CustomDropDown extends StatefulWidget {
+  const CustomDropDown({
+    super.key,
+  });
 
+  @override
+  State<StatefulWidget> createState() => CustomDropDownState();
+}
+class CustomDropDownState extends State<CustomDropDown> {
+
+  final _link = LayerLink();
+  double? _buttonWidth;
+  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
+  final OverlayPortalController _tooltipController = OverlayPortalController();
+  @override
+  Widget build(BuildContext context) {
+    return CompositedTransformTarget(
+      link: _link,
+      child: OverlayPortal(
+        controller: _tooltipController,
+        overlayChildBuilder: (BuildContext context) {
+          return CompositedTransformFollower(
+            link: _link,
+            targetAnchor: Alignment.bottomLeft,
+            offset: Offset(-145.0, 0),
+            child: Align(
+              alignment: AlignmentDirectional.topCenter,
+              child: MenuWidget(
+                width: _buttonWidth,
+                onItemSelected: (selectedItem) {
+                  setState(() {
+                    selectedHospitalKO = selectedItem;
+                    isButtonPressed = false;
+                  });
+                },
+              ),
+            ),
+          );
+        },
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _height = _highLimit;
+              _tooltipController.toggle();
+              // isButtonPressed = !isButtonPressed;
+              if (!selectedHospitalKO.isEmpty) {
+                setState(() {
+                  // _height = _lowLimit;
+                  _tooltipController.toggle();
+                });
+              }
+              // if (!selectedHospitalKO.isEmpty) {
+              //   // 선택된 병원이 있으면 메뉴를 닫습니다.
+              //   isButtonPressed = false;
+              //
+              // } else {
+              //   // 선택된 병원이 없으면 현재 상태를 토글합니다.
+              //   _height = _highLimit;
+              //   _tooltipController.toggle();
+              //   isButtonPressed = !isButtonPressed;
+              // }
+            });
+
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(108, 45),
+            padding: const EdgeInsets.only(left: 16, right: 6),
+            backgroundColor: selectedHospitalKO.isEmpty
+                ? Colors.white
+                : AppColor.logo,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(
+                color: AppColor.logo,
+                width: 1.0,
+              ),
+            ),
+            foregroundColor: selectedHospitalKO.isEmpty
+                ? AppColor.logo
+                : Colors.white,
+            elevation: 0,
+          ),
+          child: Row(
+            children: [
+              Text(
+                selectedHospitalKO.isEmpty ? '진료과목' : selectedHospitalKO,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Icon(
+                isButtonPressed ? Icons.expand_less : Icons.expand_more,
+                size: 26,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MenuWidget extends StatefulWidget {
+  const MenuWidget({
+    Key? key,
+    this.width,
+    this.onItemSelected,
+  }) : super(key: key);
+
+  final double? width;
+  final ValueChanged<String>? onItemSelected;
+
+  @override
+  State<MenuWidget> createState() => _MenuWidgetState();
+}
+
+class _MenuWidgetState extends State<MenuWidget> {
+
+  String selectedHospitalKO = ''; // 추가: 선택된 병원 이름
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 610.0,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(25),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(1, 1),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: GridView.builder(
+              itemCount: HospitalTypes
+                  .where((item) => item.ko.isNotEmpty)
+                  .length,
+              itemBuilder: (context, index) {
+                HospitalItem hospitalItem = HospitalTypes
+                    .where((item) => item.ko.isNotEmpty)
+                    .elementAt(index);
+
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: index >=
+                            HospitalTypes.where((item) => item.ko.isNotEmpty)
+                                .length -
+                                1
+                            ? Colors.transparent
+                            : AppColor.GridLineStyle,
+                        width: 2.0,
+                      ),
+                      right: BorderSide(
+                        color: index.isEven
+                            ? AppColor.GridLineStyle
+                            : Colors.transparent,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: ListTile(
+                      tileColor: Colors.white,
+                      onTap: () {
+                        setState(() {
+                          selectedHospitalKO = hospitalItem.ko;
+                          widget.onItemSelected?.call(selectedHospitalKO); // 추가: 선택된 아이템 전달
+                          isHospitalSelected = true;
+                          print(selectedHospitalKO);
+                        });
+                      },
+                      leading: Container(
+                        width: 45,
+                        height: 45,
+                        child: Image.asset(
+                          'assets/hospital/${hospitalItem.num}.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      title: Text(
+                        hospitalItem.ko,
+                        key: Key('text_$index'),
+                        style: TextStyle(
+                          color: selectedHospitalKO == hospitalItem.ko
+                              ? AppColor.GridTextStyleOnPressed
+                              : AppColor.GridTextStyle,
+                          fontWeight: selectedHospitalKO == hospitalItem.ko
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
