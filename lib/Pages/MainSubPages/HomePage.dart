@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Container(
-                width: 80,
-                height: 80,
+                width: 70,
+                height: 70,
                 child: Center(
                   child: Container(
                     width: 40,
@@ -161,18 +161,29 @@ class _HomePageState extends State<HomePage> {
           SizedBox(width: 10.0,),
           Row(
             children: [
-              SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[1]].ko ,1),
+              Expanded(
+                flex:1,
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[0]].ko,0)),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[1]].ko ,1),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[2]].ko,2),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[2]].ko,2),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0),
-                child: SpecialtyCard(HospitalTypes[selectedTileIndices[3]].ko,3),
+              Expanded(
+                flex:1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:5.0),
+                  child: SpecialtyCard(HospitalTypes[selectedTileIndices[3]].ko,3),
+                ),
               ),
             ],
           ),
