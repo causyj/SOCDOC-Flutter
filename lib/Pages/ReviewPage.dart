@@ -74,6 +74,9 @@ class _ReviewPageState extends State<ReviewPage> {
                     _uploadReview().then((value){
                       Navigator.pop(context);
                     });
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("별점과 리뷰 내용, 사진을 모두 입력해주세요.")));
                   }
                 }
               ),
