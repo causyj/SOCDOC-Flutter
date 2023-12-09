@@ -131,7 +131,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     '이름순',
   ];
   String? selectedValue1;
-  bool _longAnimation = false;
   IconData arrowIcon = Icons.expand_more;
   bool isDropdownOpened = false;
   bool isSelected =  false;
@@ -142,6 +141,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
   void initState() {
     super.initState();
     _height = _lowLimit;
+    isButtonPressed = true;
   }
 
   @override
@@ -313,114 +313,77 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         ),
       );
     }
-    return
-      Positioned(
-        bottom: 0.0,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
 
-          onTap: () {
-            // onTap 이벤트에서 바텀 시트를 올리는 코드를 추가합니다.
-            if (_height == _lowLimit) {
-              setState(() {
-                _height = _highLimit;
-              });
-            }
-          },
-          onVerticalDragUpdate: (details) {
-            double? delta = details.primaryDelta;
-            if (delta != null) {
-
-              if (_longAnimation ||
-                  (_height <= _lowLimit && delta > 0) ||
-                  (_height >= _highLimit && delta < 0)) return;
-              setState(() {
-                if (_upThresh <= _height && _height <= _boundary) {
-
-                  _height = _highLimit;
-                  _longAnimation = true;
-                } else if (_boundary <= _height && _height <= _downThresh) {
-                  _height = _lowLimit;
-                  _longAnimation = true;
-                } else {
-                  _height -= delta;
-                }
-              });
-            };
-          },
-          onVerticalDragEnd: (details) {
-            if (_longAnimation) {
-              setState(() {
-                _longAnimation = false;
-              });
-            }
-          },
-          child:
-          AnimatedContainer(
-            curve: Curves.easeInOut,
-            duration: const Duration(milliseconds: 800),
-            decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(blurRadius: 6, spreadRadius: 0.7)],
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: _height,
-            child:
-            //SingleChildScrollView
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  //위에 회색
-                  Container(
-                    width: 70,
-                    height: 4.5,
-                    decoration: const BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left:25.0, right:25.0, top:20.0 ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //DropDownButton
-                        Row(
+    return Stack(
+    children: [
+        Container(
+            color: Colors.white,
+            child: Text("지도"),
+    ),
+    DraggableScrollableSheet(
+    // 화면 비율로 높이 조정
+        initialChildSize: 0.14,
+        minChildSize: 0.14,
+        maxChildSize: 0.8,
+        builder: (BuildContext context, ScrollController scrollController) {
+    return SingleChildScrollView(
+        controller: scrollController,
+        child: Container(
+           height: 1500,
+           decoration: BoxDecoration(
+               borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20)),
+                color: Colors.white),
+                child:  SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: 70,
+                        height: 4.5,
+                        decoration: const BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left:25.0, right:25.0, top:20.0 ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            //정렬조건
-                            Container(
-                              margin: EdgeInsets.only(right:20.0),
-                              child: DropDownButton1(),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right:20.0),
+                                  child: DropDownButton1(),
+                                ),
+                                CustomDropDown(),
+                              ],
                             ),
-                            //진료과목
-                            CustomDropDown(),
+                            SizedBox(height: 15),
+                            Column(
+                              children: [
+                                HospitalCard('서울연세이비인후과'),
+                                HospitalCard('서울연세이비인후과'),
+                                HospitalCard('서울연세이비인후과'),
+                                HospitalCard('서울연세이비인후과'),
+                              ],
+                            ),
                           ],
                         ),
-                        SizedBox(height: 15),
-                        Column(
-                          children: [
-                            HospitalCard('서울연세이비인후과'),
-                            HospitalCard('서울연세이비인후과'),
-                            HospitalCard('서울연세이비인후과'),
-                            HospitalCard('서울연세이비인후과'),
+                      ),
+                    ],
+      ),
+      ),
+    ),);
+    },
+    )
+    ],
+    );
 
-
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
 
   }
 }
