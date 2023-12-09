@@ -14,8 +14,10 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
+  XFile? inputPhoto;
   var inputRating = 0;
   var inputReviewText = "";
+  var isPhotoLoaded = false;
   TextEditingController reviewTextController = TextEditingController();
 
   @override
@@ -71,7 +73,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
                 onPressed: () {
                   inputReviewText = reviewTextController.text;
-                  if(inputRating > 0 && inputReviewText.isNotEmpty){
+                  if(inputPhoto != null && inputRating > 0 && inputReviewText.isNotEmpty){
                     _uploadReview().then((value){
                       Navigator.pop(context);
                     });
@@ -149,6 +151,8 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   Widget _buildPhotoButton() {
+    final ImagePicker picker = ImagePicker();
+
     return TextButton(
       onPressed: () {},
       child: Container(
@@ -163,22 +167,24 @@ class _ReviewPageState extends State<ReviewPage> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: InkWell(
-          onTap: () async {
-            final ImagePicker picker = ImagePicker();
-            final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-            print(image.toString());
+          onTap: () {
+            setState(() {
+              picker.pickImage(source: ImageSource.gallery).then((inputPhoto){
+                isPhotoLoaded = true;
+              });
+            });
           },
-          child: const Column(
+          child: Column(
             children: [
               Icon(
-                Icons.add_a_photo,
+                isPhotoLoaded ? Icons.check : Icons.add_a_photo,
                 color: AppColor.SocdocBlue,
                 size: 30,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                "사진 추가",
-                style: TextStyle(
+                isPhotoLoaded ? "사진 추가됨" : "사진 추가",
+                style: const TextStyle(
                   fontSize: 13,
                   color: AppColor.SocdocBlue,
                 ),
