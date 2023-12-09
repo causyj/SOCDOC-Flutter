@@ -213,10 +213,10 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     super.initState();
-    HospitalDetailInfo();
+    hospitalDetailInfo();
   }
 
-  Future<void> HospitalDetailInfo() async {
+  Future<void> hospitalDetailInfo() async {
     http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
       .then((value){
         setState(() {
