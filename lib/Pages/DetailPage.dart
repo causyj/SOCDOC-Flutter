@@ -192,7 +192,7 @@ class DetailPage extends StatelessWidget {
                       body: reviewTab(),
                       floatingActionButton: FloatingActionButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage(hospitalID: "AA1100001", hospitalName: "병원AA",)));
                         },
                         backgroundColor: Colors.white,
                         child: Icon(

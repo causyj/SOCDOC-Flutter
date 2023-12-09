@@ -3,7 +3,10 @@ import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({super.key});
+  const ReviewPage({super.key, required this.hospitalID, required this.hospitalName});
+
+  final hospitalID;
+  final hospitalName;
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
