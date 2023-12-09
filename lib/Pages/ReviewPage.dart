@@ -56,9 +56,9 @@ class _ReviewPageState extends State<ReviewPage> {
                   Navigator.pop(context);
                 },
               ),
-              const Expanded(
+              Expanded(
                 child: Center(
-                  child: Text('병원 이름', style: TextStyle(fontSize: 22)),
+                  child: Text(widget.hospitalName, style: TextStyle(fontSize: 22)),
                 ),
               ),
               TextButton(
