@@ -173,7 +173,8 @@ class _DetailPageState extends State<DetailPage> {
       http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=A1100001&userId=${getUserID()}"))
         .then((value){
           setState(() {
-            hospitalDetail = jsonDecode(value.body)["data"];
+            var tmp = utf8.decode(value.bodyBytes);
+            hospitalDetail = jsonDecode(tmp)["data"];
             print(value.body);
             print(hospitalDetail);
             isLoading = false;
