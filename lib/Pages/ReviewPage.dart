@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:socdoc_flutter/Utils/AuthUtil.dart';
+
+import 'package:socdoc_flutter/Utils/Color.dart';
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key, required this.hospitalID, required this.hospitalName});
@@ -47,7 +52,18 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   Future<void> _uploadReview() async {
-    //TODO: Upload to API
+    var photoByte = File(inputPhoto!.path).readAsBytesSync();
+    var request = http.MultipartRequest("POST", Uri.parse("https://socdoc.dev-lr.com/api/review"));
+    request.fields["content"] = inputReviewText;
+    request.fields["hospitalId"] = widget.hospitalID;
+    request.fields["rating"] = inputRating.toString();
+    request.fields["userId"] = getUserID();
+    request.files.add(http.MultipartFile.fromBytes("image", photoByte));
+    request.send().then((value){
+      value.stream.bytesToString().then((value){
+        print(value);
+      });
+    });
   }
 
   Widget _buildAppBar(BuildContext context) {
@@ -169,7 +185,8 @@ class _ReviewPageState extends State<ReviewPage> {
         child: InkWell(
           onTap: () {
             setState(() {
-              picker.pickImage(source: ImageSource.gallery).then((inputPhoto){
+              picker.pickImage(source: ImageSource.gallery).then((value){
+                inputPhoto = value!;
                 isPhotoLoaded = true;
               });
             });
