@@ -3,8 +3,10 @@ import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ReviewPage extends StatefulWidget {
+  const ReviewPage({super.key});
+
   @override
-  _ReviewPageState createState() => _ReviewPageState();
+  State<ReviewPage> createState() => _ReviewPageState();
 }
 
 class _ReviewPageState extends State<ReviewPage> {
@@ -38,7 +40,7 @@ class _ReviewPageState extends State<ReviewPage> {
   // 리뷰 페이지 상단의 앱 바 부분
   Widget _buildAppBar(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       child: Column(
         children: [
           Padding(
@@ -47,12 +49,12 @@ class _ReviewPageState extends State<ReviewPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
-                Expanded(
+                const Expanded(
                   child: Center(
                     child: Text('병원 이름', style: TextStyle(fontSize: 22)),
                   ),
@@ -61,12 +63,12 @@ class _ReviewPageState extends State<ReviewPage> {
                   onPressed: () {
                     Navigator.pop(context, reviewController.text);
                   },
-                  child: Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
+                  child: const Text('완료', style: TextStyle(fontSize: 17, color: AppColor.SocdocBlue)),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -98,9 +100,9 @@ class _ReviewPageState extends State<ReviewPage> {
               });
             },
           ),
-          SizedBox(height: 5),
-          Text("별점을 선택해주세요!", style: TextStyle(fontSize: 15)),
-          SizedBox(height: 20),
+          const SizedBox(height: 5),
+          const Text("별점을 선택해주세요!", style: TextStyle(fontSize: 15)),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -108,7 +110,7 @@ class _ReviewPageState extends State<ReviewPage> {
 
   // 구분선
   Widget _buildDivider() {
-    return Divider(
+    return const Divider(
       color: AppColor.SocdocBlue,
       thickness: 1.0,
     );
@@ -123,7 +125,7 @@ class _ReviewPageState extends State<ReviewPage> {
         children: [
           TextFormField(
             controller: reviewController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "어떤 점이 좋았는지 혹은 아쉬웠는지\n솔직하게 적어주세요:)",
               hintMaxLines: 2,
               border: InputBorder.none,
@@ -141,7 +143,7 @@ class _ReviewPageState extends State<ReviewPage> {
       child: Container(
         width: 100,
         height: 90,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           border: Border.all(
             color: AppColor.SocdocBlue,
@@ -149,7 +151,7 @@ class _ReviewPageState extends State<ReviewPage> {
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(
+        child: const Column(
           children: [
             Icon(
               Icons.add_a_photo,
