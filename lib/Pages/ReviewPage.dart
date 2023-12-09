@@ -5,8 +5,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key, required this.hospitalID, required this.hospitalName});
 
-  final hospitalID;
-  final hospitalName;
+  final String hospitalID;
+  final String hospitalName;
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
