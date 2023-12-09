@@ -336,7 +336,6 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
 
                 topRight: Radius.circular(20)),
                 color: Colors.white,
-             
            ),
                 child:  SingleChildScrollView(
                   child: Column(
