@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-//import 'package:socdoc_flutter/Pages/DetailHospitalDto.dart';
+import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
-import 'SocDocApi.dart';
+
+import "package:http/http.dart" as http;
 
 
 class DetailPage extends StatefulWidget {
@@ -17,7 +20,7 @@ class _DetailPageState extends State<DetailPage> {
   final detailTextStyle = TextStyle(fontSize: 16);
   final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
   final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
-  var hospitalDetail;
+  var hospitalDetail = null;
   bool isLoading = true;
 
   Widget detailHospital(IconData icon, String text, {List<dynamic>? dropdownItems}) {
@@ -167,22 +170,23 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> fetchHospitalDetail() async {
-    try {
-      setState(() async {
-        hospitalDetail = await SocDocApi.fetchHospitalDetail();
-        print(hospitalDetail);
-        isLoading = true;
+      http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=A1100001&userId=${getUserID()}"))
+        .then((value){
+          setState(() {
+            hospitalDetail = jsonDecode(value.body)["data"];
+            print(value.body);
+            print(hospitalDetail);
+            isLoading = false;
+          });
+      })
+      .onError((error, stackTrace){
+        print(error);
+        print(stackTrace);
       });
-    } catch (e) {
-      isLoading = false;
-      print("에러 발생: $e");
-    }
   }
 
   Widget displayHospitalDetail(){
-    if(hospitalDetail == null || !isLoading){
-      return CircularProgressIndicator();
-    } else{
+    if(isLoading) return CircularProgressIndicator();
       return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -271,7 +275,6 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
       );
-    }
   }
 
   @override
