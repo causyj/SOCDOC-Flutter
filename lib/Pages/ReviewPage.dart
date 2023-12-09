@@ -16,23 +16,25 @@ class _ReviewPageState extends State<ReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildAppBar(context),
-          _buildRatingSection(),
-          _buildDivider(),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildReviewInput(),
-                _buildPhotoButton(),
-              ],
-            )
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildAppBar(context),
+            _buildRatingSection(),
+            _buildDivider(),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildReviewInput(),
+                  _buildPhotoButton(),
+                ],
+              )
+            ),
+          ],
+        ),
       ),
     );
   }
