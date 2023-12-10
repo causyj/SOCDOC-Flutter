@@ -1,217 +1,454 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:socdoc_flutter/Utils/AuthUtil.dart';
 import 'package:socdoc_flutter/Utils/Color.dart';
 import 'package:socdoc_flutter/Pages/ReviewPage.dart';
 
+import "package:http/http.dart" as http;
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({Key? key});
+
+class DetailPage extends StatefulWidget {
+  const DetailPage({required this.hpid, Key? key}) : super(key: key);
+
+  final String hpid;
 
   @override
-  Widget build(BuildContext context) {
-    final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
-    final detailTextStyle = TextStyle(fontSize: 16);
-    final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
-    final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
+  State<DetailPage> createState() => _DetailPageState();
+}
 
-    Widget detailHospital(IconData icon, String text) {
-      return Row(
-        children: [
-          Padding(padding: edgeInsets, child: Icon(icon)),
-          Padding(padding: EdgeInsets.only(left: 10.0, top: 5.0)),
-          Text(text, style: detailTextStyle),
-        ],
-      );
-    }
+class _DetailPageState extends State<DetailPage> {
+  final edgeInsets = EdgeInsets.only(left: 16.0, top: 5.0);
+  final detailTextStyle = TextStyle(fontSize: 16);
+  final detailPharmacyStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
+  final titlePharmacy = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColor.SocdocBlue);
+  var hospitalDetail = null;
+  var pharmacyDetail = null;
+  var hospitalReview = null;
+  bool isLoading_hospital = true;
+  bool isLoading_pharmacy = true;
+  bool isLoading_review = true;
 
-    Widget detailPharmacy(String text) {
-      return Row(
-        children: [
-          Padding(padding: edgeInsets, child: Icon(Icons.location_on)),
-          Padding(padding: EdgeInsets.only(left: 10.0)),
-          Text(text, style: detailPharmacyStyle),
-        ],
-      );
-    }
-
-    //주변 약국 tabview
-    Widget nearbyPharmacy(String text) {
-      return SizedBox(
-        height: 110, width: 350,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          elevation: 10.0,
-          surfaceTintColor: Colors.transparent,
+  Widget circularProgress(){
+    return Center(
+      child: Container(
+          alignment: Alignment.center,
           color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
-                child: Text(text, style: titlePharmacy),
-              ),
-              detailPharmacy("동작구 상도동 4길 36"),
-            ],
+          child: Container(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator()
+          )
+      ),
+    );
+  }
+
+  Widget detailHospital(IconData icon, String text, {List<dynamic>? dropdownItems}) {
+    return Row(
+      children: [
+        Padding(padding: edgeInsets, child: Icon(icon, size: 23,)),
+        Padding(padding: EdgeInsets.only(left: 10.0, top: 5.0)),
+        Text(text, style: detailTextStyle),
+        if (dropdownItems != null)
+          DropdownButton<String>(
+            value: dropdownItems[0],
+            icon: const Icon(Icons.arrow_drop_down_rounded),
+            iconSize: 25,
+            elevation: 16,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownItems[0] = newValue!;
+              });
+            },
+            items: dropdownItems.map<DropdownMenuItem<String>>((dynamic value) {
+              return DropdownMenuItem<String>(
+                value: value.toString(),
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+      ],
+    );
+  }
+
+  Future<void> pharmacyInfo() async {
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/pharmacy?hospitalId=${widget.hpid}"))
+        .then((value){
+          print(pharmacyDetail);
+      setState(() {
+        var tmp = utf8.decode(value.bodyBytes);
+        pharmacyDetail = jsonDecode(tmp)["data"];
+        print(value.body);
+        print(pharmacyDetail);
+        isLoading_pharmacy = false;
+      });
+    }).onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
+  }
+
+  Widget detailPharmacy(String name, String address) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
+          child: Text(name, style: titlePharmacy),
+          ),
+        Row(
+          children: [
+            Padding(padding: edgeInsets, child: Icon(Icons.location_on)),
+            Padding(padding: EdgeInsets.only(left: 10.0)),
+            Text(address, style: detailPharmacyStyle),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget nearbyPharmacy(String name, String address) {
+    return Column(
+      children: [
+        const SizedBox(height: 15.0),
+        SizedBox(
+          height: 100, width: 350,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: 10.0,
+            surfaceTintColor: Colors.transparent,
+            color: Colors.white,
+            child: detailPharmacy(name, address),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget pharmacyList() {
+    if (isLoading_pharmacy) {
+      return circularProgress();
+    } else if (pharmacyDetail != null) {
+      return ListView.builder(
+        itemCount: pharmacyDetail.length,
+        itemBuilder: (context, index) {
+          var pharmacy = pharmacyDetail[index];
+          String pharmacyName = pharmacy["name"];
+          String pharmacyAddress = pharmacy["address"];
+
+          return nearbyPharmacy(pharmacyName, pharmacyAddress);
+        },
       );
+    } else {
+      return Text("데이터를 불러오는 중에 오류가 발생했습니다.");
     }
-    Widget reviewTab() {
-      return Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text("전체 평점", style: detailTextStyle),
-                SizedBox(width: 10.0),
-                Icon(Icons.star_rounded, color: Colors.amberAccent),
-                Text("4.3", style: detailTextStyle),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  child: ClipOval(
-                    child: Image(
-                      image: AssetImage('assets/user.png'),
-                      fit: BoxFit.cover,
-                    ),
+  }
+
+  Future<void> reviewInfo() async {
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/review/hospital?hospitalId=${widget.hpid}"))
+        .then((value){
+      setState(() {
+        var tmp = utf8.decode(value.bodyBytes);
+        hospitalReview = jsonDecode(tmp)["data"];
+        print('리뷰 조회 성공 : ' + value.body);
+        print(hospitalReview);
+        isLoading_review = false;
+      });
+    }).onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
+  }
+
+  Widget reviewList() {
+    if (isLoading_review) {
+      return circularProgress();
+    } else if (hospitalReview != null) {
+      return ListView.builder(
+        itemCount: hospitalReview.length,
+        itemBuilder: (context, index) {
+          var review = hospitalReview[index];
+          String userName = review["userName"];
+          String reviewCreatedAt = review["createdAt"];
+          String content = review["content"];
+          String rating = review["rating"].toString();
+
+          return reviewTab(userName, reviewCreatedAt, content, rating);
+        },
+      );
+    } else {
+      return Text("데이터를 불러오는 중에 오류가 발생했습니다.");
+    }
+  }
+
+  Widget reviewTab(userName, reviewCreatedAt, content, rating) {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 10.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                child: ClipOval(
+                  child: Image(
+                    image: AssetImage('assets/user.png'),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(width: 10.0),
-                Column(
+              ),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("DEV.LR", style: TextStyle(fontSize: 18)),
-                    Text("2023.09.23"),
+                    Text(userName, style: TextStyle(fontSize: 18)),
+                    Text(reviewCreatedAt, style: TextStyle(fontSize: 12)),
                   ],
                 ),
-                SizedBox(width: 200.0),
-                Column(
-                  children: [
-                    Icon(Icons.star_rounded, color: Colors.amberAccent),
-                    Text("5.0"),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.centerRight,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                color: AppColor.SocdocBlue,
+              ),
+              SizedBox(width: 140.0),
+              Column(
+                children: [
+                  Icon(Icons.star_rounded, color: Colors.amberAccent),
+                  Text(rating),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 10.0),
+          Container(
+            alignment: Alignment.centerRight,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              color: AppColor.SocdocBlue,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 15.0, bottom: 5.0),
-                      child: Text("줄이 너무 길어요", style: TextStyle(fontSize: 18, color: Colors.white)),
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 15.0, bottom: 5.0),
+                      child: Text(content,
+                          style: TextStyle(fontSize: 18, color: Colors.white)),
                     ),
                     SizedBox(
-                      height: 30, width: 320,
+                      height: 30,
+                      width: double.infinity,
                     ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-      );
-    }
-
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                width: 400,
-                height: 200,
-                child: Image(
-                  image: AssetImage('assets/hospital3.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "서울성모안과의원",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
-                        ),
-                        SizedBox(width: 65.0),
-                        Column(
-                          children: [
-                            Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0),
-                            Text('3'),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    detailHospital(Icons.call, "02-1234-5678"),
-                    detailHospital(Icons.location_on, "동작구 상도동 4길 36"),
-                    detailHospital(Icons.subway, "상도역 5번 출구"),
-                    detailHospital(Icons.alarm, "진료 시간"),
-                  ],
-                ),
-              ),
-              const TabBar(tabs: [
-                Tab(child: Text("리뷰", style: TextStyle(
-                    fontSize: 18, color: AppColor.SocdocBlue),
-                  ),
-                ),
-                Tab(child: Text("주변 약국", style: TextStyle(
-                    fontSize: 18, color: AppColor.SocdocBlue),
-                  ),
-                ),
-              ]),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    // 첫 번째 탭(리뷰)
-                    Scaffold(
-                      body: reviewTab(),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage(hospitalID: "AA1100001", hospitalName: "병원AA",)));
-                        },
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.rate_review_outlined,
-                          color: AppColor.SocdocBlue,
-                        ),
-                      ),
-                    ),
-
-                    // 두 번째 탭(주변 약국)
-                    Tab(child: nearbyPharmacy("상도 온누리 약국")),
-                  ],
-                ),
-
-              ),
-            ],
           ),
-        ),
+        ],
       ),
     );
+  }
+
+  Future<void> likeHospital(String hospitalId, String userId) async{
+    http.post(Uri.parse("https://socdoc.dev-lr.com/api/hospital/like"),
+      headers: {
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
+        "hospitalId": widget.hpid,
+        "userId": getUserID()
+      }));
+  }
+
+  Future<void> unlikeHospital(String hospitalId, String userId) async{
+    http.delete(Uri.parse("https://socdoc.dev-lr.com/api/hospital/like"),
+        headers: {
+          "content-type": "application/json"
+        },
+        body: jsonEncode({
+          "hospitalId": widget.hpid,
+          "userId": getUserID()
+        }));
+  }
+
+  Widget buildFavoriteIcon() {
+    return GestureDetector(
+      onTap: () async {
+        if (hospitalDetail["userLiked"] == true) {
+          print("unlike");
+          await unlikeHospital(
+            widget.hpid,
+            getUserID(),
+          );
+        } else {
+          print("like");
+          await likeHospital(
+            widget.hpid,
+            getUserID(),
+          );
+        }
+
+        setState(() {
+          hospitalDetail["userLiked"] = !hospitalDetail["userLiked"];
+          hospitalDetail["likeCount"] += (hospitalDetail["userLiked"] == true ? 1 : -1);
+        });
+      },
+      child: hospitalDetail["userLiked"] == false
+          ? Icon(Icons.favorite_outline_rounded, color: Colors.pink, size: 30.0)
+          : Icon(Icons.favorite_rounded, color: Colors.pink, size: 30.0),
+    );
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    hospitalDetailInfo();
+    pharmacyInfo();
+    reviewInfo();
+  }
+
+  Future<void> hospitalDetailInfo() async {
+    http.get(Uri.parse("https://socdoc.dev-lr.com/api/hospital/detail?hospitalId=${widget.hpid}&userId=${getUserID()}"))
+      .then((value){
+        setState(() {
+          var tmp = utf8.decode(value.bodyBytes);
+          hospitalDetail = jsonDecode(tmp)["data"];
+          print(value.body);
+          print(hospitalDetail);
+          isLoading_hospital = false;
+        });
+    })
+    .onError((error, stackTrace){
+      print(error);
+      print(stackTrace);
+    });
+  }
+
+  Widget displayHospitalDetail(){
+    if(isLoading_hospital) return circularProgress();
+      return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  width: 400,
+                  height: 200,
+                  child: Image(
+                    image: AssetImage('assets/hospital3.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 15.0),
+                          Expanded(
+                            child: Text(
+                              hospitalDetail["name"],
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              buildFavoriteIcon(),
+                              Text(hospitalDetail["likeCount"].toString()),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.0),
+                      detailHospital(Icons.call, hospitalDetail["phone"]),
+                      detailHospital(Icons.location_on, hospitalDetail["address"]),
+                      detailHospital(Icons.subway, hospitalDetail["description"] == null ? "정보가 없습니다." : hospitalDetail["description"]),
+                      detailHospital(
+                        Icons.alarm,
+                        "진료 시간   ",
+                        dropdownItems: hospitalDetail["time"].map((e) => e.toString()).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+                const TabBar(tabs: [
+                  Tab(child: Text("리뷰", style: TextStyle(
+                      fontSize: 18, color: AppColor.SocdocBlue),
+                  ),
+                  ),
+                  Tab(child: Text("주변 약국", style: TextStyle(
+                      fontSize: 18, color: AppColor.SocdocBlue),
+                  ),
+                  ),
+                ]),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      // 첫 번째 탭(리뷰)
+                      Scaffold(
+                        body: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text("전체 평점", style: detailTextStyle),
+                                  SizedBox(width: 10.0),
+                                  Icon(Icons.star_rounded, color: Colors.amberAccent),
+                                  Text(hospitalDetail["rating"].toString(), style: detailTextStyle),
+                                ],
+                              ),
+                              Expanded(
+                                  child: reviewList()
+                              ),
+                            ],
+                          ),
+                        ),
+                        floatingActionButton: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage(hospitalID: "AA1100001", hospitalName: "병원AA",)));
+                          },
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.rate_review_outlined,
+                            color: AppColor.SocdocBlue,
+                          ),
+                        ),
+                      ),
+
+                      // 두 번째 탭(주변 약국)
+                      Tab(child:
+                      pharmacyList()
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return displayHospitalDetail();
   }
 }
