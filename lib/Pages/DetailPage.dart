@@ -412,7 +412,7 @@ class _DetailPageState extends State<DetailPage> {
                                   Text("전체 평점", style: detailTextStyle),
                                   SizedBox(width: 10.0),
                                   Icon(Icons.star_rounded, color: Colors.amberAccent),
-                                  Text("4.3", style: detailTextStyle),
+                                  Text(hospitalDetail["rating"].toString(), style: detailTextStyle),
                                 ],
                               ),
                               Expanded(
