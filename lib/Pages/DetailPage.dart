@@ -150,11 +150,10 @@ class _DetailPageState extends State<DetailPage> {
   Future<void> reviewInfo() async {
     http.get(Uri.parse("https://socdoc.dev-lr.com/api/review/hospital?hospitalId=${widget.hpid}"))
         .then((value){
-      print(hospitalReview);
       setState(() {
         var tmp = utf8.decode(value.bodyBytes);
         hospitalReview = jsonDecode(tmp)["data"];
-        print(value.body);
+        print('리뷰 조회 성공 : ' + value.body);
         print(hospitalReview);
         isLoading_review = false;
       });
@@ -189,17 +188,11 @@ class _DetailPageState extends State<DetailPage> {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Text("전체 평점", style: detailTextStyle),
-              SizedBox(width: 10.0),
-              Icon(Icons.star_rounded, color: Colors.amberAccent),
-              Text("4.3", style: detailTextStyle),
-            ],
-          ),
           SizedBox(height: 10.0),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 40,
@@ -212,14 +205,16 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
               SizedBox(width: 10.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(userName, style: TextStyle(fontSize: 18)),
-                  Text(reviewCreatedAt, style: TextStyle(fontSize: 12)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(userName, style: TextStyle(fontSize: 18)),
+                    Text(reviewCreatedAt, style: TextStyle(fontSize: 12)),
+                  ],
+                ),
               ),
-              SizedBox(width: 200.0),
+              SizedBox(width: 140.0),
               Column(
                 children: [
                   Icon(Icons.star_rounded, color: Colors.amberAccent),
@@ -236,20 +231,24 @@ class _DetailPageState extends State<DetailPage> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               color: AppColor.SocdocBlue,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 15.0, bottom: 5.0),
-                    child: Text(content,
-                        style: TextStyle(fontSize: 18, color: Colors.white)),
-                  ),
-                  SizedBox(
-                    height: 30, width: 320,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 15.0, bottom: 5.0),
+                      child: Text(content,
+                          style: TextStyle(fontSize: 18, color: Colors.white)),
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: double.infinity,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -404,7 +403,24 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                       // 첫 번째 탭(리뷰)
                       Scaffold(
-                        body: reviewList(),
+                        body: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text("전체 평점", style: detailTextStyle),
+                                  SizedBox(width: 10.0),
+                                  Icon(Icons.star_rounded, color: Colors.amberAccent),
+                                  Text("4.3", style: detailTextStyle),
+                                ],
+                              ),
+                              Expanded(
+                                  child: reviewList()
+                              ),
+                            ],
+                          ),
+                        ),
                         floatingActionButton: FloatingActionButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage()));
